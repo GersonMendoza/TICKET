@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html mlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" 
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" 
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta charset="utf-8" http-equiv="x-ua-compatible" name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Departamentos</title>
+        <!--Estilos-->
+        <h:outputStylesheet library="css" name="foundation.css"/>
+        <h:outputStylesheet library="css" name="foundation-datepicker.css"/>
+        <h:outputStylesheet library="css" name="foundation.min.css"/>
+        <h:outputStylesheet library="css" name="app.css"/>
+        <h:outputStylesheet library="css" name="icons.css"/>
+        <h:outputStylesheet library="css" name="foundation-icons.css"/>
+        <h:outputStylesheet library="css" name="toastr.css"/>
+        <style>
+        </style>
+       
+    </h:head>
+    <ui:include src="prueba_menu.xhtml"/>
+    <body>
+        <div class="large-3 columns"><p></p></div>
+            <div class="large-4 columns callout">
+        	<div class="row">
+                    <h:form>
+                        <center><h3>Departamentos</h3></center><hr/>
+                        <h:inputHidden id="codiDepa" />
+                        <div class="row">
+                            <div class="columns">
+                                <h:outputLabel value="Nombre del Departamento"/>
+                                <h:inputText id="nombDepa"/>
+                            </div>
+                            <center>
+                                <h:commandLink id="btnGuar" class="button success">
+                                    <p:ajax process="@form" update="@form" immediate="true"/>
+                                    <i class="fi-plus">Guardar</i>
+                                </h:commandLink> 
+                            </center>
+                        </div>
+                    </h:form>
+        </div>
+        <div class="large-3 columns"><p></p></div>
+        </div>
+        <h:outputScript library="js" name="vendor/jquery.js"/>
+        <h:outputScript library="js" name="vendor/what-input.js"/>
+        <h:outputScript library="js" name="vendor/foundation.js"/>
+        <h:outputScript library="js" name="vendor/foundation.min.js"/>
+        <h:outputScript library="js" name="foundation.dropdownMenu.js"/>
+        <h:outputScript library="js" name="foundation.dropdown.js"/>
+        <h:outputScript library="js" name="foundation-datepicker.js"/>
+        <h:outputScript library="js" name="locales/foundation-datepicker.es.js"/>
+        <h:outputScript library="js" name="app.js"/>
+        <h:outputScript library="js" name="toastr.js"/>
+        <script>
+            $(function () {
+                /**fecha inicio **/
+                $('#dp1').fdatepicker({
+                    initialDate: '02-12-1989',
+                    ormat: 'dd-mm-yyyy',
+                    anguage: 'es',
+                    disableDblClickSelection: true
+                });
+                /**fecha fin **/
+                $('#dp2').fdatepicker({
+                    initialDate: '02-12-1989',
+                    format: 'dd-mm-yyyy',
+                    language: 'es',
+                    disableDblClickSelection: true
+                });
+                /**fecha con hora**/
+                $('#dp3').fdatepicker({
+                    format: 'dd-mm-yyyy hh:ii',
+                    disableDblClickSelection: true,
+                    language: 'es',
+                    pickTime: true
+                });
+            });
+        </script>
+    </body>
+</html>

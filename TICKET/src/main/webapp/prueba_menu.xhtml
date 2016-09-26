@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html mlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" 
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" 
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:body>
+        
+        <div class="expanded row" style="background: #fff301; background-image: url(resources/img/footer-texture-top.png)">
+            <!--Este es el encabezado aqui probablemente ira una imagen y el nombre del sistema -->
+            <div class="large-10 columns">
+                <br/>
+                <h1>Nombre Proyecto</h1>
+            </div>
+            <div class="large-2 columns">
+                <img src="resources/img/logo2.png" style="height: 40%; width: 40%;"/>
+            </div>
+        </div>
+
+
+
+        <div class="expanded row" style="background-color: #eef1f3"><br/>
+            <div class="large-12 columns">
+                <ul class="menu simple menu-centered dropdown menu" data-dropdown-menu="true">
+                    <li>Tickets</li>
+                    <li><a href="#">Becas</a></li>
+                    <li><a href="#">Usuarios</a></li>
+                    <li><a href="#">Citas</a></li>
+                    <li>
+                        <a href="#">Sesión</a>
+                        <ul class="menu">
+                            <li><a href="#">Cerrar sesión</a></li>
+                            <!-- ... -->
+                        </ul>
+                    </li>
+                </ul>
+            </div><br/><br/>
+        </div>
+        <!--menu-->
+            <div class="large-2 columns callout">
+                <ul class="vertical menu" data-accordion-menu="true">
+                    <li>
+                        <a href="index.html">Departamentos</a>
+                        <ul class="menu vertical nested">
+                            <li><a href="departamentos.xhtml">Agregar Departamento</a></li>
+                            <li><a href="ver_departamentos.xhtml">Ver Departamentos</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Mantenimientos</a>
+                        <ul class="menu vertical nested">
+                            <li><a href="mantenimiento.xhtml">Agregar Mantenimiento</a></li>
+                            <li><a href="ver_mantenimientos.xhtml">Ver Mantenimientos</a></li>
+                            <li><a href="tipo_mantenimiento.xhtml">Agregar Tipo de mantenimiento</a></li>
+                            <li><a href="ver_tipo_mantenimiento.xhtml">Ver Tipo de Mantenimientos</a></li>
+                            <li><a href="#">Procesos</a></li>
+                            <li><a href="#">Correlativos</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Solicitudes</a>
+                       <ul class="menu vertical nested">
+                       		<li><a href="#">Hacer Solicitud</a></li>
+                            <li><a href="#">Procesos</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Resoluciones</a>
+                    </li>
+                </ul>
+                <!-- Fin sendo menu secundario -->
+        </div>
+        
+     
+    </h:body>
+</html>
+
