@@ -5,135 +5,193 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html mlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core" 
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" 
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    <ui:composition template="WEB-INF/resources/fragmentos/comun.xhtml">
-        <!-- Título de la página -->
-        <ui:param name="pageTitl" value="Creación de solicitudes"/>
-        <ui:param name="pageNomb" value="Solicitudes"/>
-        <!-- Activar el link del menú -->
-        <ui:param name="actiIndex" value="active"/>
-        <!-- Scripts personalizados -->
-        <ui:define name="CustomScripts">
-            <h:outputScript library="js" name="custom/soli.js"/>
-        </ui:define>
-        <!-- Elementos propios del boby -->
-        <ui:define name="body">            
-            <div>
-                <div class="col-md-4 col-xs-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Formulario</div>
-                        <div class="panel-body">
-                            <h:form>
-                                <!--Form exclusivo para los remotos-->
-                                <p:remoteCommand name="consSoli" actionListener="#{solicitudesBean.cons()}" update=":FormSoli" 
-                                                 oncomplete="INIT_OBJE_SOLI();" global="true"/>
-                                <p:remoteCommand name="elimSoli" actionListener="#{solicitudesBean.elim()}" update=":FormSoli :ContSoli" 
-                                                 oncomplete="INIT_OBJE_SOLI();"  global="true"/>
-                            </h:form>
-                            <h:form id="FormSoli">
-                                <h:inputHidden id="codi" value="#{solicitudesBean.objeSoli.codiSoli}" />
-                                <div class="input-group input-group-xs">
-                                    <h:outputLabel  for="desc" value="Descripción: "/>
-                                    <h:inputText id="desc" value="#{solicitudesBean.objeSoli.descSoli}" class="form-control" />
-                                    <h:message for="desc" errorClass="field-error" />
-                                </div>
-                                <div class="input-group input-group-xs">
-                                    <h:outputLabel  for="grup" value="Departamento: "/>
-                                    <h:selectOneMenu id="grup" value="#{solicitudesBean.objeSoli.codiDepa}" class="form-control">
-                                        <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                        <f:selectItems value="#{departamentosBean.listDepa}" var="lst" itemLabel="#{lst.nombDepa}" itemValue="#{lst}"/>
-                                        <f:converter converterId="PooConv"/>
-                                    </h:selectOneMenu>
-                                    <h:message for="grup" errorClass="field-error" />
-                                </div>
-                                <div class="input-group input-group-xs">
-                                    <h:outputLabel  for="tiem" value="Tiempo de resolución: "/>
-                                    <h:inputText id="tiem" value="#{solicitudesBean.objeSoli.tiemResoSoli}" class="form-control" />
-                                    <h:message for="tiem" errorClass="field-error" />
-                                </div>
-                                
-                                <div class="input-group input-group-xs">
-                                    <h:outputLabel  for="prio" value="Prioridad: "/>
-                                    <h:inputText id="prio" value="#{solicitudesBean.objeSoli.prioSoli}" class="form-control" />
-                                    <h:message for="prio" errorClass="field-error" />
-                                </div>                                
-                                <div class="input-group-btn right" style="padding-top: 5px;">
-                                    <div class="btn-group">
-                                        <h:commandLink id="btonCanc" class="btn btn-default btn-xs">
-                                            <p:ajax listener="#{solicitudesBean.limpForm()}" process="@form" update="@form" global="true"/>
-                                            <i class="fa fa-mail-forward"/> Cancelar
-                                        </h:commandLink>
-                                        <h:commandLink id="btonGuar" class="btn btn-success btn-xs" rendered="#{solicitudesBean.guardar}">
-                                            <p:ajax listener="#{solicitudesBean.guar()}" process="@form" update="@form :ContSoli" oncomplete="INIT_OBJE_ALUM();" />
-                                            <i class="fa fa-plus"/> Guardar
-                                        </h:commandLink>
-                                        <h:commandLink id="btonModi" class="btn btn-primary btn-xs" rendered="#{!solicitudesBean.guardar}">
-                                            <p:ajax listener="#{solicitudesBean.modi()}" process="@form" update="@form :ContSoli" oncomplete="INIT_OBJE_ALUM();" />
-                                            <i class="fa fa-edit"/> Modificar
-                                        </h:commandLink>
-                                        <h:outputLink id="btonElim" class="btn btn-danger btn-xs" rendered="#{!solicitudesBean.guardar}" 
-                                                      pt:data-toggle="confirmation" pt:data-btn-ok-label="Sí" pt:data-btn-ok-icon="fa fa-times"
-                                                      pt:data-btn-ok-class="btn-danger btn-xs" pt:data-btn-cancel-label="No" pt:data-btn-cancel-icon="fa fa-mail-forward"
-                                                      pt:data-btn-cancel-class="btn-default btn-xs" pt:data-title="¿Esta seguro que desea eliminar?">
-                                            <i class="fa fa-times"/> Eliminar
-                                        </h:outputLink>
-                                    </div>
-                                </div>
-                            </h:form>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-8 col-xs-8">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Tabla de Datos</div>
-                        <div class="panel-body">
-                            <h:panelGroup id="ContSoli">
-                                <h:dataTable pt:data-id="TablSoli" id="TablAlum" value="#{alumnosBean.listAlum}"
-                                             var="fila" class="boottable" pt:data-toolbar="#toolbar"
-                                             styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
-                                             pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
-                                             pt:data-search="true" pt:data-pagination="true" pt:data-page-list="[5, 10, 20, 50]"
-                                             pt:data-click-to-select="true"  pt:data-select-item-name="radio"
-                                             pt:data-single-select="true">                                
-                                    <h:column pt:data-field="state" pt:data-checkbox="true">
-                                    </h:column>
-                                    <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id">
-                                        <f:facet name="header">Código</f:facet>
-                                        <h:outputText value="#{fila.codiAlum}"/>
-                                    </h:column>
-                                    <h:column pt:data-sortable="true" pt:data-field="nomb">
-                                        <f:facet name="header">Nombre</f:facet>
-                                        <h:outputText value="#{fila.nombAlum.concat(' ').concat(fila.apelAlum)}"/>   
-                                    </h:column>
-                                    <h:column pt:data-sortable="true">
-                                        <f:facet name="header">Fecha Nac.</f:facet>
-                                        <h:outputText value="#{fila.fechNaciAlum}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-6"/>
-                                        </h:outputText>                            
-                                    </h:column>
-                                    <h:column pt:data-sortable="true">
-                                        <f:facet name="header">Email</f:facet>
-                                        <h:outputText value="#{fila.mailAlum}"/>
-                                    </h:column>
-                                    <h:column pt:data-sortable="true">
-                                        <f:facet name="header">Teléfono</f:facet> 
-                                        <h:outputText value="#{fila.teleAlum}"/>
-                                    </h:column>
-                                    <h:column pt:data-sortable="true">
-                                        <f:facet name="header">Dirección</f:facet> 
-                                        <h:outputText value="#{fila.direAlum}"/>
-                                    </h:column>
-                                </h:dataTable>
-                            </h:panelGroup>
-                        </div>
-                    </div>
-                </div>
+    <h:head>
+        <meta charset="utf-8" http-equiv="x-ua-compatible" name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Solicitudes</title>
+        <!--Estilos-->
+        <h:outputStylesheet library="css" name="foundation.css"/>
+        <h:outputStylesheet library="css" name="foundation-datepicker.css"/>
+        <h:outputStylesheet library="css" name="foundation.min.css"/>
+        <h:outputStylesheet library="css" name="app.css"/>
+        <h:outputStylesheet library="css" name="icons.css"/>
+        <h:outputStylesheet library="css" name="foundation-icons.css"/>
+        <h:outputStylesheet library="css" name="toastr.css"/>
+        <style>
+        </style>
+       
+    </h:head>
+    <h:body>
+        
+        <div class="expanded row" style="background: #fff301; background-image: url(resources/img/footer-texture-top.png)">
+            <!--Este es el encabezado aqui probablemente ira una imagen y el nombre del sistema -->
+            <div class="large-10 columns">
+                <br/>
+                <h1>Nombre Proyecto</h1>
             </div>
-        </ui:define>
-    </ui:composition>
+            <div class="large-2 columns">
+                <img src="resources/img/logo2.png" style="height: 40%; width: 40%;"/>
+            </div>
+        </div>
+
+
+
+        <div class="expanded row" style="background-color: #eef1f3"><br/>
+            <div class="large-12 columns">
+                <ul class="menu simple menu-centered dropdown menu" data-dropdown-menu="true">
+                    <li>Tickets</li>
+                    <li><a href="#">Becas</a></li>
+                    <li><a href="#">Usuarios</a></li>
+                    <li><a href="#">Citas</a></li>
+                    <li>
+                        <a href="#">Sesión</a>
+                        <ul class="menu">
+                            <li><a href="#">Cerrar sesión</a></li>
+                            <!-- ... -->
+                        </ul>
+                    </li>
+                </ul>
+            </div><br/><br/>
+        </div>
+
+        <div class="expanded row">
+        <!--menu-->
+            <div class="large-2 columns callout">
+            <div class="large-2 columns callout">
+                <ul class="vertical menu" data-accordion-menu="true">
+                    <li>
+                        <a href="index.html">Departamentos</a>
+                        <ul class="menu vertical nested">
+                            <li><a href="departamentos.xhtml">Agregar Departamento</a></li>
+                            <li><a href="departamentos_Tabla.xhtml">Ver Departamentos</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Mantenimientos</a>
+                        <ul class="menu vertical nested">
+                            <li><a href="mantenimientos.xhtml">Agregar Mantenimiento</a></li>
+                            <li><a href="mantenimientos_Tabla.xhtml">Ver Mantenimientos</a></li>
+                            <li><a href="tipo_mantenimiento.xhtml">Agregar Tipo de mantenimiento</a></li>
+                            <li><a href="tipo_mantenimiento_Tabla.xhtml">Ver Tipo de Mantenimientos</a></li>
+                            <li><a href="Procesos Mantenimientos.xhtml">Proceso de Mantenimientos</a></li>
+                            <li><a href="Procesos Mantenimientos_Tabla.xhtml">Ver Proceso de Mantenimientos</a></li>
+                            <li><a href="correlativos_mantenimientos.xhtml">Correlativos</a></li>
+                            <li><a href="correlativos_mantenimientos_tabla.xhtml">Ver Correlativos</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Solicitudes</a>
+                        <ul class="menu vertical nested">
+                            <li><a href="solicitudes.xhtml">Hacer Solicitud</a></li>
+                            <li><a href="solicitudes_Tabla.xhtml">Ver Solicitudes</a></li>
+                            <li><a href="Procesos Solicitudes.xhtml">Proceso de Solicitudes</a></li>
+                            <li><a href="Procesos Solicitudes_tabla.xhtml">Ver Proceso de Solicitudes</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Resoluciones</a>
+                        <ul class="menu vertical nested">
+                            <li><a href="resoluciones.xhtml">Hacer Resolucion</a></li>
+                            <li><a href="resoluciones_Tabla.xhtml">Ver Resoluciones</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Evaluaciones</a>
+                        <ul class="menu vertical nested">
+                            <li><a href="evaluaciones.xhtml">Hacer Evaluacion</a></li>
+                            <li><a href="evaluaciones_Tabla.xhtml">Ver Evaluaciones</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        <div class="large-2 columns"><p></p></div>
+            <div class="large-6 columns callout">
+        	<div class="row">
+                    <h:form>
+                        <center><h3>Solicitud</h3></center><hr/>
+                        <h:inputHidden id="codiMant" />
+                        <div class="row">
+                            <div class="large-6 columns">
+                                <h:outputLabel  for="gene" value="Seleccione el Encargado "/>
+                                <h:selectOneMenu >
+                                    <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="large-6 columns">
+                                <h:outputLabel  for="gene" value="Seleccione el Departamento "/>
+                                <h:selectOneMenu >
+                                    <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="large-6 columns">
+                                <h:outputLabel  for="gene" value="Seleccione la Ubicacion "/>
+                                <h:selectOneMenu >
+                                    <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="large-6 columns">
+                                <h:outputLabel  for="gene" value="Seleccione el equipo "/>
+                                <h:selectOneMenu >
+                                    <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                </h:selectOneMenu>
+                            </div>
+                            <div class="columns">
+                                <h:outputLabel value="Descripcion del porque la solicitud..."/>
+                                <h:inputTextarea id="nombDepa"/>
+                            </div>
+                            <center>
+                                <h:commandLink id="btnGuar" class="button success">
+                                    <p:ajax process="@form" update="@form" immediate="true"/>
+                                    <i class="fi-plus">Programar Mantenimiento</i>
+                                </h:commandLink> 
+                            </center>
+                        </div>
+                    </h:form>
+        	</div>
+        </div>
+        <div class="large-2 columns"><p></p></div>
+        </div>
+        
+        <h:outputScript library="js" name="vendor/jquery.js"/>
+        <h:outputScript library="js" name="vendor/what-input.js"/>
+        <h:outputScript library="js" name="vendor/foundation.js"/>
+        <h:outputScript library="js" name="vendor/foundation.min.js"/>
+        <h:outputScript library="js" name="foundation.dropdownMenu.js"/>
+        <h:outputScript library="js" name="foundation.dropdown.js"/>
+        <h:outputScript library="js" name="foundation-datepicker.js"/>
+        <h:outputScript library="js" name="locales/foundation-datepicker.es.js"/>
+        <h:outputScript library="js" name="app.js"/>
+        <h:outputScript library="js" name="toastr.js"/>
+        <script>
+            $(function () {
+                /**fecha inicio **/
+                $('.dp1').fdatepicker({
+                    initialDate: '02-12-1989',
+                    ormat: 'dd-mm-yyyy',
+                    anguage: 'es',
+                    disableDblClickSelection: true
+                });
+                /**fecha fin **/
+                $('#dp2').fdatepicker({
+                    initialDate: '02-12-1989',
+                    format: 'dd-mm-yyyy',
+                    language: 'es',
+                    disableDblClickSelection: true
+                });
+                /**fecha con hora**/
+                $('#dp3').fdatepicker({
+                    format: 'dd-mm-yyyy hh:ii',
+                    disableDblClickSelection: true,
+                    language: 'es',
+                    pickTime: true
+                });
+            });
+        </script>
+    </h:body>
 </html>
+
