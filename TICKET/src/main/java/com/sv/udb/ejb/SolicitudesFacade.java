@@ -12,10 +12,11 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author oscar
+ * @author Alexander
  */
 @Stateless
 public class SolicitudesFacade extends AbstractFacade<Solicitudes> implements SolicitudesFacadeLocal {
+
     @PersistenceContext(unitName = "PILETPU")
     private EntityManager em;
 

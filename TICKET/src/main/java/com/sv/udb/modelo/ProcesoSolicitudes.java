@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author oscar
+ * @author Alexander
  */
 @Entity
 @Table(name = "proceso_solicitudes", catalog = "system_ticket", schema = "")
@@ -38,6 +39,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ProcesoSolicitudes.findByFechProcSoli", query = "SELECT p FROM ProcesoSolicitudes p WHERE p.fechProcSoli = :fechProcSoli"),
     @NamedQuery(name = "ProcesoSolicitudes.findByEstaProcSoli", query = "SELECT p FROM ProcesoSolicitudes p WHERE p.estaProcSoli = :estaProcSoli")})
 public class ProcesoSolicitudes implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,7 +62,7 @@ public class ProcesoSolicitudes implements Serializable {
     @Column(name = "esta_proc_soli")
     private boolean estaProcSoli;
     @JoinColumn(name = "codi_soli", referencedColumnName = "codi_soli")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Solicitudes codiSoli;
 
     public ProcesoSolicitudes() {

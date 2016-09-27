@@ -12,10 +12,11 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author oscar
+ * @author Alexander
  */
 @Stateless
 public class TipoMantenimientosFacade extends AbstractFacade<TipoMantenimientos> implements TipoMantenimientosFacadeLocal {
+
     @PersistenceContext(unitName = "PILETPU")
     private EntityManager em;
 

@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author oscar
+ * @author Alexander
  */
 @Entity
 @Table(name = "correlativo_mantenimientos", catalog = "system_ticket", schema = "")
@@ -40,6 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "CorrelativoMantenimientos.findByFechCorrMant", query = "SELECT c FROM CorrelativoMantenimientos c WHERE c.fechCorrMant = :fechCorrMant"),
     @NamedQuery(name = "CorrelativoMantenimientos.findByEstaCorrMant", query = "SELECT c FROM CorrelativoMantenimientos c WHERE c.estaCorrMant = :estaCorrMant")})
 public class CorrelativoMantenimientos implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,9 +58,9 @@ public class CorrelativoMantenimientos implements Serializable {
     @Column(name = "esta_corr_mant")
     private boolean estaCorrMant;
     @JoinColumn(name = "codi_mant", referencedColumnName = "codi_mant")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Mantenimientos codiMant;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiCorrMant")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiCorrMant", fetch = FetchType.EAGER)
     private List<ProcesoMantenimientos> procesoMantenimientosList;
 
     public CorrelativoMantenimientos() {

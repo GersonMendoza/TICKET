@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -31,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author oscar
+ * @author Alexander
  */
 @Entity
 @Table(name = "resolucion_solicitudes", catalog = "system_ticket", schema = "")
@@ -43,6 +44,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ResolucionSolicitudes.findByTipoTrabSoli", query = "SELECT r FROM ResolucionSolicitudes r WHERE r.tipoTrabSoli = :tipoTrabSoli"),
     @NamedQuery(name = "ResolucionSolicitudes.findByEstaResoSoli", query = "SELECT r FROM ResolucionSolicitudes r WHERE r.estaResoSoli = :estaResoSoli")})
 public class ResolucionSolicitudes implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,10 +71,10 @@ public class ResolucionSolicitudes implements Serializable {
     @NotNull
     @Column(name = "esta_reso_soli")
     private int estaResoSoli;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiResoSoli")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiResoSoli", fetch = FetchType.EAGER)
     private List<EvaluacionResoluciones> evaluacionResolucionesList;
     @JoinColumn(name = "codi_soli", referencedColumnName = "codi_soli")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Solicitudes codiSoli;
 
     public ResolucionSolicitudes() {

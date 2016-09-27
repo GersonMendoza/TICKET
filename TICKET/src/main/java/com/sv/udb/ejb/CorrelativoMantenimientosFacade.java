@@ -12,10 +12,11 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author oscar
+ * @author Alexander
  */
 @Stateless
 public class CorrelativoMantenimientosFacade extends AbstractFacade<CorrelativoMantenimientos> implements CorrelativoMantenimientosFacadeLocal {
+
     @PersistenceContext(unitName = "PILETPU")
     private EntityManager em;
 

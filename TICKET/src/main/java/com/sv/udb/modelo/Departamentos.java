@@ -12,6 +12,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author oscar
+ * @author Alexander
  */
 @Entity
 @Table(name = "departamentos", catalog = "system_ticket", schema = "")
@@ -41,6 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Departamentos.findByFechBajaDepa", query = "SELECT d FROM Departamentos d WHERE d.fechBajaDepa = :fechBajaDepa"),
     @NamedQuery(name = "Departamentos.findByEstaDepa", query = "SELECT d FROM Departamentos d WHERE d.estaDepa = :estaDepa")})
 public class Departamentos implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,9 +66,9 @@ public class Departamentos implements Serializable {
     @NotNull
     @Column(name = "esta_depa")
     private boolean estaDepa;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiDepa")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiDepa", fetch = FetchType.EAGER)
     private List<Mantenimientos> mantenimientosList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiDepa")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiDepa", fetch = FetchType.EAGER)
     private List<Solicitudes> solicitudesList;
 
     public Departamentos() {

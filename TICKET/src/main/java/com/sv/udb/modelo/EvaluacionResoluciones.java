@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author oscar
+ * @author Alexander
  */
 @Entity
 @Table(name = "evaluacion_resoluciones", catalog = "system_ticket", schema = "")
@@ -39,6 +40,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "EvaluacionResoluciones.findByFechEvalReso", query = "SELECT e FROM EvaluacionResoluciones e WHERE e.fechEvalReso = :fechEvalReso"),
     @NamedQuery(name = "EvaluacionResoluciones.findByEstaEvalReso", query = "SELECT e FROM EvaluacionResoluciones e WHERE e.estaEvalReso = :estaEvalReso")})
 public class EvaluacionResoluciones implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,7 +66,7 @@ public class EvaluacionResoluciones implements Serializable {
     @Column(name = "esta_eval_reso")
     private boolean estaEvalReso;
     @JoinColumn(name = "codi_reso_soli", referencedColumnName = "codi_reso_soli")
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private ResolucionSolicitudes codiResoSoli;
 
     public EvaluacionResoluciones() {
