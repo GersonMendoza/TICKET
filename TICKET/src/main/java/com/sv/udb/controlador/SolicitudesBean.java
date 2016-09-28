@@ -93,10 +93,15 @@ public class SolicitudesBean implements Serializable {
     public void modi() {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try {
-            this.listSoli.remove(this.objeSoli); //Limpia el objeto viejo
-            FCDESoli.edit(this.objeSoli);
-            this.listSoli.add(this.objeSoli); //Agrega el objeto modificado
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
+            if (this.objeSoli.getCodiSoli() == null) {
+                ctx.execute("setMessage('MESS_ERRO', 'Atención', 'No ha seleccionado una solicitud')");
+            } else {
+                this.listSoli.remove(this.objeSoli); //Limpia el objeto viejo
+                FCDESoli.edit(this.objeSoli);
+                this.listSoli.add(this.objeSoli); //Agrega el objeto modificado
+                limpForm();
+                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
+            }
         } catch (Exception ex) {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
         }
@@ -105,10 +110,14 @@ public class SolicitudesBean implements Serializable {
     public void elim() {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try {
-            FCDESoli.remove(this.objeSoli);
-            this.listSoli.remove(this.objeSoli);
-            this.limpForm();
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
+            if (this.objeSoli.getCodiSoli() == null) {
+                ctx.execute("setMessage('MESS_ERRO', 'Atención', 'No ha seleccionado una solicitud')");
+            } else {
+                FCDESoli.remove(this.objeSoli);
+                this.listSoli.remove(this.objeSoli);
+                this.limpForm();
+                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
+            }
         } catch (Exception ex) {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
         }

@@ -6,30 +6,11 @@ $(document).ready(function() {
             consSoli([{name : 'codiSoliPara', value : row.id.trim()}]);
         });
         return false;
-    };
-    //Eliminar
-    $.fn.funcElimSoli = function() {
-        $(this).confirmation(
-        {
-            popout: true,
-            onConfirm: function() {
-                elimSoli();
-                $('[data-toggle="confirmation-popout"]').confirmation('hide');
-                return false;
-            },
-            onCancel: function()
-            {
-                $('[data-toggle="confirmation-popout"]').confirmation('hide');
-                return false;
-            }
-        });
-        return false;
-    };    
+    };        
     INIT_OBJE_SOLI();
 });
 
 function INIT_OBJE_SOLI()
 {
     $("#TablSoli").initBootTable();
-    $("#FormSoli\\:btonElim").funcElimSoli();
 }

@@ -74,8 +74,6 @@ public class Solicitudes implements Serializable {
     @NotNull
     @Column(name = "codi_ubic")
     private int codiUbic;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "fech_hora_soli")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechHoraSoli;
@@ -84,10 +82,8 @@ public class Solicitudes implements Serializable {
     @Size(max = 50)
     @Column(name = "prio_soli")
     private String prioSoli;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "esta_soli")
-    private int estaSoli;
+    private Integer estaSoli;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiSoli", fetch = FetchType.EAGER)
     private List<ResolucionSolicitudes> resolucionSolicitudesList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiSoli", fetch = FetchType.EAGER)
@@ -103,13 +99,11 @@ public class Solicitudes implements Serializable {
         this.codiSoli = codiSoli;
     }
 
-    public Solicitudes(Integer codiSoli, String descSoli, int codiUsua, int codiUbic, Date fechHoraSoli, int estaSoli) {
+    public Solicitudes(Integer codiSoli, String descSoli, int codiUsua, int codiUbic) {
         this.codiSoli = codiSoli;
         this.descSoli = descSoli;
         this.codiUsua = codiUsua;
         this.codiUbic = codiUbic;
-        this.fechHoraSoli = fechHoraSoli;
-        this.estaSoli = estaSoli;
     }
 
     public Integer getCodiSoli() {
@@ -184,11 +178,11 @@ public class Solicitudes implements Serializable {
         this.prioSoli = prioSoli;
     }
 
-    public int getEstaSoli() {
+    public Integer getEstaSoli() {
         return estaSoli;
     }
 
-    public void setEstaSoli(int estaSoli) {
+    public void setEstaSoli(Integer estaSoli) {
         this.estaSoli = estaSoli;
     }
 

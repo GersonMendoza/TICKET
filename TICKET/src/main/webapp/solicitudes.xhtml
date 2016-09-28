@@ -10,7 +10,8 @@ and open the template in the editor.
       xmlns:f="http://xmlns.jcp.org/jsf/core" 
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" 
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <ui:composition template="WEB-INF/resources/fragmentos/comun.xhtml">
         <!-- Título de la página -->
         <ui:param name="pageTitl" value="Creación de solicitudes"/>
@@ -71,12 +72,16 @@ and open the template in the editor.
                                     </h:selectOneMenu>
                                     <h:message for="depa" errorClass="field-error" />
                                 </div>
+                                <h:outputLabel  for="fechSoli" value="Fecha Solicitud: "/>
+                                <h:inputHidden id="fechSoli" value="#{solicitudesBean.objeSoli.fechHoraSoli}">
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+                                </h:inputHidden>
                                 <div class="input-group input-group-xs">
                                     <h:outputLabel  for="tiem" value="Tiempo de resolución: "/>
                                     <h:inputText id="tiem" value="#{solicitudesBean.objeSoli.tiemResoSoli}" class="form-control" />
                                     <h:message for="tiem" errorClass="field-error" />
                                 </div>                                
-                                <div class="form-group">
+                                <div class="input-group input-group-xs">
                                     <h:outputLabel  for="prio" value="Prioridad: "/>
                                     <h:selectOneMenu id="prio" value="#{solicitudesBean.objeSoli.prioSoli}" class="form-control">
                                         <f:selectItem itemValue="Alta" itemLabel="Alta"/>
@@ -84,27 +89,44 @@ and open the template in the editor.
                                         <f:selectItem itemValue="Baja" itemLabel="Baja"/>
                                     </h:selectOneMenu>
                                     <h:message for="prio" errorClass="field-error" />
-                                </div>                              
+                                </div>
+                                <h:inputHidden id="esta" value="#{solicitudesBean.objeSoli.estaSoli}"/>
                                 <div class="input-group-btn right" style="padding-top: 5px;">
                                     <div class="btn-group">
                                         <h:commandLink id="btonCanc" class="btn btn-default btn-xs">
                                             <p:ajax listener="#{solicitudesBean.limpForm()}" update="@form" global="true"/>
                                             <i class="fa fa-mail-forward"/> Cancelar
-                                        </h:commandLink>
-                                        <h:commandLink id="btonGuar" class="btn btn-success btn-xs" rendered="#{solicitudesBean.guardar}">
-                                            <p:ajax listener="#{solicitudesBean.guar()}" process="@form" update="@form :ContSoli" oncomplete="INIT_OBJE_SOLI();" />
-                                            <i class="fa fa-plus"/> Guardar
-                                        </h:commandLink>
-                                        <h:commandLink id="btonModi" class="btn btn-primary btn-xs" rendered="#{!solicitudesBean.guardar}">
-                                            <p:ajax listener="#{solicitudesBean.modi()}" process="@form" update="@form :ContSoli" oncomplete="INIT_OBJE_SOLI();" />
-                                            <i class="fa fa-edit"/> Modificar
-                                        </h:commandLink>
-                                        <h:outputLink id="btonElim" class="btn btn-danger btn-xs" rendered="#{!solicitudesBean.guardar}" 
-                                                      pt:data-toggle="confirmation" pt:data-btn-ok-label="Sí" pt:data-btn-ok-icon="fa fa-times"
-                                                      pt:data-btn-ok-class="btn-danger btn-xs" pt:data-btn-cancel-label="No" pt:data-btn-cancel-icon="fa fa-mail-forward"
-                                                      pt:data-btn-cancel-class="btn-default btn-xs" pt:data-title="¿Esta seguro que desea eliminar?">
-                                            <i class="fa fa-times"/> Eliminar
-                                        </h:outputLink>
+                                        </h:commandLink>                                        
+                                        <c:choose>
+                                            <c:when test="#{solicitudesBean.guardar == true}">
+                                                <h:commandLink id="btonGuar" class="btn btn-success btn-xs">
+                                                    <p:ajax listener="#{solicitudesBean.guar()}" process="@form" update="@form :ContSoli" oncomplete="INIT_OBJE_SOLI();" />
+                                                    <i class="fa fa-plus"/> Guardar
+                                                </h:commandLink>
+                                                <h:commandLink id="btonModi" class="btn btn-primary btn-xs disabled">
+                                                    <p:ajax listener="#{solicitudesBean.modi()}" process="@form" update="@form :ContSoli" oncomplete="INIT_OBJE_SOLI();" />
+                                                    <i class="fa fa-edit"/> Modificar
+                                                </h:commandLink>
+                                                <h:commandLink id="btonElim" class="btn btn-danger btn-xs disabled" onclick="return confirm('¿Desea borrar el registro?')">
+                                                    <p:ajax listener="#{solicitudesBean.elim()}" process="@form" update="@form :ContSoli" oncomplete="INIT_OBJE_SOLI();" />
+                                                    <i class="fa fa-times"/> Eliminar
+                                                </h:commandLink>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <h:commandLink id="btonGuar" class="btn btn-success btn-xs disabled">
+                                                    <p:ajax listener="#{solicitudesBean.guar()}" process="@form" update="@form :ContSoli" oncomplete="INIT_OBJE_SOLI();" />
+                                                    <i class="fa fa-plus"/> Guardar
+                                                </h:commandLink>
+                                                <h:commandLink id="btonModi" class="btn btn-primary btn-xs">
+                                                    <p:ajax listener="#{solicitudesBean.modi()}" process="@form" update="@form :ContSoli" oncomplete="INIT_OBJE_SOLI();" />
+                                                    <i class="fa fa-edit"/> Modificar
+                                                </h:commandLink>
+                                                <h:commandLink id="btonElim" class="btn btn-danger btn-xs" onclick="return confirm('¿Desea borrar el registro?')">
+                                                    <p:ajax listener="#{solicitudesBean.elim()}" process="@form" update="@form :ContSoli" oncomplete="INIT_OBJE_SOLI();" />
+                                                    <i class="fa fa-times"/> Eliminar
+                                                </h:commandLink>
+                                            </c:otherwise>
+                                        </c:choose>
                                     </div>
                                 </div>
                             </h:form>
