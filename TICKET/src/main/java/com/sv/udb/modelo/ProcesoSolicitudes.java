@@ -10,7 +10,6 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,10 +27,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Alexander
+ * @author iKronyck
  */
 @Entity
-@Table(name = "proceso_solicitudes", catalog = "system_ticket", schema = "")
+@Table(name = "proceso_solicitudes")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ProcesoSolicitudes.findAll", query = "SELECT p FROM ProcesoSolicitudes p"),
@@ -52,17 +51,13 @@ public class ProcesoSolicitudes implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "desc_proc_soli")
     private String descProcSoli;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "fech_proc_soli")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechProcSoli;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "esta_proc_soli")
-    private boolean estaProcSoli;
+    private Boolean estaProcSoli;
     @JoinColumn(name = "codi_soli", referencedColumnName = "codi_soli")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private Solicitudes codiSoli;
 
     public ProcesoSolicitudes() {
@@ -72,11 +67,9 @@ public class ProcesoSolicitudes implements Serializable {
         this.codiProcSoli = codiProcSoli;
     }
 
-    public ProcesoSolicitudes(Integer codiProcSoli, String descProcSoli, Date fechProcSoli, boolean estaProcSoli) {
+    public ProcesoSolicitudes(Integer codiProcSoli, String descProcSoli) {
         this.codiProcSoli = codiProcSoli;
         this.descProcSoli = descProcSoli;
-        this.fechProcSoli = fechProcSoli;
-        this.estaProcSoli = estaProcSoli;
     }
 
     public Integer getCodiProcSoli() {
@@ -103,11 +96,11 @@ public class ProcesoSolicitudes implements Serializable {
         this.fechProcSoli = fechProcSoli;
     }
 
-    public boolean getEstaProcSoli() {
+    public Boolean getEstaProcSoli() {
         return estaProcSoli;
     }
 
-    public void setEstaProcSoli(boolean estaProcSoli) {
+    public void setEstaProcSoli(Boolean estaProcSoli) {
         this.estaProcSoli = estaProcSoli;
     }
 
