@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" 
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" 
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:composition template="WEB-INF/resources/fragmentos/comun.xhtml">
+        <!-- Título de la página -->
+        <ui:param name="pageTitl" value="Departamentos"/>
+        <ui:param name="pageNomb" value="Departamentos"/>
+        <!-- Activar el link del menú -->
+        <ui:param name="actiIndex" value="active"/>
+        <!-- Scripts personalizados -->
+        <ui:define name="CustomScripts">
+            <h:outputScript library="js" name="custom/depa.js"/>
+        </ui:define>
+        <!-- Elementos propios del boby -->
+        <ui:define name="body">            
+            <div>
+                <div class="col-md-4 col-xs-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Formulario</div>
+                        <div class="panel-body">
+                            <h:form>
+                                <!--Form exclusivo para los remotos-->
+                                <p:remoteCommand name="consDepa" actionListener="#{departamentosBean.cons()}" update=":FormDepa" 
+                                                 oncomplete="INIT_OBJE_DEPA();" global="true"/>
+                                <p:remoteCommand name="elimDepa" actionListener="#{departamentosBean.elim()}" update=":FormDepa :ContDepa" 
+                                                 oncomplete="INIT_OBJE_DEPA();"  global="true"/>
+                            </h:form>
+                            <h:form id="FormDepa">
+                               
+                                <h:inputHidden id="codi" value="#{departamentosBean.objeDepa.codiDepa}" />
+                                <div class="input-group input-group-xs">
+                                    <h:outputLabel  for="nomb" value="Nombre: "/>
+                                    <h:inputText id="nomb" value="#{departamentosBean.objeDepa.nombDepa}" class="form-control" />
+                                    <h:message for="nomb" errorClass="field-error" />
+
+                                </div>
+                                
+
+              
+                              
+                                <div class="input-group-btn right" style="padding-top: 5px;">
+                                    <div class="btn-group">
+                                        <h:commandLink id="btonCanc" class="btn btn-default btn-xs">
+                                            <p:ajax listener="#{departamentosBean.limpForm()}" update="@form" global="true"/>
+                                            <i class="fa fa-mail-forward"/> Cancelar
+                                        </h:commandLink>                                        
+                                        <c:choose>
+                                            <c:when test="#{departamentosBean.guardar == true}">
+                                                <h:commandLink id="btonGuar" class="btn btn-success btn-xs">
+                                                    <p:ajax listener="#{departamentosBean.guar()}" process="@form" update="@form :ContDepa" oncomplete="INIT_OBJE_DEPA();" />
+                                                    <i class="fa fa-plus"/> Guardar
+                                                </h:commandLink>
+                                                <h:commandLink id="btonModi" class="btn btn-primary btn-xs disabled">
+                                                    <p:ajax listener="#{departamentosBean.modi()}" process="@form" update="@form :ContDepa" oncomplete="INIT_OBJE_DEPA();" />
+                                                    <i class="fa fa-edit"/> Modificar
+                                                </h:commandLink>
+                                                <h:commandLink id="btonElim" class="btn btn-danger btn-xs disabled" onclick="return confirm('¿Desea borrar el registro?')">
+                                                    <p:ajax listener="#{departamentosBean.elim()}" process="@form" update="@form :ContDepa" oncomplete="INIT_OBJE_DEPA();" />
+                                                    <i class="fa fa-times"/> Eliminar
+                                                </h:commandLink>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <h:commandLink id="btonGuar" class="btn btn-success btn-xs disabled">
+                                                    <p:ajax listener="#{departamentosBean.guar()}" process="@form" update="@form :ContDepa" oncomplete="INIT_OBJE_DEPA();" />
+                                                    <i class="fa fa-plus"/> Guardar
+                                                </h:commandLink>
+                                                <h:commandLink id="btonModi" class="btn btn-primary btn-xs">
+                                                    <p:ajax listener="#{departamentosBean.modi()}" process="@form" update="@form :ContDepa" oncomplete="INIT_OBJE_DEPA();" />
+                                                    <i class="fa fa-edit"/> Modificar
+                                                </h:commandLink>
+                                                <h:commandLink id="btonElim" class="btn btn-danger btn-xs" onclick="return confirm('¿Desea borrar el registro?')">
+                                                    <p:ajax listener="#{departamentosBean.elim()}" process="@form" update="@form :ContDepa" oncomplete="INIT_OBJE_DEPA();" />
+                                                    <i class="fa fa-times"/> Eliminar
+                                                </h:commandLink>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-xs-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Tabla de Datos</div>
+                        <div class="panel-body">
+                            <h:panelGroup id="ContDepa">
+                                <h:dataTable pt:data-id="TablDepa" id="TablDepa" value="#{departamentosBean.listDepa}"
+                                             var="fila" class="boottable" pt:data-toolbar="#toolbar"
+                                             styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
+                                             pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
+                                             pt:data-search="true" pt:data-pagination="true" pt:data-page-list="[5, 10, 20, 50]"
+                                             pt:data-click-to-select="true"  pt:data-select-item-name="radio"
+                                             pt:data-single-select="true">                                
+                                    <h:column pt:data-field="state" pt:data-checkbox="true">
+                                    </h:column>
+                                    <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id">
+                                        <f:facet name="header">Código</f:facet>
+                                        <h:outputText value="#{fila.codiDepa}"/>
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="nomb">
+                                        <f:facet name="header">Nombre</f:facet>
+                                        <h:outputText value="#{fila.nombDepa}"/>   
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>
