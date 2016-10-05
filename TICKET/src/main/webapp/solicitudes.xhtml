@@ -33,8 +33,6 @@ and open the template in the editor.
                                 <!--Form exclusivo para los remotos-->
                                 <p:remoteCommand name="consSoli" actionListener="#{solicitudesBean.cons()}" update=":FormSoli" 
                                                  oncomplete="INIT_OBJE_SOLI();" global="true"/>
-                                <p:remoteCommand name="elimSoli" actionListener="#{solicitudesBean.elim()}" update=":FormSoli :ContSoli" 
-                                                 oncomplete="INIT_OBJE_SOLI();"  global="true"/>
                             </h:form>
                             <h:form id="FormSoli">
                                 <h:inputHidden id="codi" value="#{solicitudesBean.objeSoli.codiSoli}" />
