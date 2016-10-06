@@ -24,28 +24,14 @@ and open the template in the editor.
                 </div>
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
-                    
-                    <li class="treeview #{actiMenuTicket}">
-                        <a href="#">
-                            <i class="fa fa-desktop"></i> <span>Sistema de Ticket</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="#{actiPrincipal}"><h:link outcome="index"><i class="fa fa-file"></i>Principal</h:link></li>
-                            <li class="#{actiDepartamentos}"><h:link outcome="departamentos"><i class="fa fa-users"></i> Departamentos </h:link></li>
-                            <li class="#{actiSolicitudes}"><h:link outcome="solicitudes"><i class="fa fa-file-text-o"></i> Solicitudes </h:link></li>
-                            <li class="#{actiProcesoSolicitudes}"><h:link outcome="procesoSolicitudes"><i class="fa fa-group"></i> procesos de solicitudes </h:link></li>
-                            <li class="#{actiResoluciones}"><h:link outcome="resolucionSolicitudes"><i class="fa fa-pencil"></i> Resoluciones Solicitudes </h:link></li>
-                            <li class="#{actiProcesoSolicitudes}"><h:link outcome="evaluacionResolucion"><i class="fa fa-eye"></i> Evaluaciones de resoluciones </h:link></li>
-                            <li class="#{actimantenimientos}"><h:link outcome="mantenimientos"><i class="fa fa-wrench"></i> Mantenimientos </h:link></li>
-                            
-                        </ul>
+                    <li class="treeview #{actiIndex}">
+                        <h:link outcome="index">
+                            <i class="fa fa-home"></i> <span>Principal</span>
+                        </h:link>
                     </li>
                     <li class="treeview #{actiMenu1}">
                         <a href="#">
-                            <i class="fa fa-dashboard"></i> <span>Opciones</span>
+                            <i class="fa fa-dashboard"></i> <span>Menú 1</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
