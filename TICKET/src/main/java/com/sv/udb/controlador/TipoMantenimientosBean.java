@@ -86,6 +86,7 @@ public class TipoMantenimientosBean implements Serializable {
             String FechaAlta = formatoDeFecha.format(Fecha);
             try {
                 objeTipoMant.setFechIngrTipoMant(formatoDeFecha.parse(FechaAlta));
+                objeTipoMant.setFechBajaTipoMant(null);
             } catch (ParseException ex) {
                 ex.printStackTrace();
             }
@@ -101,14 +102,21 @@ public class TipoMantenimientosBean implements Serializable {
     public void modi() {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try {
-            this.listTipoMant.remove(this.objeTipoMant); //Limpia el objeto viejo
-
-            FCDETipoMant.edit(this.objeTipoMant);
-            this.listTipoMant.add(this.objeTipoMant); //Agrega el objeto modificado
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
+            Calendar Calendario = new GregorianCalendar().getInstance();
+            Date Fecha = Calendario.getTime();
+            SimpleDateFormat formatoDeFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            String FechaAlta = formatoDeFecha.format(Fecha);
+            try {
+                objeTipoMant.setFechBajaTipoMant(formatoDeFecha.parse(FechaAlta));
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
+            FCDETipoMant.create(this.objeTipoMant);
+            this.listTipoMant.add(this.objeTipoMant);
             this.limpForm();
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
         } catch (Exception ex) {
-            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al guardar ')");
         }
     }
     
@@ -131,6 +139,16 @@ public class TipoMantenimientosBean implements Serializable {
     public void limpForm() {
         this.objeTipoMant = new TipoMantenimientos();
         this.guardar = true;
+        Calendar Calendario = new GregorianCalendar().getInstance();
+            Date Fecha = Calendario.getTime();
+            SimpleDateFormat formatoDeFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            String FechaAlta = formatoDeFecha.format(Fecha);
+            try {
+                objeTipoMant.setFechIngrTipoMant(formatoDeFecha.parse(FechaAlta));
+                objeTipoMant.setFechBajaTipoMant(formatoDeFecha.parse(FechaAlta));
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
     }
     
     public void consTodo() {

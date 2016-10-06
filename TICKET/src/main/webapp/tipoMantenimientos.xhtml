@@ -49,12 +49,18 @@ and open the template in the editor.
                                 </div>
                                 <div class="input-group input-group-xs">
                                     <h:outputLabel  for="estasoli" value="Estado "/>
-                                    <h:selectOneMenu id="estasoli" value="#{resolucionSolicitudesBean.objeResoSoli.estaResoSoli}" class="form-control">
-                                        <f:selectItem itemLabel="Activo" itemValue="1"/>
-                                        <f:selectItem itemLabel="Baja" itemValue="0"/>
+                                    <h:selectOneMenu id="estasoli" value="#{tipoMantenimientosBean.objeTipoMant.estaTipoMant}" class="form-control">
+                                        <f:selectItem itemLabel="Activo" itemValue="true"/>
+                                        <f:selectItem itemLabel="Baja" itemValue="false"/>
                                     </h:selectOneMenu>
                                     <h:message for="estasoli" errorClass="field-error" />
                                 </div>
+                                <h:inputHidden id="ff"  value="#{tipoMantenimientosBean.objeTipoMant.fechBajaTipoMant}" >
+                                <f:convertDateTime type="date" pattern="dd/MM/yyyy HH:mm:ss"/>
+                                </h:inputHidden>
+                                <h:inputHidden id="fi"  value="#{tipoMantenimientosBean.objeTipoMant.fechIngrTipoMant}" >
+                                <f:convertDateTime type="date" pattern="dd/MM/yyyy HH:mm:ss"/>
+                                </h:inputHidden>
 
                                 <div class="input-group-btn right" style="padding-top: 5px;">
                                     <div class="btn-group">
@@ -70,11 +76,6 @@ and open the template in the editor.
                                             <p:ajax listener="#{tipoMantenimientosBean.modi()}" process="@form" update="@form :ContTipoMant" oncomplete="INIT_OBJE_TIPOMANT();" />
                                             <i class="fa fa-edit"/> Modificar
                                         </h:commandLink>
-                                        <h:outputLink id="btonElim" class="btn btn-danger btn-xs" style="display: #{tipoMantenimientosBean.estado}" onclick="return confirm('¿Desea borrar el registro?')">
-                                            <p:ajax listener="#{tipoMantenimientosBean.elim()}" process="@form" update="@form :ContTipoMant" oncomplete="INIT_OBJE_TIPOMANT();" />
-                                            <i class="fa fa-times"/> Eliminar
-                                        </h:outputLink>
-                                        <h:inputHidden id="esta" value="#{tipoMantenimientosBean.objeTipoMant.estaTipoMant}"/>
                                     </div>
                                 </div>
                             </h:form>
@@ -121,9 +122,9 @@ and open the template in the editor.
                                     </h:column>
                                     <h:column pt:data-sortable="true" pt:data-field="est">
                                         <f:facet name="header">Estado</f:facet>
-                                        <h:panelGroup class="label label-primary" rendered="#{fila.estaTipoMant eq '0'}">
+                                        <h:panelGroup class="label label-primary" rendered="#{fila.estaTipoMant eq true}">
                                             <i/>Activo</h:panelGroup>
-                                        <h:panelGroup class="label label-warning" rendered="#{fila.estaTipoMant ne '1'}">
+                                        <h:panelGroup class="label label-warning" rendered="#{fila.estaTipoMant ne true}">
                                             <i/>Baja</h:panelGroup>
                                     </h:column>
                                 </h:dataTable>
