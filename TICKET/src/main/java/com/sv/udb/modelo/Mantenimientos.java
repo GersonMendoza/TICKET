@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Alexander
+ * @author gersonfrancisco
  */
 @Entity
 @Table(name = "mantenimientos", catalog = "system_ticket", schema = "")
@@ -39,7 +39,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Mantenimientos.findByCodiUbi", query = "SELECT m FROM Mantenimientos m WHERE m.codiUbi = :codiUbi"),
     @NamedQuery(name = "Mantenimientos.findByEstaMantPrev", query = "SELECT m FROM Mantenimientos m WHERE m.estaMantPrev = :estaMantPrev")})
 public class Mantenimientos implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,13 +57,13 @@ public class Mantenimientos implements Serializable {
     @NotNull
     @Column(name = "esta_mant_prev")
     private boolean estaMantPrev;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiMant", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiMant", fetch = FetchType.LAZY)
     private List<CorrelativoMantenimientos> correlativoMantenimientosList;
     @JoinColumn(name = "codi_depa", referencedColumnName = "codi_depa")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Departamentos codiDepa;
     @JoinColumn(name = "codi_tipo_mant", referencedColumnName = "codi_tipo_mant")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private TipoMantenimientos codiTipoMant;
 
     public Mantenimientos() {

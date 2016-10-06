@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Alexander
+ * @author gersonfrancisco
  */
 @Entity
 @Table(name = "proceso_mantenimientos", catalog = "system_ticket", schema = "")
@@ -40,7 +40,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ProcesoMantenimientos.findByCodiUsua", query = "SELECT p FROM ProcesoMantenimientos p WHERE p.codiUsua = :codiUsua"),
     @NamedQuery(name = "ProcesoMantenimientos.findByEstaProcMant", query = "SELECT p FROM ProcesoMantenimientos p WHERE p.estaProcMant = :estaProcMant")})
 public class ProcesoMantenimientos implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -67,7 +66,7 @@ public class ProcesoMantenimientos implements Serializable {
     @Column(name = "esta_proc_mant")
     private boolean estaProcMant;
     @JoinColumn(name = "codi_corr_mant", referencedColumnName = "codi_corr_mant")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private CorrelativoMantenimientos codiCorrMant;
 
     public ProcesoMantenimientos() {

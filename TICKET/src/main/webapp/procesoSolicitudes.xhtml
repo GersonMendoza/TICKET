@@ -53,9 +53,9 @@ and open the template in the editor.
                                     <h:message for="soli" errorClass="field-error" />
                                 </div>
                                 <h:inputHidden id="esta" value="#{procesoSolicitudesBean.objeProcSoli.estaProcSoli}" />
-                                <h:inputText id="fechSoli" value="#{procesoSolicitudesBean.objeProcSoli.fechProcSoli}">
+                                <h:inputHidden id="fechSoli" value="#{procesoSolicitudesBean.objeProcSoli.fechProcSoli}">
                                     <f:convertDateTime type="date" pattern="dd/MM/yyyy HH:mm:ss"/>
-                                </h:inputText>
+                                </h:inputHidden>
                                 <div class="input-group-btn right" style="padding-top: 5px;">
                                     <div class="btn-group">
                                         <h:commandLink id="btonCanc" class="btn btn-default btn-xs">

@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Alexander
+ * @author gersonfrancisco
  */
 @Entity
 @Table(name = "resolucion_solicitudes", catalog = "system_ticket", schema = "")
@@ -44,7 +44,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ResolucionSolicitudes.findByTipoTrabSoli", query = "SELECT r FROM ResolucionSolicitudes r WHERE r.tipoTrabSoli = :tipoTrabSoli"),
     @NamedQuery(name = "ResolucionSolicitudes.findByEstaResoSoli", query = "SELECT r FROM ResolucionSolicitudes r WHERE r.estaResoSoli = :estaResoSoli")})
 public class ResolucionSolicitudes implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,10 +70,10 @@ public class ResolucionSolicitudes implements Serializable {
     @NotNull
     @Column(name = "esta_reso_soli")
     private int estaResoSoli;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiResoSoli", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiResoSoli", fetch = FetchType.LAZY)
     private List<EvaluacionResoluciones> evaluacionResolucionesList;
     @JoinColumn(name = "codi_soli", referencedColumnName = "codi_soli")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Solicitudes codiSoli;
 
     public ResolucionSolicitudes() {

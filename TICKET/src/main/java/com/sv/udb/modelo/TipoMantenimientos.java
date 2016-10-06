@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Alexander
+ * @author gersonfrancisco
  */
 @Entity
 @Table(name = "tipo_mantenimientos", catalog = "system_ticket", schema = "")
@@ -43,7 +43,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TipoMantenimientos.findByFechBajaTipoMant", query = "SELECT t FROM TipoMantenimientos t WHERE t.fechBajaTipoMant = :fechBajaTipoMant"),
     @NamedQuery(name = "TipoMantenimientos.findByEstaTipoMant", query = "SELECT t FROM TipoMantenimientos t WHERE t.estaTipoMant = :estaTipoMant")})
 public class TipoMantenimientos implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,7 +70,7 @@ public class TipoMantenimientos implements Serializable {
     @NotNull
     @Column(name = "esta_tipo_mant")
     private boolean estaTipoMant;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiTipoMant", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiTipoMant", fetch = FetchType.LAZY)
     private List<Mantenimientos> mantenimientosList;
 
     public TipoMantenimientos() {

@@ -127,11 +127,12 @@ public class DepartamentosBean implements Serializable {
                 ctx.execute("setMessage('MESS_ERRO', 'Atención', 'No ha seleccionado una solicitud')");
             }
             else{
-            this.listDepa.remove(this.objeDepa); //Limpia el objeto viejo
             objeDepa.setFechIngrDepa(fecha);
             this.objeDepa.setEstaDepa(false);
             FCDEDepa.edit(this.objeDepa);
+            this.listDepa.remove(this.objeDepa); //Limpia el objeto viejo
             limpForm();
+            
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
             }
         }

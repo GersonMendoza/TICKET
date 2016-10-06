@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Alexander
+ * @author gersonfrancisco
  */
 @Entity
 @Table(name = "correlativo_mantenimientos", catalog = "system_ticket", schema = "")
@@ -41,7 +41,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "CorrelativoMantenimientos.findByFechCorrMant", query = "SELECT c FROM CorrelativoMantenimientos c WHERE c.fechCorrMant = :fechCorrMant"),
     @NamedQuery(name = "CorrelativoMantenimientos.findByEstaCorrMant", query = "SELECT c FROM CorrelativoMantenimientos c WHERE c.estaCorrMant = :estaCorrMant")})
 public class CorrelativoMantenimientos implements Serializable {
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -58,9 +57,9 @@ public class CorrelativoMantenimientos implements Serializable {
     @Column(name = "esta_corr_mant")
     private boolean estaCorrMant;
     @JoinColumn(name = "codi_mant", referencedColumnName = "codi_mant")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Mantenimientos codiMant;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiCorrMant", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiCorrMant", fetch = FetchType.LAZY)
     private List<ProcesoMantenimientos> procesoMantenimientosList;
 
     public CorrelativoMantenimientos() {
