@@ -10,10 +10,7 @@ import com.sv.udb.modelo.CorrelativoMantenimientos;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import org.primefaces.context.RequestContext;
@@ -23,8 +20,8 @@ import org.primefaces.context.RequestContext;
  * @author joseph
  */
 @Named(value = "correlativoMantenimientosBean")
-@RequestScoped
-public class CorrelativoMantenimientosBean implements Serializable{
+@ViewScoped
+public class CorrelativoMantenimientosBean implements Serializable {
 
     @EJB
     private CorrelativoMantenimientosFacadeLocal FCDECorrMant;
@@ -77,17 +74,6 @@ public class CorrelativoMantenimientosBean implements Serializable{
         
     }
     
-    @PostConstruct
-    public void init() {
-        this.limpForm();
-        this.consTodo();
-    }
-
-    public void limpForm() {
-        this.objeCorrMant = new CorrelativoMantenimientos();
-        this.guardar = true;
-    }
-    
     public void guar()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
@@ -104,23 +90,6 @@ public class CorrelativoMantenimientosBean implements Serializable{
         }
     }
     
-    public void consTodo() {
-        try {
-            this.listCorrMant = FCDECorrMant.findAll();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void cons() {
-        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-        int codi = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiCorrMantPara"));
-        try {
-            this.objeCorrMant = FCDECorrMant.find(codi);
-            this.guardar = false;
-        } catch (Exception ex) {
-            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al consultar')");
-        }
-    }
+    
     
 }

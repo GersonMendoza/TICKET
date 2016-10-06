@@ -10,6 +10,7 @@ th {
 .table {
 	width: 100%;
 	margin-bottom: 0px;
+	border-radius: 2px;
 }
  
 .table:not(.boottable) > thead > tr > th,
@@ -100,13 +101,13 @@ th {
  
 .table-striped > tbody > tr:nth-child(odd) > td,
 .table-striped > tbody > tr:nth-child(odd) > th {
-	background-color: #eaeaea;
-	background-color: #fcf8e3;
+	background-color: #bdbbbb;
+	background-color: #f5f9ff;
 }
  
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
-	background-color: #f5f5f5;
+	background-color: #d7e1ef;
         cursor: pointer;
 }
 
