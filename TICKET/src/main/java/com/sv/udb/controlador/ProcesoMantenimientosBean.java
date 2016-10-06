@@ -78,16 +78,9 @@ public class ProcesoMantenimientosBean implements Serializable{
     public void guar() {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try {
-            Calendar Calendario = new GregorianCalendar().getInstance();
-            Date Fecha = Calendario.getTime();
-            SimpleDateFormat formatoDeFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            String FechaAlta = formatoDeFecha.format(Fecha);
-            try {
-                objeProcMant.setFechProcMant(formatoDeFecha.parse(FechaAlta));
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-            }
+            objeProcMant.setFechProcMant(new Date());
             objeProcMant.setEstaProcMant(true);
+            objeProcMant.setCodiUsua(1);
             FCDEprocesoMantenimientos.create(this.objeProcMant);
             this.listProcMant.add(this.objeProcMant);
             this.limpForm();

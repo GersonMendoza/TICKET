@@ -5,9 +5,12 @@
  */
 package com.sv.udb.controlador;
 
+import com.sv.udb.ejb.CorrelativoMantenimientosFacadeLocal;
 import com.sv.udb.ejb.MantenimientosFacadeLocal;
+import com.sv.udb.modelo.CorrelativoMantenimientos;
 import com.sv.udb.modelo.Mantenimientos;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -23,7 +26,8 @@ import org.primefaces.context.RequestContext;
 @Named(value = "mantenimientosBean")
 @RequestScoped
 public class MantenimientosBean implements Serializable {
-
+    @EJB
+    private CorrelativoMantenimientosFacadeLocal FCDECorrMant;
     @EJB
     private MantenimientosFacadeLocal FCDEMant;
     private Mantenimientos objeMant;
@@ -85,6 +89,11 @@ public class MantenimientosBean implements Serializable {
             objeMant.setEstaMantPrev(true);
             FCDEMant.create(this.objeMant);
             this.listMant.add(this.objeMant);
+            CorrelativoMantenimientos obje = new CorrelativoMantenimientos();
+            obje.setCodiMant(objeMant);
+            obje.setEstaCorrMant(true);
+            obje.setFechCorrMant(new Date());
+            this.FCDECorrMant.create(obje);
             this.limpForm();
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
         } catch (Exception ex) {

@@ -17,7 +17,8 @@ and open the template in the editor.
         <ui:param name="pageTitl" value="Departamentos"/>
         <ui:param name="pageNomb" value="Departamentos"/>
         <!-- Activar el link del menú -->
-        <ui:param name="actiIndex" value="active"/>
+        <ui:param name="actiMenuTicket" value="active"/>
+        <ui:param name="actiDepartamentos" value="active"/>
         <!-- Scripts personalizados -->
         <ui:define name="CustomScripts">
             <h:outputScript library="js" name="custom/depa.js"/>
@@ -43,12 +44,7 @@ and open the template in the editor.
                                     <h:outputLabel  for="nomb" value="Nombre: "/>
                                     <h:inputText id="nomb" value="#{departamentosBean.objeDepa.nombDepa}" class="form-control" />
                                     <h:message for="nomb" errorClass="field-error" />
-
                                 </div>
-                                
-
-              
-                              
                                 <div class="input-group-btn right" style="padding-top: 5px;">
                                     <div class="btn-group">
                                         <h:commandLink id="btonCanc" class="btn btn-default btn-xs">

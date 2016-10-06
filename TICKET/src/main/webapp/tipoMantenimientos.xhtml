@@ -13,10 +13,11 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui">
     <ui:composition template="WEB-INF/resources/fragmentos/comun.xhtml">
         <!-- Título de la página -->
-        <ui:param name="pageTitl" value="Creación de Resosuciones de Solicitudes"/>
-        <ui:param name="pageNomb" value="Resolución Solicitudes"/>
+        <ui:param name="pageTitl" value="Tipo de mantenimientos"/>
+        <ui:param name="pageNomb" value="Tipo de mantenimientos"/>
         <!-- Activar el link del menú -->
-        <ui:param name="actiIndex" value="active"/>
+        <ui:param name="actiMenuTicket" value="active"/>
+        <ui:param name="actitipomantenimiento" value="active"/>
         <!-- Scripts personalizados -->
         <ui:define name="CustomScripts">
             <h:outputScript library="js" name="custom/tipomant.js"/>
@@ -47,20 +48,6 @@ and open the template in the editor.
                                     <h:inputText id="des" value="#{tipoMantenimientosBean.objeTipoMant.descTipoMant}" class="form-control" />
                                     <h:message for="des" errorClass="field-error" />
                                 </div>
-                                <div class="input-group input-group-xs">
-                                    <h:outputLabel  for="estasoli" value="Estado "/>
-                                    <h:selectOneMenu id="estasoli" value="#{tipoMantenimientosBean.objeTipoMant.estaTipoMant}" class="form-control">
-                                        <f:selectItem itemLabel="Activo" itemValue="true"/>
-                                        <f:selectItem itemLabel="Baja" itemValue="false"/>
-                                    </h:selectOneMenu>
-                                    <h:message for="estasoli" errorClass="field-error" />
-                                </div>
-                                <h:inputHidden id="ff"  value="#{tipoMantenimientosBean.objeTipoMant.fechBajaTipoMant}" >
-                                <f:convertDateTime type="date" pattern="dd/MM/yyyy HH:mm:ss"/>
-                                </h:inputHidden>
-                                <h:inputHidden id="fi"  value="#{tipoMantenimientosBean.objeTipoMant.fechIngrTipoMant}" >
-                                <f:convertDateTime type="date" pattern="dd/MM/yyyy HH:mm:ss"/>
-                                </h:inputHidden>
 
                                 <div class="input-group-btn right" style="padding-top: 5px;">
                                     <div class="btn-group">
@@ -75,6 +62,10 @@ and open the template in the editor.
                                         <h:commandLink id="btonModi" class="btn btn-primary btn-xs" style="display: #{tipoMantenimientosBean.estado}">
                                             <p:ajax listener="#{tipoMantenimientosBean.modi()}" process="@form" update="@form :ContTipoMant" oncomplete="INIT_OBJE_TIPOMANT();" />
                                             <i class="fa fa-edit"/> Modificar
+                                        </h:commandLink>
+                                        <h:commandLink id="btonElim" class="btn btn-primary btn-xs" style="display: #{tipoMantenimientosBean.estado}">
+                                            <p:ajax listener="#{tipoMantenimientosBean.elim()}" process="@form" update="@form :ContTipoMant" oncomplete="INIT_OBJE_TIPOMANT();" />
+                                            <i class="fa fa-edit"/> Eliminar
                                         </h:commandLink>
                                     </div>
                                 </div>
@@ -107,25 +98,6 @@ and open the template in the editor.
                                     <h:column pt:data-sortable="true" pt:data-field="desc">
                                         <f:facet name="header">Descripción</f:facet>
                                         <h:outputText value="#{fila.descTipoMant}"/>   
-                                    </h:column>
-                                    <h:column pt:data-sortable="true" pt:data-field="fech">
-                                        <f:facet name="header">Fecha Ingreso</f:facet>
-                                        <h:outputText value="#{fila.fechIngrTipoMant}">
-                                            <f:convertDateTime type="date" pattern="dd/MM/yyyy HH:mm:ss"/>
-                                        </h:outputText>   
-                                    </h:column>
-                                    <h:column pt:data-sortable="true" pt:data-field="fechb">
-                                        <f:facet name="header">Fecha Baja</f:facet>
-                                        <h:outputText value="#{fila.fechBajaTipoMant}">
-                                            <f:convertDateTime type="date" pattern="dd/MM/yyyy HH:mm:ss"/>
-                                        </h:outputText>   
-                                    </h:column>
-                                    <h:column pt:data-sortable="true" pt:data-field="est">
-                                        <f:facet name="header">Estado</f:facet>
-                                        <h:panelGroup class="label label-primary" rendered="#{fila.estaTipoMant eq true}">
-                                            <i/>Activo</h:panelGroup>
-                                        <h:panelGroup class="label label-warning" rendered="#{fila.estaTipoMant ne true}">
-                                            <i/>Baja</h:panelGroup>
                                     </h:column>
                                 </h:dataTable>
                             </h:panelGroup>

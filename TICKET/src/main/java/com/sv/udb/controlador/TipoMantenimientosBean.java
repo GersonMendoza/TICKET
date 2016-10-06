@@ -80,16 +80,8 @@ public class TipoMantenimientosBean implements Serializable {
     public void guar() {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try {
-            Calendar Calendario = new GregorianCalendar().getInstance();
-            Date Fecha = Calendario.getTime();
-            SimpleDateFormat formatoDeFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            String FechaAlta = formatoDeFecha.format(Fecha);
-            try {
-                objeTipoMant.setFechIngrTipoMant(formatoDeFecha.parse(FechaAlta));
-                objeTipoMant.setFechBajaTipoMant(null);
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-            }
+            objeTipoMant.setFechIngrTipoMant(new Date());
+            objeTipoMant.setEstaTipoMant(true);
             FCDETipoMant.create(this.objeTipoMant);
             this.listTipoMant.add(this.objeTipoMant);
             this.limpForm();
@@ -102,17 +94,10 @@ public class TipoMantenimientosBean implements Serializable {
     public void modi() {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try {
-            Calendar Calendario = new GregorianCalendar().getInstance();
-            Date Fecha = Calendario.getTime();
-            SimpleDateFormat formatoDeFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            String FechaAlta = formatoDeFecha.format(Fecha);
-            try {
-                objeTipoMant.setFechBajaTipoMant(formatoDeFecha.parse(FechaAlta));
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-            }
-            FCDETipoMant.create(this.objeTipoMant);
-            this.listTipoMant.add(this.objeTipoMant);
+            objeTipoMant.setFechIngrTipoMant(new Date());
+            objeTipoMant.setEstaTipoMant(true);
+            FCDETipoMant.edit(this.objeTipoMant);
+            this.consTodo();
             this.limpForm();
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
         } catch (Exception ex) {
@@ -139,16 +124,6 @@ public class TipoMantenimientosBean implements Serializable {
     public void limpForm() {
         this.objeTipoMant = new TipoMantenimientos();
         this.guardar = true;
-        Calendar Calendario = new GregorianCalendar().getInstance();
-            Date Fecha = Calendario.getTime();
-            SimpleDateFormat formatoDeFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            String FechaAlta = formatoDeFecha.format(Fecha);
-            try {
-                objeTipoMant.setFechIngrTipoMant(formatoDeFecha.parse(FechaAlta));
-                objeTipoMant.setFechBajaTipoMant(formatoDeFecha.parse(FechaAlta));
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-            }
     }
     
     public void consTodo() {

@@ -10,6 +10,7 @@ import com.sv.udb.modelo.CorrelativoMantenimientos;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -73,6 +74,19 @@ public class CorrelativoMantenimientosBean implements Serializable {
 
     public CorrelativoMantenimientosBean() {
         
+    }
+    
+    @PostConstruct
+    public void init() {
+        this.consTodo();
+    }
+    
+    public void consTodo() {
+        try {
+            this.listCorrMant = FCDECorrMant.findAll();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
     
     public void guar()

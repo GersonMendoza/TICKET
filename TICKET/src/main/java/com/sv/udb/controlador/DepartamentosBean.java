@@ -75,10 +75,8 @@ public class DepartamentosBean implements Serializable {
         this.objeDepa = new Departamentos();
         this.guardar = true;
     }
-    
-    
-    public void guar()
-    {
+
+    public void guar() {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try {
             objeDepa.setFechIngrDepa(new Date());
@@ -87,64 +85,45 @@ public class DepartamentosBean implements Serializable {
             this.listDepa.add(this.objeDepa);
             this.limpForm();
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al guardar ')");
         }
     }
-    
-        public void modi()
-    {
+
+    public void modi() {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-       
-        try
-        {
-          if(this.objeDepa.getCodiDepa()== null){
-              ctx.execute("setMessage('MESS_ERRO', 'Atención', 'No ha seleccionado una solicitud')");
-          }else{
-            objeDepa.setFechIngrDepa(fecha);
-            this.objeDepa.setEstaDepa(true);
-            FCDEDepa.edit(this.objeDepa);
-            limpForm();
-            consTodo();
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
-          }
-        }
-        catch(Exception ex)
-        {
-            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
-        }
-        
-    }
-        
-        public void elim()
-    {
-        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-        try
-        {
+        try {
             if (this.objeDepa.getCodiDepa() == null) {
                 ctx.execute("setMessage('MESS_ERRO', 'Atención', 'No ha seleccionado una solicitud')");
+            } else {
+                objeDepa.setFechIngrDepa(fecha);
+                this.objeDepa.setEstaDepa(true);
+                FCDEDepa.edit(this.objeDepa);
+                limpForm();
+                consTodo();
+                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
             }
-            else{
-            objeDepa.setFechIngrDepa(fecha);
-            this.objeDepa.setEstaDepa(false);
-            FCDEDepa.edit(this.objeDepa);
-            this.listDepa.remove(this.objeDepa); //Limpia el objeto viejo
-            limpForm();
-            
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
-            }
-        }
-        catch(Exception ex)
-        {
-            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
-        }
-        finally
-        {
-            
+        } catch (Exception ex) {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
         }
     }
+    
+    public void elim() {
+        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        try {
+            if (this.objeDepa.getCodiDepa() == null) {
+                ctx.execute("setMessage('MESS_ERRO', 'Atención', 'No ha seleccionado una solicitud')");
+            } else {
+                FCDEDepa.remove(this.objeDepa);
+                this.listDepa.remove(this.objeDepa); //Limpia el objeto viejo
+                limpForm();
+                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
+            }
+        } catch (Exception ex) {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
+        }
+    }
+
     public void consTodo() {
         try {
             this.listDepa = FCDEDepa.findAll();
@@ -152,22 +131,17 @@ public class DepartamentosBean implements Serializable {
             ex.printStackTrace();
         }
     }
-    
-    
-    public void cons()
-    {
+
+    public void cons() {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         int codi = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiDepaPara"));
-        try
-        {
+        try {
             this.objeDepa = FCDEDepa.find(codi);
             this.guardar = false;
             fecha = objeDepa.getFechIngrDepa();
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + 
-                    String.format("%s", this.objeDepa.getNombDepa()) + "')");
-        }
-        catch(Exception ex)
-        {
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a "
+                    + String.format("%s", this.objeDepa.getNombDepa()) + "')");
+        } catch (Exception ex) {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al consultar')");
         }
     }

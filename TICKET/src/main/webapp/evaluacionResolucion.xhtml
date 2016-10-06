@@ -13,10 +13,11 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui">
     <ui:composition template="WEB-INF/resources/fragmentos/comun.xhtml">
         <!-- Título de la página -->
-        <ui:param name="pageTitl" value="Creación de Evaluación de Resoluciones"/>
+        <ui:param name="pageTitl" value="Evaluación de Resoluciones"/>
         <ui:param name="pageNomb" value="Evaluación Resolución"/>
         <!-- Activar el link del menú -->
-        <ui:param name="actiIndex" value="active"/>
+        <ui:param name="actiMenuTicket" value="active"/>
+        <ui:param name="actiEvaluacionResolucion" value="active"/>
         <!-- Scripts personalizados -->
         <ui:define name="CustomScripts">
             <h:outputScript library="js" name="custom/evareso.js"/>
