@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" 
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" 
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="WEB-INF/resources/fragmentos/comun.xhtml">
+        <!-- Título de la página -->
+        <ui:param name="pageTitl" value="Creación de Resosuciones de Solicitudes"/>
+        <ui:param name="pageNomb" value="Resolución Solicitudes"/>
+        <!-- Activar el link del menú -->
+        <ui:param name="actiIndex" value="active"/>
+        <!-- Scripts personalizados -->
+        <ui:define name="CustomScripts">
+            <h:outputScript library="js" name="custom/tipomant.js"/>
+        </ui:define>
+        <!-- Elementos propios del boby -->
+        <ui:define name="body">            
+            <div>
+                <div class="col-md-4 col-xs-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Formulario</div>
+                        <div class="panel-body">
+                            <h:form>
+                                <!--Form exclusivo para los remotos-->
+                                <p:remoteCommand name="consTipoMant" actionListener="#{tipoMantenimientosBean.cons()}" update=":FormTipoMant" 
+                                                 oncomplete="INIT_OBJE_TIPOMANT();" global="true"/>
+                                <p:remoteCommand name="elimTipoMant" actionListener="#{tipoMantenimientosBean.elim()}" update=":FormTipoMant :ContTipoMant" 
+                                                 oncomplete="INIT_OBJE_TIPOMANT();"  global="true"/>
+                            </h:form>
+                            <h:form id="FormTipoMant">
+                                <h:inputHidden id="codi" value="#{tipoMantenimientosBean.objeTipoMant.codiTipoMant}" />
+                                <div class="input-group input-group-xs">
+                                    <h:outputLabel  for="nomb" value="Nombre del tipo mantenimiento: "/>
+                                    <h:inputText id="nomb" value="#{tipoMantenimientosBean.objeTipoMant.nombTipoMant}" class="form-control" />
+                                    <h:message for="nomb" errorClass="field-error" />
+                                </div>
+                                <div class="input-group input-group-xs">
+                                    <h:outputLabel  for="des" value="Descripción del tipo mantenimiento: "/>
+                                    <h:inputText id="des" value="#{tipoMantenimientosBean.objeTipoMant.descTipoMant}" class="form-control" />
+                                    <h:message for="des" errorClass="field-error" />
+                                </div>
+                                <div class="input-group input-group-xs">
+                                    <h:outputLabel  for="estasoli" value="Estado "/>
+                                    <h:selectOneMenu id="estasoli" value="#{resolucionSolicitudesBean.objeResoSoli.estaResoSoli}" class="form-control">
+                                        <f:selectItem itemLabel="Activo" itemValue="1"/>
+                                        <f:selectItem itemLabel="Baja" itemValue="0"/>
+                                    </h:selectOneMenu>
+                                    <h:message for="estasoli" errorClass="field-error" />
+                                </div>
+
+                                <div class="input-group-btn right" style="padding-top: 5px;">
+                                    <div class="btn-group">
+                                        <h:commandLink id="btonCanc" class="btn btn-default btn-xs">
+                                            <p:ajax listener="#{tipoMantenimientosBean.limpForm()}" update="@form" global="true"/>
+                                            <i class="fa fa-mail-forward"/> Cancelar
+                                        </h:commandLink>
+                                        <h:commandLink id="btonGuar" class="btn btn-success btn-xs" rendered="#{tipoMantenimientosBean.guardar}">
+                                            <p:ajax listener="#{tipoMantenimientosBean.guar()}" process="@form" update="@form :ContTipoMant" oncomplete="INIT_OBJE_TIPOMANT();" />
+                                            <i class="fa fa-plus"/> Guardar
+                                        </h:commandLink>
+                                        <h:commandLink id="btonModi" class="btn btn-primary btn-xs" style="display: #{tipoMantenimientosBean.estado}">
+                                            <p:ajax listener="#{tipoMantenimientosBean.modi()}" process="@form" update="@form :ContTipoMant" oncomplete="INIT_OBJE_TIPOMANT();" />
+                                            <i class="fa fa-edit"/> Modificar
+                                        </h:commandLink>
+                                        <h:outputLink id="btonElim" class="btn btn-danger btn-xs" style="display: #{tipoMantenimientosBean.estado}" onclick="return confirm('¿Desea borrar el registro?')">
+                                            <p:ajax listener="#{tipoMantenimientosBean.elim()}" process="@form" update="@form :ContTipoMant" oncomplete="INIT_OBJE_TIPOMANT();" />
+                                            <i class="fa fa-times"/> Eliminar
+                                        </h:outputLink>
+                                        <h:inputHidden id="esta" value="#{tipoMantenimientosBean.objeTipoMant.estaTipoMant}"/>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-xs-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Tabla de Datos</div>
+                        <div class="panel-body">
+                            <h:panelGroup id="ContTipoMant">
+                                <h:dataTable pt:data-id="TablTipoMant" id="TablTipoMant" value="#{tipoMantenimientosBean.listTipoMant}"
+                                             var="fila" class="boottable" pt:data-toolbar="#toolbar"
+                                             styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
+                                             pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
+                                             pt:data-search="true" pt:data-pagination="true" pt:data-page-list="[5, 10, 20, 50]"
+                                             pt:data-click-to-select="true"  pt:data-select-item-name="radio"
+                                             pt:data-single-select="true">                                
+                                    <h:column pt:data-field="state" pt:data-checkbox="true">
+                                    </h:column>
+                                    <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id">
+                                        <f:facet name="header">Código</f:facet>
+                                        <h:outputText value="#{fila.codiTipoMant}"/>
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="nomb">
+                                        <f:facet name="header">Nombre</f:facet>
+                                        <h:outputText value="#{fila.nombTipoMant}"/>   
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="desc">
+                                        <f:facet name="header">Descripción</f:facet>
+                                        <h:outputText value="#{fila.descTipoMant}"/>   
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="fech">
+                                        <f:facet name="header">Fecha Ingreso</f:facet>
+                                        <h:outputText value="#{fila.fechIngrTipoMant}">
+                                            <f:convertDateTime type="date" pattern="dd/MM/yyyy HH:mm:ss"/>
+                                        </h:outputText>   
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="fechb">
+                                        <f:facet name="header">Fecha Baja</f:facet>
+                                        <h:outputText value="#{fila.fechBajaTipoMant}">
+                                            <f:convertDateTime type="date" pattern="dd/MM/yyyy HH:mm:ss"/>
+                                        </h:outputText>   
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="est">
+                                        <f:facet name="header">Estado</f:facet>
+                                        <h:panelGroup class="label label-primary" rendered="#{fila.estaTipoMant eq '0'}">
+                                            <i/>Activo</h:panelGroup>
+                                        <h:panelGroup class="label label-warning" rendered="#{fila.estaTipoMant ne '1'}">
+                                            <i/>Baja</h:panelGroup>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGroup>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

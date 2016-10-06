@@ -8,11 +8,18 @@ package com.sv.udb.controlador;
 import com.sv.udb.ejb.TipoMantenimientosFacadeLocal;
 import com.sv.udb.modelo.TipoMantenimientos;
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -27,6 +34,7 @@ public class TipoMantenimientosBean implements Serializable {
     private TipoMantenimientos objeTipoMant;
     private List<TipoMantenimientos> listTipoMant;
     private boolean guardar;
+    private String estado = "none";
 
     public TipoMantenimientos getObjeTipoMant() {
         return objeTipoMant;
@@ -51,6 +59,11 @@ public class TipoMantenimientosBean implements Serializable {
     public void setGuardar(boolean guardar) {
         this.guardar = guardar;
     }
+
+    public String getEstado() {
+        return estado;
+    }
+    
     
     /**
      * Creates a new instance of TipoMantenimientosBean
@@ -63,6 +76,57 @@ public class TipoMantenimientosBean implements Serializable {
         this.limpForm();
         this.consTodo();
     }
+    
+    public void guar() {
+        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        try {
+            Calendar Calendario = new GregorianCalendar().getInstance();
+            Date Fecha = Calendario.getTime();
+            SimpleDateFormat formatoDeFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            String FechaAlta = formatoDeFecha.format(Fecha);
+            try {
+                objeTipoMant.setFechIngrTipoMant(formatoDeFecha.parse(FechaAlta));
+            } catch (ParseException ex) {
+                ex.printStackTrace();
+            }
+            FCDETipoMant.create(this.objeTipoMant);
+            this.listTipoMant.add(this.objeTipoMant);
+            this.limpForm();
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
+        } catch (Exception ex) {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al guardar ')");
+        }
+    }
+    
+    public void modi() {
+        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        try {
+            this.listTipoMant.remove(this.objeTipoMant); //Limpia el objeto viejo
+
+            FCDETipoMant.edit(this.objeTipoMant);
+            this.listTipoMant.add(this.objeTipoMant); //Agrega el objeto modificado
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
+            this.limpForm();
+        } catch (Exception ex) {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
+        }
+    }
+    
+    public void elim() {
+        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        try {
+            if (this.objeTipoMant.getCodiTipoMant() == null) {
+                ctx.execute("setMessage('MESS_ERRO', 'Atención', 'No ha seleccionado una solicitud')");
+            } else {
+                FCDETipoMant.remove(this.objeTipoMant);
+                this.listTipoMant.remove(this.objeTipoMant);
+                this.limpForm();
+                ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
+            }
+        } catch (Exception ex) {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
+        }
+    }
 
     public void limpForm() {
         this.objeTipoMant = new TipoMantenimientos();
@@ -74,6 +138,18 @@ public class TipoMantenimientosBean implements Serializable {
             this.listTipoMant = FCDETipoMant.findAll();
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+    
+    public void cons() {
+        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        int codi = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiTipoMantPara"));
+        try {
+            this.objeTipoMant = FCDETipoMant.find(codi);
+            this.guardar = false;
+            this.estado = "block";
+        } catch (Exception ex) {
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al consultar')");
         }
     }
 }
