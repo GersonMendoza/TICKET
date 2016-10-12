@@ -5,6 +5,18 @@
     border-radius: 1px;
 }
 
+.table-hover>tbody>tr>td.active, 
+.table-hover>tbody>tr>th.active, 
+.table-hover>tbody>tr.active>td, 
+.table-hover>tbody>tr.active>th,
+.table-hover>tbody>tr>td.active:hover, 
+.table-hover>tbody>tr>th.active:hover, 
+.table-hover>tbody>tr.active:hover>td, 
+.table-hover>tbody>tr.active:hover>th {
+    background-color: #28A69A !important;
+}
+
+
 .fixed-table-container {
     position: relative;
     clear: both;
@@ -69,7 +81,6 @@
 .fixed-table-container tbody td:first-child {
     border-left: none;
 }
-
 /* the same color with .active */
 .fixed-table-container tbody .selected td {
     background-color: #f5f5f5;

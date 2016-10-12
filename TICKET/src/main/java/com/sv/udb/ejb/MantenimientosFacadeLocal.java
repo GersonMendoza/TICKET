@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Alexander
+ * @author gersonfrancisco
  */
 @Local
 public interface MantenimientosFacadeLocal {

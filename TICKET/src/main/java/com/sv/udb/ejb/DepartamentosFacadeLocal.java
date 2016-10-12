@@ -11,7 +11,7 @@ import javax.ejb.Local;
 
 /**
  *
- * @author Alexander
+ * @author gersonfrancisco
  */
 @Local
 public interface DepartamentosFacadeLocal {
@@ -25,6 +25,8 @@ public interface DepartamentosFacadeLocal {
     Departamentos find(Object id);
 
     List<Departamentos> findAll();
+    
+    List<Departamentos> findTodo();
 
     List<Departamentos> findRange(int[] range);
 

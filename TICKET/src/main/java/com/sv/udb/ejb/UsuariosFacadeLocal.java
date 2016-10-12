@@ -5,7 +5,7 @@
  */
 package com.sv.udb.ejb;
 
-import com.sv.udb.modelo.Solicitudes;
+import com.sv.udb.modelo.Usuarios;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -14,19 +14,21 @@ import javax.ejb.Local;
  * @author gersonfrancisco
  */
 @Local
-public interface SolicitudesFacadeLocal {
+public interface UsuariosFacadeLocal {
 
-    void create(Solicitudes solicitudes);
+    void create(Usuarios usuarios);
 
-    void edit(Solicitudes solicitudes);
+    void edit(Usuarios usuarios);
 
-    void remove(Solicitudes solicitudes);
+    void remove(Usuarios usuarios);
 
-    Solicitudes find(Object id);
+    Usuarios find(Object id);
+    
+    Usuarios findByAcceAndCont(Object acce, Object cont);
 
-    List<Solicitudes> findAll();
+    List<Usuarios> findAll();
 
-    List<Solicitudes> findRange(int[] range);
+    List<Usuarios> findRange(int[] range);
 
     int count();
     

@@ -5,7 +5,7 @@
  */
 package com.sv.udb.ejb;
 
-import com.sv.udb.modelo.Departamentos;
+import com.sv.udb.modelo.Usuarios;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -17,7 +17,7 @@ import javax.persistence.Query;
  * @author gersonfrancisco
  */
 @Stateless
-public class DepartamentosFacade extends AbstractFacade<Departamentos> implements DepartamentosFacadeLocal {
+public class UsuariosFacade extends AbstractFacade<Usuarios> implements UsuariosFacadeLocal {
     @PersistenceContext(unitName = "PILETPU")
     private EntityManager em;
 
@@ -26,15 +26,17 @@ public class DepartamentosFacade extends AbstractFacade<Departamentos> implement
         return em;
     }
 
-    public DepartamentosFacade() {
-        super(Departamentos.class);
+    public UsuariosFacade() {
+        super(Usuarios.class);
     }
     
     @Override
-    public List<Departamentos> findTodo() {
-        Query q = getEntityManager().createQuery("SELECT u FROM Departamentos u WHERE u.estaDepa ="+true, Departamentos.class);
+    public Usuarios findByAcceAndCont(Object acce, Object cont) {
+        Query q = getEntityManager().createQuery("SELECT u FROM Usuarios u WHERE u.acceUsua = :acceUsua AND u.contUsua = :contUsua AND u.estaUsua = :estaUsua", Usuarios.class);        
+        q.setParameter("acceUsua", acce);
+        q.setParameter("contUsua", cont);
+        q.setParameter("estaUsua", 1);
         List resu = q.getResultList();
-        return resu;
+        return resu.isEmpty() ? null : (Usuarios)resu.get(0);
     }
-    
 }

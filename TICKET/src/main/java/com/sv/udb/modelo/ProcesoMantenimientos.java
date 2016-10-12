@@ -22,7 +22,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -46,27 +45,19 @@ public class ProcesoMantenimientos implements Serializable {
     @Basic(optional = false)
     @Column(name = "codi_proc_mant")
     private Integer codiProcMant;
-    @Basic(optional = false)
-    @NotNull
     @Lob
-    @Size(min = 1, max = 65535)
+    @Size(max = 65535)
     @Column(name = "desc_proc_mant")
     private String descProcMant;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "fech_proc_mant")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechProcMant;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "codi_usua")
-    private int codiUsua;
-    @Basic(optional = false)
-    @NotNull
+    private Integer codiUsua;
     @Column(name = "esta_proc_mant")
-    private boolean estaProcMant;
+    private Boolean estaProcMant;
     @JoinColumn(name = "codi_corr_mant", referencedColumnName = "codi_corr_mant")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private CorrelativoMantenimientos codiCorrMant;
 
     public ProcesoMantenimientos() {
@@ -74,14 +65,6 @@ public class ProcesoMantenimientos implements Serializable {
 
     public ProcesoMantenimientos(Integer codiProcMant) {
         this.codiProcMant = codiProcMant;
-    }
-
-    public ProcesoMantenimientos(Integer codiProcMant, String descProcMant, Date fechProcMant, int codiUsua, boolean estaProcMant) {
-        this.codiProcMant = codiProcMant;
-        this.descProcMant = descProcMant;
-        this.fechProcMant = fechProcMant;
-        this.codiUsua = codiUsua;
-        this.estaProcMant = estaProcMant;
     }
 
     public Integer getCodiProcMant() {
@@ -108,19 +91,19 @@ public class ProcesoMantenimientos implements Serializable {
         this.fechProcMant = fechProcMant;
     }
 
-    public int getCodiUsua() {
+    public Integer getCodiUsua() {
         return codiUsua;
     }
 
-    public void setCodiUsua(int codiUsua) {
+    public void setCodiUsua(Integer codiUsua) {
         this.codiUsua = codiUsua;
     }
 
-    public boolean getEstaProcMant() {
+    public Boolean getEstaProcMant() {
         return estaProcMant;
     }
 
-    public void setEstaProcMant(boolean estaProcMant) {
+    public void setEstaProcMant(Boolean estaProcMant) {
         this.estaProcMant = estaProcMant;
     }
 

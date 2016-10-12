@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -59,7 +58,7 @@ public class CorrelativoMantenimientos implements Serializable {
     @JoinColumn(name = "codi_mant", referencedColumnName = "codi_mant")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Mantenimientos codiMant;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiCorrMant", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "codiCorrMant", fetch = FetchType.LAZY)
     private List<ProcesoMantenimientos> procesoMantenimientosList;
 
     public CorrelativoMantenimientos() {

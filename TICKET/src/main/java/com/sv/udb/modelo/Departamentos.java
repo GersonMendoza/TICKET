@@ -35,9 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "departamentos", catalog = "system_ticket", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Departamentos.findAll", query = "SELECT d FROM Departamentos d WHERE d.nombDepa='Nuevo'"),
-    @NamedQuery(name = "Departamentos.findByCodiDepa", query = "SELECT d FROM Departamentos d WHERE d.codiDepa = :codiDepa and d.estaDepa="+true),
-    @NamedQuery(name = "Departamentos.findByNombDepa", query = "SELECT d FROM Departamentos d WHERE d.nombDepa = :nombDepa and d.estaDepa="+true),
+    @NamedQuery(name = "Departamentos.findAll", query = "SELECT d FROM Departamentos d"),
+    @NamedQuery(name = "Departamentos.findByCodiDepa", query = "SELECT d FROM Departamentos d WHERE d.codiDepa = :codiDepa"),
+    @NamedQuery(name = "Departamentos.findByNombDepa", query = "SELECT d FROM Departamentos d WHERE d.nombDepa = :nombDepa"),
     @NamedQuery(name = "Departamentos.findByFechIngrDepa", query = "SELECT d FROM Departamentos d WHERE d.fechIngrDepa = :fechIngrDepa"),
     @NamedQuery(name = "Departamentos.findByFechBajaDepa", query = "SELECT d FROM Departamentos d WHERE d.fechBajaDepa = :fechBajaDepa"),
     @NamedQuery(name = "Departamentos.findByEstaDepa", query = "SELECT d FROM Departamentos d WHERE d.estaDepa = :estaDepa")})

@@ -88,22 +88,3 @@
     display: inline-block;
     overflow: hidden;
 }
-.select{
-    width: 100%;
-}
-.field-error{
-    color: #a94442; 
-    display: inline;
-    font-size: 10px;
-}
-.field-error:first-letter{
-    text-transform: capitalize;
-    color: #003399;
-}
-.form-group{
-    margin-bottom: 5px !important;
-}
-.bootstrap-select > .btn {
-    padding-top: 2px;
-    padding-bottom: 2px;
-}

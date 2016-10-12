@@ -9,22 +9,23 @@ and open the template in the editor.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <ui:composition>
-            <div class="content-wrapper">
-                <!-- Content Header (Page header) -->
-                <section class="content-header">
-                    <h1>
-                        #{pageNomb}
-                        <small>#{pageDesc}</small>
-                    </h1>
-                </section>
+        <div class="row content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1>
+                    #{pageNomb}
+                    <small>#{pageDesc}</small>
+                </h1>
+            </section>
 
-                <!-- Main content -->
-                <section class="content">
-                    <ui:insert name="body">
-                        Contenido
-                    </ui:insert>
-                </section>
-                <!-- /.content -->
-            </div>
+            <!-- Main content -->
+            <section class="content">
+                <ui:insert name="body">
+                    Contenido
+                </ui:insert>
+            </section>
+            <!-- /.content -->
+        </div>
+        <div class='clearfix'></div>
     </ui:composition>
 </html>
