@@ -7,6 +7,7 @@ package com.sv.udb.controlador;
 
 import com.sv.udb.ejb.UsuariosFacadeLocal;
 import com.sv.udb.modelo.Usuarios;
+import com.sv.udb.utils.Logs;
 import com.sv.udb.utils.Notificacion;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
@@ -17,6 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -42,6 +44,9 @@ public class LoginBean implements Serializable {
     private String imagPerf;
     private List<Notificacion> listNoti; //Lista de Notificaciones
     public static int codiUsua;
+    private Logs<LoginBean> lgs = new Logs<LoginBean>(LoginBean.class) {
+    };
+    private Logger log = lgs.getLog();
 
     /**
      * Creates a new instance of LoginBean
@@ -52,7 +57,6 @@ public class LoginBean implements Serializable {
     @PostConstruct
     public void init()
     {
-        
     }
 
     public Usuarios getObjeUsua() {
@@ -93,6 +97,7 @@ public class LoginBean implements Serializable {
     
     public void creaSess()
     {
+        log.debug("Se intenta crear inicializar una nueva sessión");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         FacesContext facsCtxt = FacesContext.getCurrentInstance();
         try
@@ -116,16 +121,19 @@ public class LoginBean implements Serializable {
                 this.listNoti.add(new Notificacion("Notificación 6", false));
                 this.listNoti.add(new Notificacion("Notificación 7", false));
                 this.listNoti.add(new Notificacion("Notificación 8", false));
+                log.info("una sesión fue correctamente inicializada");
                 //Redireccionar
                 facsCtxt.getExternalContext().redirect(globalAppBean.getUrl("index.xhtml"));
             }
             else
             {
+                log.warn("Se intento iniciar sesión con credenciales incorrectas");
                 ctx.execute("setMessage('MESS_WARN', 'Atención', 'Ingreso incorrecto')");
             }
         }
         catch(Exception ex)
         {
+            log.error("Ocurrio un error cuando se intento crear una sesión");
             ex.printStackTrace();
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al logear')");
         }
@@ -137,15 +145,18 @@ public class LoginBean implements Serializable {
     
     public void cerrSess()
     {
+        log.debug("se intenta cerrar una sesión");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         FacesContext facsCtxt = FacesContext.getCurrentInstance();
         try
         {
             facsCtxt.getExternalContext().invalidateSession();
             facsCtxt.getExternalContext().redirect(globalAppBean.getUrl("login.xhtml")); 
+            log.info("Una sesión fue correctamente cerrada");
         }
         catch(Exception ex)
         {
+            log.error("Ocurrio un error al momento de cerrar la sesión");
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al finalizar la sesión')");
         }
         finally

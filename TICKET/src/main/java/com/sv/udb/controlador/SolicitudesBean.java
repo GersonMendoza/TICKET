@@ -7,6 +7,7 @@ package com.sv.udb.controlador;
 
 import com.sv.udb.ejb.SolicitudesFacadeLocal;
 import com.sv.udb.modelo.Solicitudes;
+import com.sv.udb.utils.Logs;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -32,6 +34,9 @@ public class SolicitudesBean implements Serializable{
     private List<Solicitudes> listSoliTecn;
     static int codiSoli;
     private boolean guardar;
+    private Logs<SolicitudesBean> lgs = new Logs<SolicitudesBean>(SolicitudesBean.class) {
+    };
+    private Logger log = lgs.getLog();
 
     public Solicitudes getObjeSoli() {
         return objeSoli;
@@ -74,6 +79,7 @@ public class SolicitudesBean implements Serializable{
         this.consTodo();
         this.consEncargado();
         this.consTecnico();
+        log.debug("Se ha inicializado el bean");
     }
     
     public void limpForm()
@@ -84,6 +90,7 @@ public class SolicitudesBean implements Serializable{
     
     public void guar()
     {
+        log.debug("Se intenta guardar en el bean");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
@@ -96,10 +103,12 @@ public class SolicitudesBean implements Serializable{
             this.guardar = false;
             //this.limpForm(); //Omito para mantener los datos en la modal
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
+            log.info("Se han guardado correctamento los datos");
         }
         catch(Exception ex)
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al guardar ')");
+            log.error("Ocurrio un error al momento de guardar");
         }
         finally
         {
@@ -110,6 +119,7 @@ public class SolicitudesBean implements Serializable{
     
     public void modi()
     {
+        log.debug("Se intenda modificar en el bean");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
@@ -117,9 +127,11 @@ public class SolicitudesBean implements Serializable{
             FCDESoli.edit(this.objeSoli);
             this.listSoli.add(this.objeSoli); //Agrega el objeto modificado
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
+            log.info("Los datos de han modificado correctamente en el bean");
         }
         catch(Exception ex)
         {
+            log.error("ocurrio un error al momento de modificar");
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
         }
         finally
@@ -130,6 +142,7 @@ public class SolicitudesBean implements Serializable{
     
     public void elim()
     {
+        log.debug("Se esta intentado eliminar");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
@@ -137,9 +150,11 @@ public class SolicitudesBean implements Serializable{
             FCDESoli.remove(this.objeSoli);
             this.limpForm();
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
+            log.info("Los datos se han eliminado correctamente");
         }
         catch(Exception ex)
         {
+            log.error("Ocurrio un error al momento de eliminar");
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
         }
         finally
@@ -150,13 +165,16 @@ public class SolicitudesBean implements Serializable{
     
     public void consTodo()
     {
+        log.debug("Se esta intentando consultar todo");
         try
         {
             this.listSoli = FCDESoli.findTodo();
+            log.info("La consulta se hizo correctamente");
         }
         catch(Exception ex)
         {
             ex.printStackTrace();
+            log.error("Ocurrio un error al momento de consultar todo");
         }
         finally
         {
@@ -166,13 +184,16 @@ public class SolicitudesBean implements Serializable{
     
     public void consEncargado()
     {
+        log.debug("Se intenta consultar Encargado");
         try
         {
             this.listSoliEnca = FCDESoli.findEncargado();
+            log.info("La consulta se hizo correctamente");
         }
         catch(Exception ex)
         {
             ex.printStackTrace();
+            log.error("Ocurrio un error al momento de consultar");
         }
         finally
         {
@@ -182,13 +203,16 @@ public class SolicitudesBean implements Serializable{
     
     public void consTecnico()
     {
+        log.debug("Se intenta consultar Técnico");
         try
         {
             this.listSoliTecn = FCDESoli.findTecnico();
+            log.info("La consulta se hizo correctamente");
         }
         catch(Exception ex)
         {
             ex.printStackTrace();
+            log.error("Ocurrio un error al momento de consultar");
         }
         finally
         {
@@ -198,6 +222,7 @@ public class SolicitudesBean implements Serializable{
     
     public void modiAsigEnca()
     {
+        log.debug("Se intenda modificar las asignaciones encargado");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
@@ -207,9 +232,11 @@ public class SolicitudesBean implements Serializable{
             this.consEncargado();
             this.limpForm();
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
+            log.info("Los datos se han modificado correctamente en el bean");
         }
         catch(Exception ex)
         {
+             log.error("ocurrio un error al momento de modificar");
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
         }
         finally
@@ -220,6 +247,7 @@ public class SolicitudesBean implements Serializable{
     
     public void cons()
     {
+        log.debug("Se intenta consultar");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         int codi = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiPara"));
         try
@@ -229,10 +257,12 @@ public class SolicitudesBean implements Serializable{
             this.guardar = false;
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + 
                     String.format("%s", this.objeSoli.getCodiSoli()) + "')");
+            log.info("La consulta se hizo correctamente");
         }
         catch(Exception ex)
         {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al consultar')");
+            log.error("Ocurrio un error al momento de consultar");
         }
         finally
         {
