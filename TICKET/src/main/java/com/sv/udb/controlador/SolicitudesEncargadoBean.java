@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package com.sv.udb.controlador;
-
 import com.sv.udb.ejb.SolicitudesFacadeLocal;
 import com.sv.udb.modelo.Solicitudes;
 import java.io.Serializable;
