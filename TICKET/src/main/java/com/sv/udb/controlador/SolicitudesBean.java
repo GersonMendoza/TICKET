@@ -20,8 +20,9 @@ import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 
 /**
- *
- * @author REGISTRO
+ * Esta clase se encuentran los metodos para el manejo de los datos (CRUD) del objeto objeSoli
+ * @author Oscar
+ * @version 1.2
  */
 @Named(value = "solicitudesBean")
 @ViewScoped
@@ -38,26 +39,50 @@ public class SolicitudesBean implements Serializable{
     };
     private Logger log = lgs.getLog();
 
+    /**
+     * Función para obtener  el objeto objeSoli
+     * @return Solicitudes objeSoli
+     */
     public Solicitudes getObjeSoli() {
         return objeSoli;
     }
 
+    /**
+     * Función para definir el objeto objeSoli
+     * @param objeSoli
+     */
     public void setObjeSoli(Solicitudes objeSoli) {
         this.objeSoli = objeSoli;
     }
 
+    /**
+     * Función que retorna el valor de la variable guardar para saber si se está guardando o no actualmente
+     * @return Boolean guardar
+     */
     public boolean isGuardar() {
         return guardar;
     }
 
+    /**
+     * Función que retorna la lista de objetos de Solicitudes
+     * @return List listSoli
+     */
     public List<Solicitudes> getListSoli() {
         return listSoli;
     }
 
+    /**
+     * Función que retorna la lista de objetos de Solicitudes por Encargado
+     * @return List listSoliEnca
+     */
     public List<Solicitudes> getListSoliEnca() {
         return listSoliEnca;
     }
 
+    /**
+     * Función que retorna la lista de objetos de Solicitudes por Técnico
+     * @return List listSoliTecn
+     */
     public List<Solicitudes> getListSoliTecn() {
         return listSoliTecn;
     }
@@ -72,6 +97,9 @@ public class SolicitudesBean implements Serializable{
     public SolicitudesBean() {
     }
     
+    /**
+     * Función que se ejecuta después de construir la clase
+     */
     @PostConstruct
     public void init()
     {
@@ -82,12 +110,18 @@ public class SolicitudesBean implements Serializable{
         log.debug("Se ha inicializado el bean");
     }
     
+    /**
+     * Función para limpiar el formulario
+     */
     public void limpForm()
     {
         this.objeSoli = new Solicitudes();
         this.guardar = true;        
     }
     
+    /**
+     * Función para guardar
+     */
     public void guar()
     {
         log.debug("Se intenta guardar en el bean");
@@ -116,7 +150,9 @@ public class SolicitudesBean implements Serializable{
         }
     }
     
-    
+    /**
+     * Función para modificar un registro
+     */
     public void modi()
     {
         log.debug("Se intenda modificar en el bean");
@@ -140,6 +176,9 @@ public class SolicitudesBean implements Serializable{
         }
     }
     
+    /**
+     * Función para dar de baja un registro
+     */
     public void elim()
     {
         log.debug("Se esta intentado eliminar");
@@ -163,6 +202,9 @@ public class SolicitudesBean implements Serializable{
         }
     }
     
+    /**
+     * Función para consultar todos los registros de la tabla
+     */
     public void consTodo()
     {
         log.debug("Se esta intentando consultar todo");
@@ -182,6 +224,9 @@ public class SolicitudesBean implements Serializable{
         }
     }
     
+    /**
+     * Función para consultar las solicitudes asignadas a los Encargados
+     */
     public void consEncargado()
     {
         log.debug("Se intenta consultar Encargado");
@@ -201,6 +246,9 @@ public class SolicitudesBean implements Serializable{
         }
     }
     
+    /**
+     * Función para consultar las solicitudes asignadas a los Técnicos
+     */
     public void consTecnico()
     {
         log.debug("Se intenta consultar Técnico");
@@ -220,6 +268,9 @@ public class SolicitudesBean implements Serializable{
         }
     }
     
+    /**
+     * Función para re-asignar la solicitud a un Encargado
+     */
     public void modiAsigEnca()
     {
         log.debug("Se intenda modificar las asignaciones encargado");
@@ -245,6 +296,9 @@ public class SolicitudesBean implements Serializable{
         }
     }
     
+    /**
+     * Función para consultar un registro en específico
+     */
     public void cons()
     {
         log.debug("Se intenta consultar");

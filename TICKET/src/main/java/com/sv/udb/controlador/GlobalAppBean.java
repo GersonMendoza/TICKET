@@ -5,14 +5,12 @@
  */
 package com.sv.udb.controlador;
 
-import com.sv.udb.utils.Logs;
 import java.io.FileInputStream;
 import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
-import org.apache.log4j.Logger;
 import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 

@@ -22,8 +22,9 @@ import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 
 /**
- *
- * @author REGISTRO
+ * Esta clase se encuentran los metodos para el manejo del inicio de sesión
+ * @author Gerson
+ * @version 1.2
  */
 @Named(value = "loginBean")
 @SessionScoped
@@ -43,6 +44,10 @@ public class LoginBean implements Serializable {
     private String cont;
     private String imagPerf;
     private List<Notificacion> listNoti; //Lista de Notificaciones
+
+    /**
+     * Variable que almacena el ID del usuario logeado
+     */
     public static int codiUsua;
     private Logs<LoginBean> lgs = new Logs<LoginBean>(LoginBean.class) {
     };
@@ -54,47 +59,89 @@ public class LoginBean implements Serializable {
     public LoginBean() {
     }
     
+    /**
+     * Función que se ejecuta después de construir la clase
+     */
     @PostConstruct
     public void init()
     {
     }
 
+    /**
+     * Función para obtener  el objeto objeUsua
+     * @return Usuarios objeUsua
+     */
     public Usuarios getObjeUsua() {
         return objeUsua;
     }
 
+    /**
+     * Función para definir el objeto objeUsua
+     * @param objeUsua
+     */
     public void setObjeUsua(Usuarios objeUsua) {
         this.objeUsua = objeUsua;
     }
 
+    /**
+     * Función que retorna el valor de la variable loge para saber si se está logeado o no actualmente
+     * @return Boolean loge
+     */
     public boolean isLoge() {
         return loge;
     }
 
+    /**
+     * Función para obtener el nombre de usuario
+     * @return String usua
+     */
     public String getUsua() {
         return usua;
     }
 
+    /**
+     * Función para definir el nombre de usuario
+     * @param usua
+     */
     public void setUsua(String usua) {
         this.usua = usua;
     }
 
+    /**
+     * Función para obtener la contraseña de usuario
+     * @return String cont
+     */
     public String getCont() {
         return cont;
     }
 
+    /**
+     * Función para definir la contraseña de usuario
+     * @param cont
+     */
     public void setCont(String cont) {
         this.cont = cont;
     }
 
+    /**
+     * Función para obtener la imagen de perfil
+     * @return String imagPerf
+     */
     public String getImagPerf() {
         return imagPerf;
     }
 
+    /**
+     * Función que devuelve un listado de las notificaciones
+     * @return List listNoti
+     */
     public List<Notificacion> getListNoti() {
         return listNoti;
     }
     
+    /**
+     * Función que verifica los datos del login y crea la sesión
+     */
     public void creaSess()
     {
         log.debug("Se intenta crear inicializar una nueva sessión");
@@ -143,6 +190,9 @@ public class LoginBean implements Serializable {
         }
     }
     
+    /**
+     * Función para cerrar sesión
+     */
     public void cerrSess()
     {
         log.debug("se intenta cerrar una sesión");

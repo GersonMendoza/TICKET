@@ -20,8 +20,9 @@ import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 
 /**
- *
+ * Esta clase se encuentran los metodos para el manejo de los datos (CRUD) del objeto objeEvalReso
  * @author Alexander
+ * @version 1.2
  */
 @Named(value = "evaluacionResolucionesBean")
 @ViewScoped
@@ -36,26 +37,50 @@ public class EvaluacionResolucionesBean implements Serializable {
     };
     private Logger log = lgs.getLog();
     
+    /**
+     * Función para obtener  el objeto objeEvalReso
+     * @return EvaluacionResoluciones objeEvalReso
+     */
     public EvaluacionResoluciones getObjeEvalReso() {
         return objeEvalReso;
     }
 
+    /**
+     * Función para definir el objeto objeEvalReso
+     * @param objeEvalReso
+     */
     public void setObjeEvalReso(EvaluacionResoluciones objeEvalReso) {
         this.objeEvalReso = objeEvalReso;
     }
 
+    /**
+     * Función que retorna la lista de objetos de EvaluacionResoluciones
+     * @return List listEvalReso
+     */
     public List<EvaluacionResoluciones> getListEvalReso() {
         return listEvalReso;
     }
 
+    /**
+     * Función para definir la lista de objetos de EvaluacionResoluciones
+     * @param listEvalReso
+     */
     public void setListEvalReso(List<EvaluacionResoluciones> listEvalReso) {
         this.listEvalReso = listEvalReso;
     }
 
+    /**
+     * Función que retorna el valor de la variable guardar para saber si se está guardando o no actualmente
+     * @return Boolean guardar
+     */
     public boolean isGuardar() {
         return guardar;
     }
 
+    /**
+     * Función para definir si se esta guardando o no
+     * @param guardar
+     */
     public void setGuardar(boolean guardar) {
         this.guardar = guardar;
     }
@@ -66,6 +91,9 @@ public class EvaluacionResolucionesBean implements Serializable {
     public EvaluacionResolucionesBean() {
     }
 
+    /**
+     * Función que se ejecuta después de construir la clase
+     */
     @PostConstruct
     public void init() {
         this.limpForm();
@@ -73,11 +101,17 @@ public class EvaluacionResolucionesBean implements Serializable {
         log.debug("Se ha inicializado el bean");
     }
 
+    /**
+     * Función para limpiar el formulario
+     */
     public void limpForm() {
         this.objeEvalReso = new EvaluacionResoluciones();
         this.guardar = true;
     }
 
+    /**
+     * Función para consultar todos los registros de la tabla
+     */
     public void consTodo() {
         log.debug("Se esta intentando consultar todo");
         try {
@@ -89,6 +123,9 @@ public class EvaluacionResolucionesBean implements Serializable {
         }
     }
 
+    /**
+     * Función para guardar
+     */
     public void guar() {
         log.debug("Se intenta guardar en el bean");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
@@ -107,6 +144,9 @@ public class EvaluacionResolucionesBean implements Serializable {
         }
     }
 
+    /**
+     * Función para modificar un registro
+     */
     public void modi() {
          log.debug("Se intenda modificar en el bean");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
@@ -122,6 +162,9 @@ public class EvaluacionResolucionesBean implements Serializable {
         }
     }
 
+    /**
+     * Función para dar de baja un registro
+     */
     public void elim() {
         log.debug("Se esta intentado eliminar");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
@@ -138,6 +181,9 @@ public class EvaluacionResolucionesBean implements Serializable {
         }
     }
 
+    /**
+     * Función para consultar un registro en específico
+     */
     public void cons() {
          log.debug("Se intenta consultar");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página

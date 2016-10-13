@@ -20,8 +20,9 @@ import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 
 /**
- *
- * @author REGISTRO
+ * Esta clase se encuentran los metodos para el manejo de los datos (CRUD) del objeto objeDepa
+ * @author Gerson
+ * @version 1.2
  */
 @Named(value = "departamentosBean")
 @ViewScoped
@@ -35,18 +36,34 @@ public class DepartamentosBean implements Serializable{
     };
     private Logger log = lgs.getLog();
 
+    /**
+     * Función para obtener  el objeto objeDepa
+     * @return Departamentos objeDepa
+     */
     public Departamentos getObjeDepa() {
         return objeDepa;
     }
 
+    /**
+     * Función para definir el objeto objeDepa
+     * @param objeDepa
+     */
     public void setObjeDepa(Departamentos objeDepa) {
         this.objeDepa = objeDepa;
     }
 
+    /**
+     * Función que retorna el valor de la variable guardar para saber si se está guardando o no actualmente
+     * @return Boolean guardar
+     */
     public boolean isGuardar() {
         return guardar;
     }
 
+    /**
+     * Función que retorna la lista de objetos de Departamentos
+     * @return List listDepa
+     */
     public List<Departamentos> getListDepa() {
         return listDepa;
     }
@@ -58,6 +75,9 @@ public class DepartamentosBean implements Serializable{
     public DepartamentosBean() {
     }
     
+    /**
+     * Función que se ejecuta después de construir la clase
+     */
     @PostConstruct
     public void init()
     {
@@ -66,12 +86,18 @@ public class DepartamentosBean implements Serializable{
         log.debug("Se ha inicializado el bean");
     }
     
+    /**
+     * Función para limpiar el formulario
+     */
     public void limpForm()
     {
         this.objeDepa = new Departamentos();
         this.guardar = true;
     }
     
+    /**
+     * Función para guardar
+     */
     public void guar()
     {
         log.debug("Se intenta guardar en el bean");
@@ -98,6 +124,9 @@ public class DepartamentosBean implements Serializable{
         }
     }
     
+    /**
+     * Función para modificar un registro
+     */
     public void modi()
     {
         log.debug("Se intenda modificar en el bean");
@@ -121,6 +150,9 @@ public class DepartamentosBean implements Serializable{
         }
     }
     
+    /**
+     * Función para dar de baja un registro
+     */
     public void elim()
     {
         log.debug("Se esta intentado eliminar");
@@ -146,6 +178,9 @@ public class DepartamentosBean implements Serializable{
         }
     }
     
+    /**
+     * Función para consultar todos los registros de la tabla
+     */
     public void consTodo()
     {
         log.debug("Se esta intentando consultar todo");
@@ -165,6 +200,9 @@ public class DepartamentosBean implements Serializable{
         }
     }
     
+    /**
+     * Función para consultar un registro en específico
+     */
     public void cons()
     {
         log.debug("Se intenta consultar");

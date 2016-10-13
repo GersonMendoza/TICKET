@@ -6,7 +6,6 @@
 package com.sv.udb.controlador;
 
 import com.sv.udb.ejb.ProcesoSolicitudesFacadeLocal;
-import com.sv.udb.ejb.SolicitudesFacadeLocal;
 import com.sv.udb.modelo.ProcesoSolicitudes;
 import com.sv.udb.modelo.Solicitudes;
 import com.sv.udb.utils.Logs;
@@ -22,8 +21,9 @@ import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 
 /**
- *
- * @author REGISTRO
+ * Esta clase se encuentran los metodos para el manejo de los datos (CRUD) del objeto objeProcSoli
+ * @author Mulato
+ * @version 1.2
  */
 @Named(value = "procesoSolicitudesBean")
 @ViewScoped
@@ -37,18 +37,34 @@ public class ProcesoSolicitudesBean implements Serializable{
     };
     private Logger log = lgs.getLog();
 
+    /**
+     * Función para obtener  el objeto objeProcSoli
+     * @return ProcesoSolicitudes objeProcSoli
+     */
     public ProcesoSolicitudes getObjeProcSoli() {
         return objeProcSoli;
     }
 
+    /**
+     * Función para definir el objeto objeProcSoli
+     * @param objeProcSoli
+     */
     public void setObjeProcSoli(ProcesoSolicitudes objeProcSoli) {
         this.objeProcSoli = objeProcSoli;
     }
 
+    /**
+     * Función que retorna el valor de la variable guardar para saber si se está guardando o no actualmente
+     * @return Boolean guardar
+     */
     public boolean isGuardar() {
         return guardar;
     }
 
+    /**
+     * Función que retorna la lista de objetos de ProcesoSolicitudes
+     * @return List listProcSoli
+     */
     public List<ProcesoSolicitudes> getListProcSoli() {
         return listProcSoli;
     }
@@ -60,6 +76,9 @@ public class ProcesoSolicitudesBean implements Serializable{
     public ProcesoSolicitudesBean() {
     }
     
+    /**
+     * Función que se ejecuta después de construir la clase
+     */
     @PostConstruct
     public void init()
     {
@@ -68,12 +87,18 @@ public class ProcesoSolicitudesBean implements Serializable{
         log.debug("Se ha inicializado el bean");
     }
     
+    /**
+     * Función para limpiar el formulario
+     */
     public void limpForm()
     {
         this.objeProcSoli = new ProcesoSolicitudes();
         this.guardar = true;        
     }
     
+    /**
+     * Función para guardar
+     */
     public void guar()
     {
         log.debug("Se intenta guardar en el bean");
@@ -103,6 +128,9 @@ public class ProcesoSolicitudesBean implements Serializable{
         }
     }
     
+    /**
+     * Función para modificar un registro
+     */
     public void modi()
     {
         log.debug("Se intenda modificar en el bean");
@@ -126,6 +154,9 @@ public class ProcesoSolicitudesBean implements Serializable{
         }
     }
     
+    /**
+     * Función para dar de baja un registro
+     */
     public void elim()
     {
         log.debug("Se esta intentado eliminar");
@@ -150,6 +181,9 @@ public class ProcesoSolicitudesBean implements Serializable{
         }
     }
     
+    /**
+     * Función para consultar todos los registros de la tabla
+     */
     public void consTodo()
     {
         log.debug("Se esta intentando consultar todo");
@@ -169,6 +203,9 @@ public class ProcesoSolicitudesBean implements Serializable{
         }
     }
     
+    /**
+     * Función para consultar un registro en específico
+     */
     public void cons()
     {
         log.debug("Se intenta consultar");

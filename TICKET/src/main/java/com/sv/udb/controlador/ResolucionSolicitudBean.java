@@ -22,15 +22,15 @@ import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 
 /**
- *
- * @author REGISTRO
+ * Esta clase se encuentran los metodos para el manejo de los datos (CRUD) del objeto objeResoSoli
+ * @author Israel
+ * @version 1.2
  */
 @Named(value = "resolucionSolicitudBean")
 @ViewScoped
 public class ResolucionSolicitudBean implements Serializable{
     @EJB
-    private ResolucionSolicitudesFacadeLocal FCDEResoSoli;
-    private SolicitudesFacadeLocal FCDESoli; 
+    private ResolucionSolicitudesFacadeLocal FCDEResoSoli; 
     private ResolucionSolicitudes objeResoSoli;
     private List<ResolucionSolicitudes> listResoSoli;
     private boolean guardar;
@@ -38,18 +38,34 @@ public class ResolucionSolicitudBean implements Serializable{
     };
     private Logger log = lgs.getLog();
 
+    /**
+     * Función para obtener  el objeto objeResoSoli
+     * @return ResolucionSolicitudes objeResoSoli
+     */
     public ResolucionSolicitudes getObjeResoSoli() {
         return objeResoSoli;
     }
 
+    /**
+     * Función para definir el objeto objeResoSoli
+     * @param objeResoSoli
+     */
     public void setObjeResoSoli(ResolucionSolicitudes objeResoSoli) {
         this.objeResoSoli = objeResoSoli;
     }
 
+    /**
+     * Función que retorna el valor de la variable guardar para saber si se está guardando o no actualmente
+     * @return Boolean guardar
+     */
     public boolean isGuardar() {
         return guardar;
     }
 
+    /**
+     * Función que retorna la lista de objetos de Departamentos
+     * @return List listDepa
+     */
     public List<ResolucionSolicitudes> getListResoSoli() {
         return listResoSoli;
     }
@@ -61,6 +77,9 @@ public class ResolucionSolicitudBean implements Serializable{
     public ResolucionSolicitudBean() {
     }
     
+    /**
+     * Función que se ejecuta después de construir la clase
+     */
     @PostConstruct
     public void init()
     {
@@ -69,11 +88,18 @@ public class ResolucionSolicitudBean implements Serializable{
         log.debug("Se ha inicializado el bean");
     }
     
+    /**
+     * Función para limpiar el formulario
+     */
     public void limpForm()
     {
         this.objeResoSoli = new ResolucionSolicitudes();
         this.guardar = true;        
     }
+
+    /**
+     * Función para guardar
+     */
     public void guar()
     {
         log.debug("Se intenta guardar en el bean");
@@ -103,6 +129,9 @@ public class ResolucionSolicitudBean implements Serializable{
         }
     }
     
+    /**
+     * Función para modificar un registro
+     */
     public void modi()
     {
         log.debug("Se intenda modificar en el bean");
@@ -127,6 +156,9 @@ public class ResolucionSolicitudBean implements Serializable{
         }
     }
     
+    /**
+     * Función para dar de baja un registro
+     */
     public void elim()
     {
         log.debug("Se esta intentado eliminar");
@@ -150,6 +182,9 @@ public class ResolucionSolicitudBean implements Serializable{
         }
     }
     
+    /**
+     * Función para consultar todos los registros de la tabla
+     */
     public void consTodo()
     {
         log.debug("Se esta intentando consultar todo");
@@ -169,6 +204,9 @@ public class ResolucionSolicitudBean implements Serializable{
         }
     }
     
+    /**
+     * Función para consultar un registro en específico
+     */
     public void cons()
     {
         log.debug("Se intenta consultar");
