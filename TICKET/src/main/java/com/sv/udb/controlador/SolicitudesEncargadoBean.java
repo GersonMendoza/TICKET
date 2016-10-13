@@ -74,7 +74,6 @@ public class SolicitudesEncargadoBean implements Serializable{
             this.objeSoli.setEstaSoli(2);
             this.listSoli.remove(this.objeSoli); //Limpia el objeto viejo
             FCDESoli.edit(this.objeSoli);
-            this.listSoli.add(this.objeSoli); //Agrega el objeto modificado
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
         }
         catch(Exception ex)
