@@ -25,6 +25,8 @@ public interface ResolucionSolicitudesFacadeLocal {
     ResolucionSolicitudes find(Object id);
 
     List<ResolucionSolicitudes> findAll();
+    
+    List<ResolucionSolicitudes> findTodoUsua();
 
     List<ResolucionSolicitudes> findRange(int[] range);
 

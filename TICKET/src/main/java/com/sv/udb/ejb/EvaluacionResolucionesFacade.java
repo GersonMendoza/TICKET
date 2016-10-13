@@ -5,10 +5,13 @@
  */
 package com.sv.udb.ejb;
 
+import com.sv.udb.controlador.LoginBean;
 import com.sv.udb.modelo.EvaluacionResoluciones;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -16,6 +19,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class EvaluacionResolucionesFacade extends AbstractFacade<EvaluacionResoluciones> implements EvaluacionResolucionesFacadeLocal {
+
     @PersistenceContext(unitName = "PILETPU")
     private EntityManager em;
 
@@ -27,5 +31,11 @@ public class EvaluacionResolucionesFacade extends AbstractFacade<EvaluacionResol
     public EvaluacionResolucionesFacade() {
         super(EvaluacionResoluciones.class);
     }
-    
+
+    @Override
+    public List<EvaluacionResoluciones> findTodo() {        
+        Query q = getEntityManager().createQuery("SELECT er FROM EvaluacionResoluciones er INNER JOIN ResolucionSolicitudes rs ON er.codiResoSoli.codiResoSoli = rs.codiResoSoli INNER JOIN Solicitudes s ON s.codiSoli = rs.codiSoli.codiSoli WHERE er.estaEvalReso = " + true + " AND s.codiUsua = " + LoginBean.codiUsua, EvaluacionResoluciones.class);
+        List resu = q.getResultList();
+        return resu;
+    }
 }
