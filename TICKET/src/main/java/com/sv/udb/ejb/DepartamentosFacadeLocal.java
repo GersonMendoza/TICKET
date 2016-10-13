@@ -15,7 +15,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface DepartamentosFacadeLocal {
-
+    
     void create(Departamentos departamentos);
 
     void edit(Departamentos departamentos);

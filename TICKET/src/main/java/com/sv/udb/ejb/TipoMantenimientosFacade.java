@@ -4,11 +4,12 @@
  * and open the template in the editor.
  */
 package com.sv.udb.ejb;
-
+import java.util.List;
 import com.sv.udb.modelo.TipoMantenimientos;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,6 +27,13 @@ public class TipoMantenimientosFacade extends AbstractFacade<TipoMantenimientos>
 
     public TipoMantenimientosFacade() {
         super(TipoMantenimientos.class);
+    }
+    
+    @Override
+    public List<TipoMantenimientos> findTodo() {
+    Query q = getEntityManager().createQuery("SELECT u FROM TipoMantenimientos u WHERE u.estaTipoMant ="+true, TipoMantenimientos.class);
+        List resu = q.getResultList();
+        return resu;
     }
     
 }
