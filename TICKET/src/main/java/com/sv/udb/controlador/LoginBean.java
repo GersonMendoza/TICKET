@@ -41,6 +41,7 @@ public class LoginBean implements Serializable {
     private String cont;
     private String imagPerf;
     private List<Notificacion> listNoti; //Lista de Notificaciones
+    public static int codiUsua;
 
     /**
      * Creates a new instance of LoginBean
@@ -102,6 +103,7 @@ public class LoginBean implements Serializable {
             {
                 ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Bienvenido)"); //No se muestra porque redirecciona
                 this.loge = true;
+                codiUsua = objeUsua.getCodiUsua();
                 //Cargar una imagen de usuario (Puede ser de una BD)
                 this.imagPerf = "images/userDemo.png";
                 //Llenar lista de notificaciones.... puede salir de la DB
