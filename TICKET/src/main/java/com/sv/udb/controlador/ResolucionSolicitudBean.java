@@ -6,7 +6,9 @@
 package com.sv.udb.controlador;
 
 import com.sv.udb.ejb.ResolucionSolicitudesFacadeLocal;
+import com.sv.udb.ejb.SolicitudesFacadeLocal;
 import com.sv.udb.modelo.ResolucionSolicitudes;
+import com.sv.udb.modelo.Solicitudes;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -19,25 +21,17 @@ import org.primefaces.context.RequestContext;
 
 /**
  *
- * @author joseph
+ * @author REGISTRO
  */
-@Named(value = "ResolucionSolicitudesBean")
+@Named(value = "resolucionSolicitudBean")
 @ViewScoped
-public class ResolucionSolicitudesBean implements Serializable {
-
+public class ResolucionSolicitudBean implements Serializable{
     @EJB
     private ResolucionSolicitudesFacadeLocal FCDEResoSoli;
+    private SolicitudesFacadeLocal FCDESoli; 
     private ResolucionSolicitudes objeResoSoli;
     private List<ResolucionSolicitudes> listResoSoli;
     private boolean guardar;
-
-    public ResolucionSolicitudesFacadeLocal getFCDEResoSoli() {
-        return FCDEResoSoli;
-    }
-
-    public void setFCDEResoSoli(ResolucionSolicitudesFacadeLocal FCDEResoSoli) {
-        this.FCDEResoSoli = FCDEResoSoli;
-    }
 
     public ResolucionSolicitudes getObjeResoSoli() {
         return objeResoSoli;
@@ -47,28 +41,20 @@ public class ResolucionSolicitudesBean implements Serializable {
         this.objeResoSoli = objeResoSoli;
     }
 
-    public List<ResolucionSolicitudes> getListResoSoli() {
-        return listResoSoli;
-    }
-
-    public void setListResoSoli(List<ResolucionSolicitudes> listResoSoli) {
-        this.listResoSoli = listResoSoli;
-    }
-
     public boolean isGuardar() {
         return guardar;
     }
 
-    public void setGuardar(boolean guardar) {
-        this.guardar = guardar;
+    public List<ResolucionSolicitudes> getListResoSoli() {
+        return listResoSoli;
     }
     
     /**
-     * Creates a new instance of ResolucionesBean
+     * Creates a new instance of ResolucionSolicitudesBean
      */
-    public ResolucionSolicitudesBean() {
-    }
     
+    public ResolucionSolicitudBean() {
+    }
     
     @PostConstruct
     public void init()
@@ -82,22 +68,24 @@ public class ResolucionSolicitudesBean implements Serializable {
         this.objeResoSoli = new ResolucionSolicitudes();
         this.guardar = true;        
     }
-    
     public void guar()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            this.objeResoSoli.setEstaResoSoli(3);
+            Solicitudes soli = new Solicitudes(SolicitudesBean.codiSoli);
+            this.objeResoSoli.setCodiSoli(soli);
             this.objeResoSoli.setFechResoSoli(new Date());
             FCDEResoSoli.create(this.objeResoSoli);
             this.listResoSoli.add(this.objeResoSoli);
+            this.limpForm();
             this.guardar = false;
             //this.limpForm(); //Omito para mantener los datos en la modal
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
         }
         catch(Exception ex)
         {
+            ex.printStackTrace();
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al guardar ')");
         }
         finally
@@ -111,6 +99,7 @@ public class ResolucionSolicitudesBean implements Serializable {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
+            this.objeResoSoli.setFechResoSoli(new Date());
             this.listResoSoli.remove(this.objeResoSoli); //Limpia el objeto viejo
             FCDEResoSoli.edit(this.objeResoSoli);
             this.listResoSoli.add(this.objeResoSoli); //Agrega el objeto modificado
@@ -150,7 +139,7 @@ public class ResolucionSolicitudesBean implements Serializable {
     {
         try
         {
-            this.listResoSoli = FCDEResoSoli.findTodo();
+            this.listResoSoli = FCDEResoSoli.findAll();
         }
         catch(Exception ex)
         {

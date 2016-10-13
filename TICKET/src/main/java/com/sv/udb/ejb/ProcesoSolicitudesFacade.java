@@ -6,9 +6,11 @@
 package com.sv.udb.ejb;
 
 import com.sv.udb.modelo.ProcesoSolicitudes;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,4 +30,10 @@ public class ProcesoSolicitudesFacade extends AbstractFacade<ProcesoSolicitudes>
         super(ProcesoSolicitudes.class);
     }
     
+    @Override
+    public List<ProcesoSolicitudes> findTodo() {
+    Query q = getEntityManager().createQuery("SELECT u FROM ProcesoSolicitudes u WHERE u.estaProcSoli ="+true, ProcesoSolicitudes.class);
+        List resu = q.getResultList();
+        return resu;
+    }
 }

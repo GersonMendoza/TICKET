@@ -18,7 +18,7 @@ and open the template in the editor.
         <ui:param name="pageDesc" value="Solicitud"/>
         <!-- Activar el link del menú -->
         <ui:param name="actiMenuTicket" value="active"/>
-        <ui:param name="actiSoliEnca" value="active"/>
+        <ui:param name="actiProcSoli" value="active"/>
         <!-- Scripts personalizados -->
         <ui:define name="CustomScripts">
         <!--Plugins Selector de Fecha-->
@@ -65,9 +65,12 @@ and open the template in the editor.
                                         <!--Form exclusivo para los remotos-->
                                         <p:remoteCommand name="consTicket" actionListener="#{solicitudesBean.cons()}" update=":FormTicket" 
                                                          oncomplete="$('#ModaFormTicket').modal('show');" global="true"/>
+                                        <h:link id="btonNuev" class="btn btn-success" outcome="procesoSolicitudes">
+                                            <i class="fa fa-plus"/> Mis procesos
+                                        </h:link>
                                     </h:form>
                                 </div>
-                                <h:dataTable pt:data-id="TablTicket" id="TablTicket" value="#{solicitudesBean.listSoliEnca}"
+                                <h:dataTable pt:data-id="TablTicket" id="TablTicket" value="#{solicitudesBean.listSoliTecn}"
                                              var="fila" class="boottable" pt:data-toolbar="#toolTablTicket"
                                              styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
                                              pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
@@ -133,26 +136,11 @@ and open the template in the editor.
                                 </div>
                                 <div class="modal-body" style="padding-top: 2px;">
                                     <fieldset class="col-md-12">
-                                        <h:inputHidden id="codi" value="#{solicitudesBean.objeSoli.codiSoli}" />
+                                        <h:inputHidden id="codi" value="#{procesoSolicitudesBean.objeProcSoli.codiProcSoli}" />
                                         <div class="form-group input-group-xs">
-                                            <h:outputLabel  for="dias" value="Dias de resolución: "/> 
-                                            <h:message for="dias" errorClass="field-error" />
-                                            <h:inputText id="dias" value="#{solicitudesBean.objeSoli.tiemResoSoli}" class="form-control" />
-                                        </div>
-                                        <div class="form-group input-group-xs">
-                                            <h:outputLabel  for="prio" value="Prioridad: "/>
-                                            <h:message for="prio" errorClass="field-error" />
-                                            <h:selectOneMenu id="prio" value="#{solicitudesBean.objeSoli.prioSoli}" class="form-control">
-                                                <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                                <f:selectItem itemValue="Alta" itemLabel="Alta"/>
-                                                <f:selectItem itemValue="Media" itemLabel="Media"/>
-                                                <f:selectItem itemValue="Baja" itemLabel="Baja"/>
-                                            </h:selectOneMenu>
-                                        </div>
-                                        <div class="form-group input-group-xs">
-                                            <h:outputLabel  for="enca" value="Encargado: "/> 
-                                            <h:message for="enca" errorClass="field-error" />
-                                            <h:inputText id="enca" value="#{solicitudesBean.objeSoli.codiEnca}" class="form-control" />
+                                            <h:outputLabel  for="desc" value="Descripción del proceso: "/> 
+                                            <h:message for="desc" errorClass="field-error" />
+                                            <h:inputText id="desc" value="#{procesoSolicitudesBean.objeProcSoli.descProcSoli}" class="form-control" />
                                         </div>
                                     </fieldset>
                                 </div>
@@ -160,12 +148,12 @@ and open the template in the editor.
                                         <div class="input-group-btn right" style="padding-top: 5px;">
                                             <div class="btn-group">
                                                 <h:commandLink id="btonCanc" class="btn btn-default" pt:data-dismiss="modal">
-                                                    <p:ajax listener="#{solicitudesBean.limpForm()}" process="@form" update="@form" global="true"/>
+                                                    <p:ajax listener="#{procesoSolicitudesBean.limpForm()}" process="@form" update="@form" global="true"/>
                                                     <i class="fa fa-mail-forward"/> Cerrar
                                                 </h:commandLink>
                                                 <h:commandLink id="btonModi" class="btn btn-primary" rendered="#{!solicitudesBean.guardar}">
-                                                    <p:ajax listener="#{solicitudesBean.modiAsigEnca()}" process="@form" update="@form :ContTicket" oncomplete="INIT_OBJE_TICKET();" />
-                                                    <i class="fa fa-edit"/> Modificar
+                                                    <p:ajax listener="#{procesoSolicitudesBean.guar()}" process="@form" update="@form :ContTicket" oncomplete="INIT_OBJE_TICKET();" />
+                                                    <i class="fa fa-edit"/> Guardar
                                                 </h:commandLink>
                                             </div>
                                         </div>

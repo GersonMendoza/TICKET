@@ -47,4 +47,11 @@ public class SolicitudesFacade extends AbstractFacade<Solicitudes> implements So
         List resu = q.getResultList();
         return resu;
     }
+    
+    @Override
+    public List<Solicitudes> findTecnico() {
+        Query q = getEntityManager().createQuery("SELECT u FROM Solicitudes u WHERE u.estaSoli = 2", Solicitudes.class);
+        List resu = q.getResultList();
+        return resu;
+    }
 }

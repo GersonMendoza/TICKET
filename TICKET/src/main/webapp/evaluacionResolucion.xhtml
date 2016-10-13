@@ -139,15 +139,11 @@ and open the template in the editor.
                                             <h:outputLabel  for="reso" value="Resolución: "/>
                                             <h:selectOneMenu id="reso" value="#{evaluacionResolucionesBean.objeEvalReso.codiResoSoli}" class="form-control">
                                                 <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                                <f:selectItems value="#{resolucionSolicitudesBean.listResoSoliUsua}" var="lst" itemLabel="#{lst.descResoSoli}" itemValue="#{lst}"/>
+                                                <f:selectItems value="#{resolucionSolicitudBean.listResoSoli}" var="lst" itemLabel="#{lst.descResoSoli}" itemValue="#{lst}"/>
                                                 <f:converter converterId="PooConv"/>
                                             </h:selectOneMenu>
                                             <h:message for="reso" errorClass="field-error" />
-                                        </div>
-                                        <h:inputHidden id="alta" value="#{evaluacionResolucionesBean.objeEvalReso.fechEvalReso}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy H:mm:ss" timeZone="GMT-6"/>
-                                        </h:inputHidden>
-                                        <h:inputHidden id="esta" value="#{evaluacionResolucionesBean.objeEvalReso.estaEvalReso}"/>
+                                        </div>                                        
                                     </fieldset>
                                 </div>
                                 <div class="modal-footer">

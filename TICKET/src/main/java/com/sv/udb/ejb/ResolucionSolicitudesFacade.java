@@ -5,6 +5,7 @@
  */
 package com.sv.udb.ejb;
 
+import com.sv.udb.modelo.ProcesoSolicitudes;
 import com.sv.udb.modelo.ResolucionSolicitudes;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -30,11 +31,5 @@ public class ResolucionSolicitudesFacade extends AbstractFacade<ResolucionSolici
         super(ResolucionSolicitudes.class);
     }
     
-    @Override
-    public List<ResolucionSolicitudes> findTodo() {
-        Query q = getEntityManager().createQuery("SELECT u FROM ResolucionSolicitudes u WHERE u.estaResoSoli = 3", ResolucionSolicitudes.class);
-        List resu = q.getResultList();
-        return resu;
-    }
     
 }

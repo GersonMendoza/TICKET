@@ -55,6 +55,8 @@ public class EvaluacionResoluciones implements Serializable {
     @Size(max = 65535)
     @Column(name = "obse_eval_reso")
     private String obseEvalReso;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "fech_eval_reso")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechEvalReso;
@@ -73,9 +75,10 @@ public class EvaluacionResoluciones implements Serializable {
         this.codiEvalReso = codiEvalReso;
     }
 
-    public EvaluacionResoluciones(Integer codiEvalReso, String opinEvalReso, boolean estaEvalReso) {
+    public EvaluacionResoluciones(Integer codiEvalReso, String opinEvalReso, Date fechEvalReso, boolean estaEvalReso) {
         this.codiEvalReso = codiEvalReso;
         this.opinEvalReso = opinEvalReso;
+        this.fechEvalReso = fechEvalReso;
         this.estaEvalReso = estaEvalReso;
     }
 

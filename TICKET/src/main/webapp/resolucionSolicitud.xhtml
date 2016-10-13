@@ -13,12 +13,12 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui">
     <ui:composition template="WEB-INF/resources/fragmentos/comun.xhtml">
         <!-- Título de la página -->
-        <ui:param name="pageTitl" value="::: Página Resoluciones :::"/>
-        <ui:param name="pageNomb" value="Página Resoluciones"/>
-        <ui:param name="pageDesc" value="Resoluciones"/>
+        <ui:param name="pageTitl" value="::: Página Solicitudes :::"/>
+        <ui:param name="pageNomb" value="Página Solicitudes"/>
+        <ui:param name="pageDesc" value="Solicitud"/>
         <!-- Activar el link del menú -->
         <ui:param name="actiMenuTicket" value="active"/>
-        <ui:param name="actiResoluciones" value="active"/>
+        <ui:param name="actiResoSoli" value="active"/>
         <!-- Scripts personalizados -->
         <ui:define name="CustomScripts">
         <!--Plugins Selector de Fecha-->
@@ -63,18 +63,14 @@ and open the template in the editor.
                                 <div id="toolTablTicket">
                                     <h:form>
                                         <!--Form exclusivo para los remotos-->
-                                        <p:remoteCommand name="consTicket" actionListener="#{resolucionSolicitudesBean.cons()}" update=":FormTicket" 
+                                        <p:remoteCommand name="consTicket" actionListener="#{solicitudesBean.cons()}" update=":FormTicket" 
                                                          oncomplete="$('#ModaFormTicket').modal('show');" global="true"/>
-                                        <p:remoteCommand name="elimTicket" actionListener="#{resolucionSolicitudesBean.elim()}" update=":FormTicket :ContTicket" 
-                                                         oncomplete="INIT_OBJE_TICKET();" global="true"/>
-                                        <h:commandLink id="btonNuev" class="btn btn-success">
-                                            <p:ajax listener="#{resolucionSolicitudesBean.limpForm()}" update=":FormTicket" global="true" 
-                                                    oncomplete="$('#ModaFormTicket').modal('show');"/>
-                                            <i class="fa fa-plus"/> Nuevo
-                                        </h:commandLink>
+                                        <h:link id="btonNuev" class="btn btn-success" outcome="resolucionSolicitud">
+                                            <i class="fa fa-plus"/> Mis resoluciónes
+                                        </h:link>
                                     </h:form>
                                 </div>
-                                <h:dataTable pt:data-id="TablTicket" id="TablTicket" value="#{resolucionSolicitudesBean.listSoli}"
+                                <h:dataTable pt:data-id="TablTicket" id="TablTicket" value="#{solicitudesBean.listSoliTecn}"
                                              var="fila" class="boottable" pt:data-toolbar="#toolTablTicket"
                                              styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
                                              pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
@@ -85,21 +81,42 @@ and open the template in the editor.
                                     </h:column>
                                     <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id">
                                         <f:facet name="header">Código</f:facet>
-                                        <h:outputText value="#{fila.codiResoSoli}"/>
+                                        <h:outputText value="#{fila.codiSoli}"/>
                                     </h:column>
                                     <h:column pt:data-sortable="true" pt:data-field="desc">
                                         <f:facet name="header">Descripción</f:facet>
-                                        <h:outputText value="#{fila.descResoSoli}"/>   
+                                        <h:outputText value="#{fila.descSoli}"/>   
                                     </h:column>
-                                    <h:column pt:data-sortable="true" pt:data-field="trabajo">
-                                        <f:facet name="header">Tipo de trabajo realizado</f:facet>
-                                        <h:outputText value="#{fila.tipoTrabSoli}"/>   
+                                    <h:column pt:data-sortable="true" pt:data-field="depa">
+                                        <f:facet name="header">Departamento</f:facet>
+                                        <h:outputText value="#{fila.codiDepa.nombDepa}"/>   
                                     </h:column>
-                                    <h:column pt:data-sortable="true" pt:data-field="solicitud">
-                                        <f:facet name="header">Solicitud</f:facet>
-                                        <h:outputText value="#{fila.codiSoli.descSoli}"/>   
+                                    <h:column pt:data-sortable="true" pt:data-field="equi">
+                                        <f:facet name="header">Equipo</f:facet>
+                                        <h:outputText value="#{fila.codiEqui}"/>   
                                     </h:column>
-                                    
+                                    <h:column pt:data-sortable="true" pt:data-field="ubic">
+                                        <f:facet name="header">Ubicación</f:facet>
+                                        <h:outputText value="#{fila.codiUbic}"/>   
+                                    </h:column>
+                                    <h:column pt:data-sortable="true">
+                                        <f:facet name="header">Fecha Hora Solicitud.</f:facet>
+                                        <h:outputText value="#{fila.fechHoraSoli}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy H:mm:ss" timeZone="GMT-6"/>
+                                        </h:outputText>                            
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="dias">
+                                        <f:facet name="header">Dias resolución</f:facet>
+                                        <h:outputText value="#{fila.tiemResoSoli}"/>   
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="prio">
+                                        <f:facet name="header">Prioridad</f:facet>
+                                        <h:outputText value="#{fila.prioSoli}"/>   
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="enca">
+                                        <f:facet name="header">Encargado</f:facet>
+                                        <h:outputText value="#{fila.codiEnca}"/>   
+                                    </h:column>
                                 </h:dataTable>
                             </h:panelGroup>
                         </div>
@@ -115,28 +132,33 @@ and open the template in the editor.
                             <h:form id="FormTicket" class="form-horizontal">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"/></button>
-                                    <h4 class="modal-title">Gestión de Resoluciones</h4>
+                                    <h4 class="modal-title">Gestión de Solicitudes</h4>
                                 </div>
                                 <div class="modal-body" style="padding-top: 2px;">
                                     <fieldset class="col-md-12">
-                                        <h:inputHidden id="codi" value="#{resolucionSolicitudesBean.objeResoSoli.codiResoSoli}" />
+                                        <h:inputHidden id="codi" value="#{resolucionSolicitudBean.objeResoSoli.codiResoSoli}" />
                                         <div class="form-group input-group-xs">
-                                            <h:outputLabel  for="desc" value="Descripción: "/> 
+                                            <h:outputLabel  for="desc" value="Resolución: "/> 
                                             <h:message for="desc" errorClass="field-error" />
-                                            <h:inputText id="desc" value="#{resolucionSolicitudesBean.objeResoSoli.descResoSoli}" class="form-control" />
+                                            <h:inputText id="desc" value="#{resolucionSolicitudBean.objeResoSoli.descResoSoli}" class="form-control" />
                                         </div>
                                         <div class="form-group input-group-xs">
-                                            <h:outputLabel  for="trabajo" value="Trabajo Realizado: "/> 
-                                            <h:message for="trabajo" errorClass="field-error" />
-                                            <h:inputText id="trabajo" value="#{resolucionSolicitudesBean.objeResoSoli.tipoTrabSoli}" class="form-control" />
-                                        </div>
-                                        <div class="form-group input-group-xs">
-                                            <h:outputLabel  for="solicitud" value="Solicitudes: "/>
-                                            <h:message for="solicitud" errorClass="field-error" />
-                                            <h:selectOneMenu id="solicitud" value="#{resolucionSolicitudesBean.objeResoSoli.codiSoli}" class="form-control">
+                                            <h:outputLabel  for="tipo" value="Tipo de trabajo realizado: "/>
+                                            <h:message for="tipo" errorClass="field-error" />
+                                            <h:selectOneMenu id="tipo" value="#{resolucionSolicitudBean.objeResoSoli.tipoTrabSoli}" class="form-control">
                                                 <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                                <f:selectItems value="#{solicitudesBean.listSoli}" var="lst" itemLabel="#{lst.descSoli}" itemValue="#{lst}"/>
-                                                <f:converter converterId="PooConv"/>
+                                                <f:selectItem itemValue="Hardware" itemLabel="Hardware"/>
+                                                <f:selectItem itemValue="Software" itemLabel="Software"/>
+                                                <f:selectItem itemValue="Otros" itemLabel="Otros"/>
+                                            </h:selectOneMenu>
+                                        </div>
+                                        <div class="form-group input-group-xs">
+                                            <h:outputLabel  for="esta" value="Estado: "/>
+                                            <h:message for="esta" errorClass="field-error" />
+                                            <h:selectOneMenu id="esta" value="#{resolucionSolicitudBean.objeResoSoli.estaResoSoli}" class="form-control">
+                                                <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                                <f:selectItem itemValue="1" itemLabel="Reparado"/>
+                                                <f:selectItem itemValue="2" itemLabel="Descartado"/>
                                             </h:selectOneMenu>
                                         </div>
                                     </fieldset>
@@ -145,35 +167,13 @@ and open the template in the editor.
                                         <div class="input-group-btn right" style="padding-top: 5px;">
                                             <div class="btn-group">
                                                 <h:commandLink id="btonCanc" class="btn btn-default" pt:data-dismiss="modal">
-                                                    <p:ajax listener="#{resolucionSolicitudesBean.limpForm()}" process="@form" update="@form" global="true"/>
+                                                    <p:ajax listener="#{resolucionSolicitudBean.limpForm()}" process="@form" update="@form" global="true"/>
                                                     <i class="fa fa-mail-forward"/> Cerrar
                                                 </h:commandLink>
-                                                <h:commandLink id="btonGuar" class="btn btn-success" rendered="#{resolucionSolicitudesBean.guardar}">
-                                                    <p:ajax listener="#{resolucionSolicitudesBean.guar()}" process="@form" update="@form :ContTicket" oncomplete="INIT_OBJE_TICKET();" />
-                                                    <i class="fa fa-plus"/> Guardar
+                                                <h:commandLink id="btonModi" class="btn btn-primary" rendered="#{!solicitudesBean.guardar}">
+                                                    <p:ajax listener="#{resolucionSolicitudBean.guar()}" process="@form" update="@form :ContTicket" oncomplete="INIT_OBJE_TICKET();" />
+                                                    <i class="fa fa-edit"/> Guardar
                                                 </h:commandLink>
-                                                <h:commandLink id="btonNuev" class="btn btn-success" rendered="#{!resolucionSolicitudesBean.guardar}">
-                                                    <p:ajax listener="#{resolucionSolicitudesBean.limpForm()}" process="@form" update="@form" oncomplete="INIT_OBJE_MODA_TICKET();" />
-                                                    <i class="fa fa-plus"/> Nuevo
-                                                </h:commandLink>
-                                                <h:commandLink id="btonModi" class="btn btn-primary" rendered="#{!resolucionSolicitudesBean.guardar}">
-                                                    <p:ajax listener="#{resolucionSolicitudesBean.modi()}" process="@form" update="@form :ContTicket" oncomplete="INIT_OBJE_TICKET();" />
-                                                    <i class="fa fa-edit"/> Modificar
-                                                </h:commandLink>
-                                                <!--
-                                                    # Para corregir el error que redirecciona hice una serie de pasos
-                                                    1. Actualizar el bootstrap-confirmation, yo usé este: http://bootstrap-confirmation.js.org/
-                                                    2. Quitar la referencia: bootstrap-confirmation.min.js del fragmento head.xhtml
-                                                    3. Modifiqué el custom alum.js(en este ejemplo) quitando la función y dejando todo en una sola línea
-                                                    4. Y por último y lo mas importante que creo era lo único necesario al elemento h:outputLink le agregué el value="#"
-                                                -->
-                                                <h:outputLink id="btonElim" class="btn btn-danger" rendered="#{!resolucionSolicitudesBean.guardar}" value="#" pt:data-placement="left"
-                                                              pt:data-toggle="confirmation" pt:data-btn-ok-label="Sí" pt:data-btn-ok-icon="fa fa-times"
-                                                              pt:data-btn-ok-class="btn-danger btn-xs" pt:data-btn-cancel-label="No" pt:data-btn-cancel-icon="fa fa-mail-forward"
-                                                              pt:data-btn-cancel-class="btn-default btn-xs" pt:data-title="¿Esta seguro que desea eliminar?"
-                                                              pt:data-on-confirm="elimTicket"><!--data-on-confirm = nombre del comando remoto de eliminar (sin paréntesis)-->
-                                                    <i class="fa fa-times"/> Eliminar
-                                                </h:outputLink>
                                             </div>
                                         </div>
                                 </div>

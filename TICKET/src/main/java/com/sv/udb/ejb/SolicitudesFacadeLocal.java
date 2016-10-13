@@ -30,6 +30,8 @@ public interface SolicitudesFacadeLocal {
     List<Solicitudes> findTodo();
     
     List<Solicitudes> findEncargado();
+    
+    List<Solicitudes> findTecnico();
 
     List<Solicitudes> findRange(int[] range);
 

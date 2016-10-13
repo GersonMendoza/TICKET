@@ -5,7 +5,9 @@
  */
 package com.sv.udb.controlador;
 
+import com.sv.udb.ejb.ProcesoSolicitudesFacadeLocal;
 import com.sv.udb.ejb.SolicitudesFacadeLocal;
+import com.sv.udb.modelo.ProcesoSolicitudes;
 import com.sv.udb.modelo.Solicitudes;
 import java.io.Serializable;
 import java.util.Date;
@@ -21,50 +23,36 @@ import org.primefaces.context.RequestContext;
  *
  * @author REGISTRO
  */
-@Named(value = "solicitudesBean")
+@Named(value = "procesoSolicitudesBean")
 @ViewScoped
-public class SolicitudesBean implements Serializable{
+public class ProcesoSolicitudesBean implements Serializable{
     @EJB
-    private SolicitudesFacadeLocal FCDESoli;    
-    private Solicitudes objeSoli;
-    private List<Solicitudes> listSoli;
-    private List<Solicitudes> listSoliEnca;
-    private List<Solicitudes> listSoliTecn;
-    static int codiSoli;
+    private ProcesoSolicitudesFacadeLocal FCDEProcSoli;
+    private ProcesoSolicitudes objeProcSoli;
+    private List<ProcesoSolicitudes> listProcSoli;
     private boolean guardar;
 
-    public Solicitudes getObjeSoli() {
-        return objeSoli;
+    public ProcesoSolicitudes getObjeProcSoli() {
+        return objeProcSoli;
     }
 
-    public void setObjeSoli(Solicitudes objeSoli) {
-        this.objeSoli = objeSoli;
+    public void setObjeProcSoli(ProcesoSolicitudes objeProcSoli) {
+        this.objeProcSoli = objeProcSoli;
     }
 
     public boolean isGuardar() {
         return guardar;
     }
 
-    public List<Solicitudes> getListSoli() {
-        return listSoli;
+    public List<ProcesoSolicitudes> getListProcSoli() {
+        return listProcSoli;
     }
-
-    public List<Solicitudes> getListSoliEnca() {
-        return listSoliEnca;
-    }
-
-    public List<Solicitudes> getListSoliTecn() {
-        return listSoliTecn;
-    }
-    
-    
-    
     
     /**
-     * Creates a new instance of SolicitudesBean
+     * Creates a new instance of ProcesoSolicitudesBean
      */
     
-    public SolicitudesBean() {
+    public ProcesoSolicitudesBean() {
     }
     
     @PostConstruct
@@ -72,13 +60,11 @@ public class SolicitudesBean implements Serializable{
     {
         this.limpForm();
         this.consTodo();
-        this.consEncargado();
-        this.consTecnico();
     }
     
     public void limpForm()
     {
-        this.objeSoli = new Solicitudes();
+        this.objeProcSoli = new ProcesoSolicitudes();
         this.guardar = true;        
     }
     
@@ -86,13 +72,14 @@ public class SolicitudesBean implements Serializable{
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
-        {
-            LoginBean login = new LoginBean();
-            this.objeSoli.setCodiUsua(login.codiUsua);
-            this.objeSoli.setEstaSoli(1);
-            this.objeSoli.setFechHoraSoli(new Date());
-            FCDESoli.create(this.objeSoli);
-            this.listSoli.add(this.objeSoli);
+            {
+            Solicitudes soli = new Solicitudes();
+            soli.setCodiSoli(SolicitudesBean.codiSoli);
+            this.objeProcSoli.setCodiSoli(soli);
+            this.objeProcSoli.setEstaProcSoli(true);
+            this.objeProcSoli.setFechProcSoli(new Date());
+            FCDEProcSoli.create(this.objeProcSoli);
+            this.listProcSoli.add(this.objeProcSoli);
             this.guardar = false;
             //this.limpForm(); //Omito para mantener los datos en la modal
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
@@ -107,15 +94,14 @@ public class SolicitudesBean implements Serializable{
         }
     }
     
-    
     public void modi()
     {
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            this.listSoli.remove(this.objeSoli); //Limpia el objeto viejo
-            FCDESoli.edit(this.objeSoli);
-            this.listSoli.add(this.objeSoli); //Agrega el objeto modificado
+            this.listProcSoli.remove(this.objeProcSoli); //Limpia el objeto viejo
+            FCDEProcSoli.edit(this.objeProcSoli);
+            this.listProcSoli.add(this.objeProcSoli); //Agrega el objeto modificado
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
         }
         catch(Exception ex)
@@ -133,8 +119,9 @@ public class SolicitudesBean implements Serializable{
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
         {
-            this.listSoli.remove(this.objeSoli); //Limpia el objeto viejo
-            FCDESoli.remove(this.objeSoli);
+            this.objeProcSoli.setEstaProcSoli(false);
+            this.listProcSoli.remove(this.objeProcSoli); //Limpia el objeto viejo
+            FCDEProcSoli.edit(this.objeProcSoli);
             this.limpForm();
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
         }
@@ -152,65 +139,11 @@ public class SolicitudesBean implements Serializable{
     {
         try
         {
-            this.listSoli = FCDESoli.findTodo();
+            this.listProcSoli = FCDEProcSoli.findTodo();
         }
         catch(Exception ex)
         {
             ex.printStackTrace();
-        }
-        finally
-        {
-            
-        }
-    }
-    
-    public void consEncargado()
-    {
-        try
-        {
-            this.listSoliEnca = FCDESoli.findEncargado();
-        }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
-        }
-        finally
-        {
-            
-        }
-    }
-    
-    public void consTecnico()
-    {
-        try
-        {
-            this.listSoliTecn = FCDESoli.findTecnico();
-        }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
-        }
-        finally
-        {
-            
-        }
-    }
-    
-    public void modiAsigEnca()
-    {
-        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-        try
-        {
-            this.objeSoli.setEstaSoli(2);
-            this.listSoli.remove(this.objeSoli); //Limpia el objeto viejo
-            FCDESoli.edit(this.objeSoli);
-            this.consEncargado();
-            this.limpForm();
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
-        }
-        catch(Exception ex)
-        {
-            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
         }
         finally
         {
@@ -224,11 +157,10 @@ public class SolicitudesBean implements Serializable{
         int codi = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiPara"));
         try
         {
-            this.objeSoli = FCDESoli.find(codi);
-            codiSoli = objeSoli.getCodiSoli();
+            this.objeProcSoli = FCDEProcSoli.find(codi);
             this.guardar = false;
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + 
-                    String.format("%s", this.objeSoli.getCodiSoli()) + "')");
+                    String.format("%s", this.objeProcSoli.getCodiProcSoli()) + "')");
         }
         catch(Exception ex)
         {

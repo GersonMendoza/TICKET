@@ -34,7 +34,7 @@ public class EvaluacionResolucionesFacade extends AbstractFacade<EvaluacionResol
 
     @Override
     public List<EvaluacionResoluciones> findTodo() {        
-        Query q = getEntityManager().createQuery("SELECT er FROM EvaluacionResoluciones er INNER JOIN ResolucionSolicitudes rs ON er.codiResoSoli.codiResoSoli = rs.codiResoSoli INNER JOIN Solicitudes s ON s.codiSoli = rs.codiSoli.codiSoli WHERE er.estaEvalReso = " + true + " AND s.codiUsua = " + LoginBean.codiUsua, EvaluacionResoluciones.class);
+        Query q = getEntityManager().createQuery("SELECT er FROM EvaluacionResoluciones er WHERE er.estaEvalReso="+true, EvaluacionResoluciones.class);
         List resu = q.getResultList();
         return resu;
     }
