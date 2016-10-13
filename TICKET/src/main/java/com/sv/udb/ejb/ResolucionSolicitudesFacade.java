@@ -5,7 +5,6 @@
  */
 package com.sv.udb.ejb;
 
-import com.sv.udb.controlador.LoginBean;
 import com.sv.udb.modelo.ResolucionSolicitudes;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -32,9 +31,10 @@ public class ResolucionSolicitudesFacade extends AbstractFacade<ResolucionSolici
     }
     
     @Override
-    public List<ResolucionSolicitudes> findTodoUsua() {        
-        Query q = getEntityManager().createQuery("SELECT rs FROM ResolucionSolicitudes rs INNER JOIN Solicitudes s ON s.codiSoli = rs.codiSoli.codiSoli WHERE rs.estaResoSoli = " + true + " AND s.codiUsua = " + LoginBean.codiUsua, ResolucionSolicitudes.class);
+    public List<ResolucionSolicitudes> findTodo() {
+        Query q = getEntityManager().createQuery("SELECT u FROM ResolucionSolicitudes u WHERE u.estaResoSoli = 3", ResolucionSolicitudes.class);
         List resu = q.getResultList();
         return resu;
     }
+    
 }
