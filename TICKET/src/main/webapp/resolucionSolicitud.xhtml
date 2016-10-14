@@ -64,10 +64,7 @@ and open the template in the editor.
                                     <h:form>
                                         <!--Form exclusivo para los remotos-->
                                         <p:remoteCommand name="consTicket" actionListener="#{solicitudesBean.cons()}" update=":FormTicket" 
-                                                         oncomplete="$('#ModaFormTicket').modal('show');" global="true"/>
-                                        <h:link id="btonNuev" class="btn btn-success" outcome="resolucionSolicitud">
-                                            <i class="fa fa-plus"/> Mis resoluciónes
-                                        </h:link>
+                                                         oncomplete="$('#ModaFormTicket').modal('show');" global="true"/>                                        
                                     </h:form>
                                 </div>
                                 <h:dataTable pt:data-id="TablTicket" id="TablTicket" value="#{solicitudesBean.listSoliTecn}"

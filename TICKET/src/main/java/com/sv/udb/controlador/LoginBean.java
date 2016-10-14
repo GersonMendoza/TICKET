@@ -168,7 +168,7 @@ public class LoginBean implements Serializable {
                 this.listNoti.add(new Notificacion("Notificación 6", false));
                 this.listNoti.add(new Notificacion("Notificación 7", false));
                 this.listNoti.add(new Notificacion("Notificación 8", false));
-                log.info("una sesión fue correctamente inicializada");
+                log.info("Una sesión fue correctamente inicializada");
                 //Redireccionar
                 facsCtxt.getExternalContext().redirect(globalAppBean.getUrl("index.xhtml"));
             }

@@ -115,6 +115,7 @@ public class ResolucionSolicitudBean implements Serializable{
             this.guardar = false;
             //this.limpForm(); //Omito para mantener los datos en la modal
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
+            ctx.execute("location.reload()");
             log.info("Se han guardado correctamento los datos");
         }
         catch(Exception ex)
