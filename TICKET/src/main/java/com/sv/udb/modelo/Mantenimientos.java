@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author gersonfrancisco
  */
 @Entity
-@Table(name = "mantenimientos", catalog = "system_ticket", schema = "")
+@Table(name = "mantenimientos", catalog = "sistemas_pilet", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Mantenimientos.findAll", query = "SELECT m FROM Mantenimientos m"),
@@ -58,10 +58,9 @@ public class Mantenimientos implements Serializable {
     @Column(name = "esta_mant_prev")
     private boolean estaMantPrev;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiMant", fetch = FetchType.LAZY)
-    private List<CorrelativoMantenimientos> correlativoMantenimientosList;
-    @JoinColumn(name = "codi_depa", referencedColumnName = "codi_depa")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Departamentos codiDepa;
+    private List<UbicacionesMantenimiento> ubicacionesMantenimientoList;
+    @OneToMany(mappedBy = "codiMant", fetch = FetchType.LAZY)
+    private List<Solicitudes> solicitudesList;
     @JoinColumn(name = "codi_tipo_mant", referencedColumnName = "codi_tipo_mant")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private TipoMantenimientos codiTipoMant;
@@ -113,20 +112,21 @@ public class Mantenimientos implements Serializable {
     }
 
     @XmlTransient
-    public List<CorrelativoMantenimientos> getCorrelativoMantenimientosList() {
-        return correlativoMantenimientosList;
+    public List<UbicacionesMantenimiento> getUbicacionesMantenimientoList() {
+        return ubicacionesMantenimientoList;
     }
 
-    public void setCorrelativoMantenimientosList(List<CorrelativoMantenimientos> correlativoMantenimientosList) {
-        this.correlativoMantenimientosList = correlativoMantenimientosList;
+    public void setUbicacionesMantenimientoList(List<UbicacionesMantenimiento> ubicacionesMantenimientoList) {
+        this.ubicacionesMantenimientoList = ubicacionesMantenimientoList;
     }
 
-    public Departamentos getCodiDepa() {
-        return codiDepa;
+    @XmlTransient
+    public List<Solicitudes> getSolicitudesList() {
+        return solicitudesList;
     }
 
-    public void setCodiDepa(Departamentos codiDepa) {
-        this.codiDepa = codiDepa;
+    public void setSolicitudesList(List<Solicitudes> solicitudesList) {
+        this.solicitudesList = solicitudesList;
     }
 
     public TipoMantenimientos getCodiTipoMant() {

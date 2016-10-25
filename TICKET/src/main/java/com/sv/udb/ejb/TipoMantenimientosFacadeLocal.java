@@ -23,10 +23,10 @@ public interface TipoMantenimientosFacadeLocal {
     void remove(TipoMantenimientos tipoMantenimientos);
 
     TipoMantenimientos find(Object id);
-
-    List<TipoMantenimientos> findAll();
     
     List<TipoMantenimientos> findTodo();
+
+    List<TipoMantenimientos> findAll();
 
     List<TipoMantenimientos> findRange(int[] range);
 

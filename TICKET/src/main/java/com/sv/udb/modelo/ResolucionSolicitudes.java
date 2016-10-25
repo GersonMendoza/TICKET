@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author gersonfrancisco
  */
 @Entity
-@Table(name = "resolucion_solicitudes", catalog = "system_ticket", schema = "")
+@Table(name = "resolucion_solicitudes", catalog = "sistemas_pilet", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ResolucionSolicitudes.findAll", query = "SELECT r FROM ResolucionSolicitudes r"),
@@ -70,11 +70,11 @@ public class ResolucionSolicitudes implements Serializable {
     @NotNull
     @Column(name = "esta_reso_soli")
     private int estaResoSoli;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiResoSoli", fetch = FetchType.LAZY)
-    private List<EvaluacionResoluciones> evaluacionResolucionesList;
     @JoinColumn(name = "codi_soli", referencedColumnName = "codi_soli")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Solicitudes codiSoli;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiResoSoli", fetch = FetchType.LAZY)
+    private List<EvaluacionResoluciones> evaluacionResolucionesList;
 
     public ResolucionSolicitudes() {
     }
@@ -131,6 +131,14 @@ public class ResolucionSolicitudes implements Serializable {
         this.estaResoSoli = estaResoSoli;
     }
 
+    public Solicitudes getCodiSoli() {
+        return codiSoli;
+    }
+
+    public void setCodiSoli(Solicitudes codiSoli) {
+        this.codiSoli = codiSoli;
+    }
+
     @XmlTransient
     public List<EvaluacionResoluciones> getEvaluacionResolucionesList() {
         return evaluacionResolucionesList;
@@ -138,14 +146,6 @@ public class ResolucionSolicitudes implements Serializable {
 
     public void setEvaluacionResolucionesList(List<EvaluacionResoluciones> evaluacionResolucionesList) {
         this.evaluacionResolucionesList = evaluacionResolucionesList;
-    }
-
-    public Solicitudes getCodiSoli() {
-        return codiSoli;
-    }
-
-    public void setCodiSoli(Solicitudes codiSoli) {
-        this.codiSoli = codiSoli;
     }
 
     @Override

@@ -9,9 +9,12 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -24,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author gersonfrancisco
  */
 @Entity
-@Table(name = "usuarios", catalog = "system_ticket", schema = "")
+@Table(name = "usuarios", catalog = "sistemas_pilet", schema = "")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Usuarios.findAll", query = "SELECT u FROM Usuarios u"),
@@ -51,6 +54,9 @@ public class Usuarios implements Serializable {
     @NotNull
     @Column(name = "esta_usua")
     private int estaUsua;
+    @JoinColumn(name = "codi_tipo", referencedColumnName = "codi_tipo")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private TiposUsuarios codiTipo;
 
     public Usuarios() {
     }
@@ -95,6 +101,14 @@ public class Usuarios implements Serializable {
 
     public void setEstaUsua(int estaUsua) {
         this.estaUsua = estaUsua;
+    }
+
+    public TiposUsuarios getCodiTipo() {
+        return codiTipo;
+    }
+
+    public void setCodiTipo(TiposUsuarios codiTipo) {
+        this.codiTipo = codiTipo;
     }
 
     @Override

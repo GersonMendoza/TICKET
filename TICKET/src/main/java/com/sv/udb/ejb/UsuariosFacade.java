@@ -30,7 +30,7 @@ public class UsuariosFacade extends AbstractFacade<Usuarios> implements Usuarios
         super(Usuarios.class);
     }
     
-    @Override
+     @Override
     public Usuarios findByAcceAndCont(Object acce, Object cont) {
         Query q = getEntityManager().createQuery("SELECT u FROM Usuarios u WHERE u.acceUsua = :acceUsua AND u.contUsua = :contUsua AND u.estaUsua = :estaUsua", Usuarios.class);        
         q.setParameter("acceUsua", acce);
@@ -39,4 +39,5 @@ public class UsuariosFacade extends AbstractFacade<Usuarios> implements Usuarios
         List resu = q.getResultList();
         return resu.isEmpty() ? null : (Usuarios)resu.get(0);
     }
+    
 }

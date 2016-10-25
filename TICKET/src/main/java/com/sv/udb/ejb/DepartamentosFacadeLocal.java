@@ -15,7 +15,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface DepartamentosFacadeLocal {
-    
+
     void create(Departamentos departamentos);
 
     void edit(Departamentos departamentos);
@@ -25,11 +25,12 @@ public interface DepartamentosFacadeLocal {
     Departamentos find(Object id);
 
     List<Departamentos> findAll();
-    
-    List<Departamentos> findTodo();
 
     List<Departamentos> findRange(int[] range);
 
     int count();
+    
+    
+    List<Departamentos> findTodo();
     
 }

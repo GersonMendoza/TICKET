@@ -7,13 +7,11 @@ package com.sv.udb.ejb;
 
 import com.sv.udb.controlador.LoginBean;
 import com.sv.udb.modelo.Solicitudes;
-import com.sv.udb.utils.FilterManager;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
 
 /**
  *
@@ -32,7 +30,6 @@ public class SolicitudesFacade extends AbstractFacade<Solicitudes> implements So
     public SolicitudesFacade() {
         super(Solicitudes.class);
     }
-    
     @Override
     public List<Solicitudes> findTodo() {
         LoginBean login = new LoginBean();

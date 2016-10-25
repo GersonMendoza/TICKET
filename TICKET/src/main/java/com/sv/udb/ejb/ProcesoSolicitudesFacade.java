@@ -29,11 +29,12 @@ public class ProcesoSolicitudesFacade extends AbstractFacade<ProcesoSolicitudes>
     public ProcesoSolicitudesFacade() {
         super(ProcesoSolicitudes.class);
     }
-    
     @Override
     public List<ProcesoSolicitudes> findTodo() {
     Query q = getEntityManager().createQuery("SELECT u FROM ProcesoSolicitudes u WHERE u.estaProcSoli ="+true, ProcesoSolicitudes.class);
         List resu = q.getResultList();
         return resu;
     }
+    
+    
 }

@@ -9,7 +9,6 @@ import com.sv.udb.modelo.Solicitudes;
 import java.util.List;
 import javax.ejb.Local;
 
-
 /**
  *
  * @author gersonfrancisco
@@ -24,14 +23,15 @@ public interface SolicitudesFacadeLocal {
     void remove(Solicitudes solicitudes);
 
     Solicitudes find(Object id);
-
-    List<Solicitudes> findAll();
     
     List<Solicitudes> findTodo();
     
     List<Solicitudes> findEncargado();
     
     List<Solicitudes> findTecnico();
+
+
+    List<Solicitudes> findAll();
 
     List<Solicitudes> findRange(int[] range);
 
