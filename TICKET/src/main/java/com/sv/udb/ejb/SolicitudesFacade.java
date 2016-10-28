@@ -51,4 +51,19 @@ public class SolicitudesFacade extends AbstractFacade<Solicitudes> implements So
         List resu = q.getResultList();
         return resu;
     }
+    
+    @Override
+    public List<Solicitudes> findVaci() {
+        Query q = getEntityManager().createQuery("SELECT u FROM Solicitudes u WHERE u.codiEnca IS NULL", Solicitudes.class);
+        List resu = q.getResultList();
+        return resu;
+    }
+    
+    @Override
+    public void asig(int codiSoli, int codiUsua) {
+        Query q = getEntityManager().createQuery("UPDATE Solicitudes s SET s.codiEnca = :codiUsua, s.estaSoli = 2 WHERE s.codiSoli = :codiSoli", Solicitudes.class);
+        q.setParameter("codiUsua", codiUsua);
+        q.setParameter("codiSoli", codiSoli);
+        q.executeUpdate();
+    }
 }

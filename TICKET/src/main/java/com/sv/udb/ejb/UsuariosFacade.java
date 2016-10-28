@@ -40,4 +40,10 @@ public class UsuariosFacade extends AbstractFacade<Usuarios> implements Usuarios
         return resu.isEmpty() ? null : (Usuarios)resu.get(0);
     }
     
+    @Override
+    public List<Usuarios> findTecn() {
+        Query q = getEntityManager().createQuery("SELECT u FROM Usuarios u WHERE u.codiTipo.codiTipo = 3 AND u.estaUsua = 1", Usuarios.class);
+        List resu = q.getResultList();
+        return resu;
+    }
 }

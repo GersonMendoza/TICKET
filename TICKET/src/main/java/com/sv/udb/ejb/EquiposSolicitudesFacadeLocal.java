@@ -5,6 +5,7 @@
  */
 package com.sv.udb.ejb;
 
+import com.sv.udb.modelo.Equipos;
 import com.sv.udb.modelo.EquiposSolicitudes;
 import java.util.List;
 import javax.ejb.Local;
@@ -25,6 +26,12 @@ public interface EquiposSolicitudesFacadeLocal {
     EquiposSolicitudes find(Object id);
 
     List<EquiposSolicitudes> findAll();
+    
+    List<Equipos> findTodo(int codi);
+    
+    String findDesc(int codiEqui, int codiSoli);
+    
+    Long cantEqui(int codi);
 
     List<EquiposSolicitudes> findRange(int[] range);
 

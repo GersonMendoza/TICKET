@@ -33,6 +33,7 @@ public class SolicitudesBean implements Serializable{
     private List<Solicitudes> listSoli;
     private List<Solicitudes> listSoliEnca;
     private List<Solicitudes> listSoliTecn;
+    private List<Solicitudes> listSoliVaci;
     static int codiSoli;
     private boolean guardar;
     private Logs<SolicitudesBean> lgs = new Logs<SolicitudesBean>(SolicitudesBean.class) {
@@ -86,10 +87,15 @@ public class SolicitudesBean implements Serializable{
     public List<Solicitudes> getListSoliTecn() {
         return listSoliTecn;
     }
-    
-    
-    
-    
+
+    /**
+     * Función que retorna la lista de objetos de Solicitudes sin asignar
+     * @return List listSoliVaci
+     */
+    public List<Solicitudes> getListSoliVaci() {
+        return listSoliVaci;
+    }
+        
     /**
      * Creates a new instance of SolicitudesBean
      */
@@ -162,6 +168,28 @@ public class SolicitudesBean implements Serializable{
             this.listSoli.remove(this.objeSoli); //Limpia el objeto viejo
             FCDESoli.edit(this.objeSoli);
             this.listSoli.add(this.objeSoli); //Agrega el objeto modificado
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
+            log.info("Los datos de han modificado correctamente en el bean");
+        }
+        catch(Exception ex)
+        {
+            log.error("ocurrio un error al momento de modificar");
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
+        }
+        finally
+        {
+            
+        }
+    }
+    
+    public void asig(int codiSoli, int codiUsua)
+    {
+        log.debug("Se intenda asignar en el bean");
+        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        try
+        {
+            this.listSoli.remove(this.objeSoli); //Limpia el objeto viejo
+            FCDESoli.asig(codiSoli, codiUsua);//Agrega el objeto modificado
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
             log.info("Los datos de han modificado correctamente en el bean");
         }
@@ -266,6 +294,26 @@ public class SolicitudesBean implements Serializable{
         {
             
         }
+    }
+    
+    /**
+     * Función para consultar las solicitudes sin asignar
+     * @return List listSoliVaci
+     */
+    public List<Solicitudes> consVaci()
+    {
+        log.debug("Se intenta consultar solicitudes sin asignar");
+        try
+        {
+            this.listSoliVaci = FCDESoli.findVaci();
+            log.info("La consulta se hizo correctamente");
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+            log.error("Ocurrio un error al momento de consultar");
+        }
+        return listSoliVaci;
     }
     
     /**

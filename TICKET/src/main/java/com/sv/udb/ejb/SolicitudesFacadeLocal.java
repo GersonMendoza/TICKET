@@ -30,10 +30,13 @@ public interface SolicitudesFacadeLocal {
     
     List<Solicitudes> findTecnico();
 
+    List<Solicitudes> findVaci();
 
     List<Solicitudes> findAll();
 
     List<Solicitudes> findRange(int[] range);
+    
+    void asig(int codiSoli, int codiUsua);
 
     int count();
     

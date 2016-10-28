@@ -5,10 +5,13 @@
  */
 package com.sv.udb.ejb;
 
+import com.sv.udb.modelo.Equipos;
 import com.sv.udb.modelo.EquiposSolicitudes;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,4 +31,28 @@ public class EquiposSolicitudesFacade extends AbstractFacade<EquiposSolicitudes>
         super(EquiposSolicitudes.class);
     }
     
+    @Override
+    public Long cantEqui(int codi) {
+        Query q = getEntityManager().createQuery("SELECT COUNT(u) FROM EquiposSolicitudes u WHERE u.codiSoli.codiSoli = :codiSoli", EquiposSolicitudes.class);
+        q.setParameter("codiSoli", codi);
+        long resu = (long)q.getSingleResult();
+        return resu;
+    }
+    
+    @Override
+    public List<Equipos> findTodo(int codi) {
+        Query q = getEntityManager().createQuery("SELECT e FROM Equipos e INNER JOIN EquiposSolicitudes es ON es.codiEqui.codiEqui = e.codiEqui WHERE es.codiSoli.codiSoli = :codiSoli", EquiposSolicitudes.class);
+        q.setParameter("codiSoli", codi);
+        List resu = q.getResultList();
+        return resu;
+    }
+    
+    @Override
+    public String findDesc(int codiEqui, int codiSoli) {
+        Query q = getEntityManager().createQuery("SELECT u.descEquiSoli FROM EquiposSolicitudes u WHERE u.codiSoli.codiSoli = :codiSoli AND u.codiEqui.codiEqui = :codiEqui", EquiposSolicitudes.class);
+        q.setParameter("codiEqui", codiEqui);
+        q.setParameter("codiSoli", codiSoli);
+        String desc = (String)q.getSingleResult();
+        return desc;
+    }
 }

@@ -26,6 +26,8 @@ public interface UsuariosFacadeLocal {
 
     List<Usuarios> findAll();
     
+    List<Usuarios> findTecn();
+    
     Usuarios findByAcceAndCont(Object acce, Object cont);
 
     List<Usuarios> findRange(int[] range);
