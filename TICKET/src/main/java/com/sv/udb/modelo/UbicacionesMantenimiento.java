@@ -29,17 +29,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "UbicacionesMantenimiento.findAll", query = "SELECT u FROM UbicacionesMantenimiento u"),
-    @NamedQuery(name = "UbicacionesMantenimiento.findByCodiUbiMant", query = "SELECT u FROM UbicacionesMantenimiento u WHERE u.codiUbiMant = :codiUbiMant")})
+    @NamedQuery(name = "UbicacionesMantenimiento.findByCodiUbicMant", query = "SELECT u FROM UbicacionesMantenimiento u WHERE u.codiUbicMant = :codiUbicMant")})
 public class UbicacionesMantenimiento implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "codi_ubi_mant")
-    private Integer codiUbiMant;
-    @JoinColumn(name = "codi_ubi", referencedColumnName = "codi_ubi")
+    @Column(name = "codi_ubic_mant")
+    private Integer codiUbicMant;
+    @JoinColumn(name = "codi_ubic", referencedColumnName = "codi_ubic")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Ubicaciones codiUbi;
+    private Ubicaciones codiUbic;
     @JoinColumn(name = "codi_mant", referencedColumnName = "codi_mant")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Mantenimientos codiMant;
@@ -47,24 +47,24 @@ public class UbicacionesMantenimiento implements Serializable {
     public UbicacionesMantenimiento() {
     }
 
-    public UbicacionesMantenimiento(Integer codiUbiMant) {
-        this.codiUbiMant = codiUbiMant;
+    public UbicacionesMantenimiento(Integer codiUbicMant) {
+        this.codiUbicMant = codiUbicMant;
     }
 
-    public Integer getCodiUbiMant() {
-        return codiUbiMant;
+    public Integer getCodiUbicMant() {
+        return codiUbicMant;
     }
 
-    public void setCodiUbiMant(Integer codiUbiMant) {
-        this.codiUbiMant = codiUbiMant;
+    public void setCodiUbicMant(Integer codiUbicMant) {
+        this.codiUbicMant = codiUbicMant;
     }
 
-    public Ubicaciones getCodiUbi() {
-        return codiUbi;
+    public Ubicaciones getCodiUbic() {
+        return codiUbic;
     }
 
-    public void setCodiUbi(Ubicaciones codiUbi) {
-        this.codiUbi = codiUbi;
+    public void setCodiUbic(Ubicaciones codiUbic) {
+        this.codiUbic = codiUbic;
     }
 
     public Mantenimientos getCodiMant() {
@@ -78,7 +78,7 @@ public class UbicacionesMantenimiento implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (codiUbiMant != null ? codiUbiMant.hashCode() : 0);
+        hash += (codiUbicMant != null ? codiUbicMant.hashCode() : 0);
         return hash;
     }
 
@@ -89,7 +89,7 @@ public class UbicacionesMantenimiento implements Serializable {
             return false;
         }
         UbicacionesMantenimiento other = (UbicacionesMantenimiento) object;
-        if ((this.codiUbiMant == null && other.codiUbiMant != null) || (this.codiUbiMant != null && !this.codiUbiMant.equals(other.codiUbiMant))) {
+        if ((this.codiUbicMant == null && other.codiUbicMant != null) || (this.codiUbicMant != null && !this.codiUbicMant.equals(other.codiUbicMant))) {
             return false;
         }
         return true;
@@ -97,7 +97,7 @@ public class UbicacionesMantenimiento implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sv.udb.modelo.UbicacionesMantenimiento[ codiUbiMant=" + codiUbiMant + " ]";
+        return "com.sv.udb.modelo.UbicacionesMantenimiento[ codiUbicMant=" + codiUbicMant + " ]";
     }
     
 }

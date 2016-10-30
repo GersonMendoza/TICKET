@@ -111,10 +111,10 @@ and open the template in the editor.
                                     </h:column>
                                     <h:column pt:data-sortable="true" pt:data-field="ubic">
                                         <f:facet name="header">Ubicación</f:facet> 
-                                        <h:panelGroup rendered="#{fila.codiUbi eq null}">
+                                        <h:panelGroup rendered="#{fila.codiUbic eq null}">
                                             <i/><center>---</center></h:panelGroup>
-                                        <h:panelGroup rendered="#{fila.codiUbi ne null}">
-                                            <i/>#{fila.codiUbi.nombUbi}</h:panelGroup>
+                                        <h:panelGroup rendered="#{fila.codiUbic ne null}">
+                                            <i/>#{fila.codiUbic.nombUbic}</h:panelGroup>
                                     </h:column>
                                     <h:column pt:data-sortable="true" pt:data-field="mant">
                                         <f:facet name="header">Mantenimiento</f:facet> 

@@ -7,9 +7,7 @@ package com.sv.udb.modelo;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,17 +15,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -68,21 +65,19 @@ public class Solicitudes implements Serializable {
     private String prioSoli;
     @Column(name = "esta_soli")
     private Integer estaSoli;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiSoli", fetch = FetchType.LAZY)
-    private List<ResolucionSolicitudes> resolucionSolicitudesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiSoli", fetch = FetchType.LAZY)
-    private List<ProcesoSolicitudes> procesoSolicitudesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiSoli", fetch = FetchType.LAZY)
-    private List<EquiposSolicitudes> equiposSolicitudesList;
-    @JoinColumn(name = "codi_mant", referencedColumnName = "codi_mant")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Mantenimientos codiMant;
+    @Lob
+    @Size(max = 65535)
+    @Column(name = "desc_soli")
+    private String descSoli;
     @JoinColumn(name = "codi_depa", referencedColumnName = "codi_depa")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Departamentos codiDepa;
-    @JoinColumn(name = "codi_ubi", referencedColumnName = "codi_ubi")
+    @JoinColumn(name = "codi_mant", referencedColumnName = "codi_mant")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Ubicaciones codiUbi;
+    private Mantenimientos codiMant;
+    @JoinColumn(name = "codi_ubic", referencedColumnName = "codi_ubic")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Ubicaciones codiUbic;
 
     public Solicitudes() {
     }
@@ -152,39 +147,12 @@ public class Solicitudes implements Serializable {
         this.estaSoli = estaSoli;
     }
 
-    @XmlTransient
-    public List<ResolucionSolicitudes> getResolucionSolicitudesList() {
-        return resolucionSolicitudesList;
+    public String getDescSoli() {
+        return descSoli;
     }
 
-    public void setResolucionSolicitudesList(List<ResolucionSolicitudes> resolucionSolicitudesList) {
-        this.resolucionSolicitudesList = resolucionSolicitudesList;
-    }
-
-    @XmlTransient
-    public List<ProcesoSolicitudes> getProcesoSolicitudesList() {
-        return procesoSolicitudesList;
-    }
-
-    public void setProcesoSolicitudesList(List<ProcesoSolicitudes> procesoSolicitudesList) {
-        this.procesoSolicitudesList = procesoSolicitudesList;
-    }
-
-    @XmlTransient
-    public List<EquiposSolicitudes> getEquiposSolicitudesList() {
-        return equiposSolicitudesList;
-    }
-
-    public void setEquiposSolicitudesList(List<EquiposSolicitudes> equiposSolicitudesList) {
-        this.equiposSolicitudesList = equiposSolicitudesList;
-    }
-
-    public Mantenimientos getCodiMant() {
-        return codiMant;
-    }
-
-    public void setCodiMant(Mantenimientos codiMant) {
-        this.codiMant = codiMant;
+    public void setDescSoli(String descSoli) {
+        this.descSoli = descSoli;
     }
 
     public Departamentos getCodiDepa() {
@@ -195,12 +163,20 @@ public class Solicitudes implements Serializable {
         this.codiDepa = codiDepa;
     }
 
-    public Ubicaciones getCodiUbi() {
-        return codiUbi;
+    public Mantenimientos getCodiMant() {
+        return codiMant;
     }
 
-    public void setCodiUbi(Ubicaciones codiUbi) {
-        this.codiUbi = codiUbi;
+    public void setCodiMant(Mantenimientos codiMant) {
+        this.codiMant = codiMant;
+    }
+
+    public Ubicaciones getCodiUbic() {
+        return codiUbic;
+    }
+
+    public void setCodiUbic(Ubicaciones codiUbic) {
+        this.codiUbic = codiUbic;
     }
 
     @Override

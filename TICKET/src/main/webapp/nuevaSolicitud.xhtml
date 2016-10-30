@@ -70,7 +70,7 @@ and open the template in the editor.
                                         <h:commandLink id="btonNuev" class="btn btn-success">
                                             <p:ajax listener="#{solicitudesBean.limpForm()}" update=":FormTicket" global="true" 
                                                     oncomplete="$('#ModaFormTicket').modal('show');"/>
-                                            <i class="fa fa-plus"/> Nuevo
+                                            <i class="fa fa-plus"/> Solicitud por Ubicación
                                         </h:commandLink>
                                     </h:form>
                                 </div>
@@ -87,21 +87,9 @@ and open the template in the editor.
                                         <f:facet name="header">Código</f:facet>
                                         <h:outputText value="#{fila.codiSoli}"/>
                                     </h:column>
-                                    <h:column pt:data-sortable="true" pt:data-field="desc">
-                                        <f:facet name="header">Descripción</f:facet>
-                                        <h:outputText value="#{fila.descSoli}"/>   
-                                    </h:column>
                                     <h:column pt:data-sortable="true" pt:data-field="depa">
                                         <f:facet name="header">Departamento</f:facet>
                                         <h:outputText value="#{fila.codiDepa.nombDepa}"/>   
-                                    </h:column>
-                                    <h:column pt:data-sortable="true" pt:data-field="equi">
-                                        <f:facet name="header">Equipo</f:facet>
-                                        <h:outputText value="#{fila.codiEqui}"/>   
-                                    </h:column>
-                                    <h:column pt:data-sortable="true" pt:data-field="ubic">
-                                        <f:facet name="header">Ubicación</f:facet>
-                                        <h:outputText value="#{fila.codiUbic}"/>   
                                     </h:column>
                                     <h:column pt:data-sortable="true">
                                         <f:facet name="header">Fecha Hora Solicitud.</f:facet>
@@ -130,19 +118,18 @@ and open the template in the editor.
                                     <fieldset class="col-md-12">
                                         <h:inputHidden id="codi" value="#{solicitudesBean.objeSoli.codiSoli}" />
                                         <div class="form-group input-group-xs">
-                                            <h:outputLabel  for="desc" value="Descripción: "/> 
+                                            <h:outputLabel  for="ubic" value="Ubicaciones: "/>
+                                            <h:selectOneMenu id="ubic" value="#{solicitudesBean.objeSoli.codiUbic}" class="form-control">
+                                                <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                                <f:selectItems value="#{ubicacionesBean.listUbic}" var="lst3" itemLabel="#{lst3.nombUbic}" itemValue="#{lst3}"/>
+                                                <f:converter converterId="PooConv"/>
+                                            </h:selectOneMenu>
+                                            <h:message for="ubic" errorClass="field-error" />
+                                        </div>
+                                        <div class="form-group input-group-xs">
+                                            <h:outputLabel  for="desc" value="Descripcion: "/> 
                                             <h:message for="desc" errorClass="field-error" />
                                             <h:inputText id="desc" value="#{solicitudesBean.objeSoli.descSoli}" class="form-control" />
-                                        </div>
-                                        <div class="form-group input-group-xs">
-                                            <h:outputLabel  for="equi" value="Equipo: "/> 
-                                            <h:message for="equi" errorClass="field-error" />
-                                            <h:inputText id="equi" value="#{solicitudesBean.objeSoli.codiEqui}" class="form-control" />
-                                        </div>
-                                        <div class="form-group input-group-xs">
-                                            <h:outputLabel  for="ubic" value="Ubicación: "/> 
-                                            <h:message for="ubic" errorClass="field-error" />
-                                            <h:inputText id="ubic" value="#{solicitudesBean.objeSoli.codiUbic}" class="form-control" />
                                         </div>
                                         <div class="form-group input-group-xs">
                                             <h:outputLabel  for="depa" value="Departamentos: "/>

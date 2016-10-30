@@ -36,7 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Mantenimientos.findAll", query = "SELECT m FROM Mantenimientos m"),
     @NamedQuery(name = "Mantenimientos.findByCodiMant", query = "SELECT m FROM Mantenimientos m WHERE m.codiMant = :codiMant"),
     @NamedQuery(name = "Mantenimientos.findByContDiasMant", query = "SELECT m FROM Mantenimientos m WHERE m.contDiasMant = :contDiasMant"),
-    @NamedQuery(name = "Mantenimientos.findByCodiUbi", query = "SELECT m FROM Mantenimientos m WHERE m.codiUbi = :codiUbi"),
     @NamedQuery(name = "Mantenimientos.findByEstaMantPrev", query = "SELECT m FROM Mantenimientos m WHERE m.estaMantPrev = :estaMantPrev")})
 public class Mantenimientos implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -49,10 +48,6 @@ public class Mantenimientos implements Serializable {
     @NotNull
     @Column(name = "cont_dias_mant")
     private int contDiasMant;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "codi_ubi")
-    private int codiUbi;
     @Basic(optional = false)
     @NotNull
     @Column(name = "esta_mant_prev")
@@ -72,10 +67,9 @@ public class Mantenimientos implements Serializable {
         this.codiMant = codiMant;
     }
 
-    public Mantenimientos(Integer codiMant, int contDiasMant, int codiUbi, boolean estaMantPrev) {
+    public Mantenimientos(Integer codiMant, int contDiasMant, boolean estaMantPrev) {
         this.codiMant = codiMant;
         this.contDiasMant = contDiasMant;
-        this.codiUbi = codiUbi;
         this.estaMantPrev = estaMantPrev;
     }
 
@@ -93,14 +87,6 @@ public class Mantenimientos implements Serializable {
 
     public void setContDiasMant(int contDiasMant) {
         this.contDiasMant = contDiasMant;
-    }
-
-    public int getCodiUbi() {
-        return codiUbi;
-    }
-
-    public void setCodiUbi(int codiUbi) {
-        this.codiUbi = codiUbi;
     }
 
     public boolean getEstaMantPrev() {

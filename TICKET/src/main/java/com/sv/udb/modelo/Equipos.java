@@ -69,9 +69,9 @@ public class Equipos implements Serializable {
     private String fechGaraEqui;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiEqui", fetch = FetchType.LAZY)
     private List<EquiposSolicitudes> equiposSolicitudesList;
-    @JoinColumn(name = "codi_ubi", referencedColumnName = "codi_ubi")
+    @JoinColumn(name = "codi_ubic", referencedColumnName = "codi_ubic")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Ubicaciones codiUbi;
+    private Ubicaciones codiUbic;
 
     public Equipos() {
     }
@@ -145,12 +145,12 @@ public class Equipos implements Serializable {
         this.equiposSolicitudesList = equiposSolicitudesList;
     }
 
-    public Ubicaciones getCodiUbi() {
-        return codiUbi;
+    public Ubicaciones getCodiUbic() {
+        return codiUbic;
     }
 
-    public void setCodiUbi(Ubicaciones codiUbi) {
-        this.codiUbi = codiUbi;
+    public void setCodiUbic(Ubicaciones codiUbic) {
+        this.codiUbic = codiUbic;
     }
 
     @Override
