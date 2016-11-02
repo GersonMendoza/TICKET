@@ -37,4 +37,11 @@ public class TipoMantenimientosFacade extends AbstractFacade<TipoMantenimientos>
         return resu;
     }
     
+    @Override
+    public String findTipoMantSoli(int codi) {
+        Query q = getEntityManager().createQuery("SELECT tm.nombTipoMant FROM TipoMantenimientos tm INNER JOIN Mantenimientos m ON m.codiTipoMant.codiTipoMant = tm.codiTipoMant WHERE m.codiMant = :codiMant", TipoMantenimientos.class);
+        q.setParameter("codiMant", codi);
+        String nombTipo = (String)q.getSingleResult();
+        return nombTipo;
+    }
 }

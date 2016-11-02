@@ -190,7 +190,7 @@ public class SolicitudesBean implements Serializable{
         {
             this.listSoli.remove(this.objeSoli); //Limpia el objeto viejo
             FCDESoli.asig(codiSoli, codiUsua);//Agrega el objeto modificado
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Solicitud asignada')");
             log.info("Los datos de han modificado correctamente en el bean");
         }
         catch(Exception ex)

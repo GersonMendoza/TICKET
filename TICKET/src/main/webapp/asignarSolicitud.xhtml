@@ -66,12 +66,7 @@ and open the template in the editor.
                                         <p:remoteCommand name="consTicket" actionListener="#{solicitudesBean.cons()}" update=":FormTicket" 
                                                          oncomplete="$('#ModaFormTicket').modal('show');" global="true"/>
                                         <p:remoteCommand name="elimTicket" actionListener="#{solicitudesBean.elim()}" update=":FormTicket :ContTicket" 
-                                                         oncomplete="INIT_OBJE_TICKET();" global="true"/>
-                                        <h:commandLink id="btonNuev" class="btn btn-success">
-                                            <p:ajax listener="#{solicitudesBean.limpForm()}" update=":FormTicket" global="true" 
-                                                    oncomplete="$('#ModaFormTicket').modal('show');"/>
-                                            <i class="fa fa-plus"/> Nuevo
-                                        </h:commandLink>
+                                                         oncomplete="INIT_OBJE_TICKET();" global="true"/>                                        
                                     </h:form>
                                 </div>                               
                                 <h:dataTable pt:data-id="TablTicket" id="TablTicket" value="#{solicitudesBean.consVaci()}"
@@ -181,7 +176,24 @@ and open the template in the editor.
                                             </h:dataTable>
                                         </h:panelGroup>
                                         <h:panelGroup  rendered="#{equiposSolicitudesBean.cantEqui(solicitudesBean.objeSoli.codiSoli) eq 0}">
-                                            <i/>Se detalla el mantenimiento
+                                            <center><h4 class="title">Detalle de mantenimiento</h4></center>
+                                            <h:dataTable pt:data-id="TablUbic" id="TablUbic" value="#{ubicacionesBean.ubicMantSoli(solicitudesBean.objeSoli.codiMant.codiMant)}"
+                                                         var="fila3" class="boottable" pt:data-toolbar="#toolTablUbic"
+                                                         styleClass="col-md-12 table-hover table-bordered table-condensed table-striped table-responsive"
+                                                         pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false">
+                                                <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id">
+                                                    <f:facet name="header">Código</f:facet>
+                                                    <h:outputText value="#{fila3.codiUbic}"/>
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="nomb">
+                                                    <f:facet name="header">Ubicación</f:facet>
+                                                    <h:outputText value="#{fila3.nombUbic}"/>   
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="tipo">
+                                                    <f:facet name="header">Tipo</f:facet>
+                                                    <h:outputText value="#{tipoMantenimientosBean.consTipoMantSoli(solicitudesBean.objeSoli.codiMant.codiMant)}"/>   
+                                                </h:column>
+                                            </h:dataTable>
                                         </h:panelGroup>
                                         <center><h4 class="title">Técnicos disponibles</h4></center>
                                         <h:dataTable pt:data-id="TablTecn" id="TablTecn" value="#{usuariosBean.consTecn()}"

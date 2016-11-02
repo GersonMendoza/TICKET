@@ -25,6 +25,8 @@ public interface UbicacionesFacadeLocal {
     Ubicaciones find(Object id);
 
     List<Ubicaciones> findAll();
+    
+    List<Ubicaciones> findUbicMantSoli(int codi);
 
     List<Ubicaciones> findRange(int[] range);
 

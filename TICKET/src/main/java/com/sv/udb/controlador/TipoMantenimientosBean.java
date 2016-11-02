@@ -182,6 +182,23 @@ public class TipoMantenimientosBean implements Serializable {
         }
     }
     
+    public String consTipoMantSoli(int codi)
+    {
+        log.debug("Se esta intentando consultar tipos de mantenimiento");
+        String nombTipo = "";
+        try
+        {
+            nombTipo = FCDETipoMant.findTipoMantSoli(codi);
+            log.info("La consulta se hizo correctamente");
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+            log.error("Ocurrio un error al momento de consultar tipos de mantenimientos");
+        }
+        return nombTipo;
+    }
+    
     public void cons()
     {
         log.debug("Se intenta consultar");
