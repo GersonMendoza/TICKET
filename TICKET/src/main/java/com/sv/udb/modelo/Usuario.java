@@ -6,36 +6,37 @@
 package com.sv.udb.modelo;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author gersonfrancisco
  */
 @Entity
-@Table(name = "usuarios", catalog = "sistemas_pilet", schema = "")
+@Table(name = "usuario", catalog = "sistemas_pilet", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Usuarios.findAll", query = "SELECT u FROM Usuarios u"),
-    @NamedQuery(name = "Usuarios.findByCodiUsua", query = "SELECT u FROM Usuarios u WHERE u.codiUsua = :codiUsua"),
-    @NamedQuery(name = "Usuarios.findByAcceUsua", query = "SELECT u FROM Usuarios u WHERE u.acceUsua = :acceUsua"),
-    @NamedQuery(name = "Usuarios.findByContUsua", query = "SELECT u FROM Usuarios u WHERE u.contUsua = :contUsua"),
-    @NamedQuery(name = "Usuarios.findByEstaUsua", query = "SELECT u FROM Usuarios u WHERE u.estaUsua = :estaUsua")})
-public class Usuarios implements Serializable {
+    @NamedQuery(name = "Usuario.findAll", query = "SELECT u FROM Usuario u"),
+    @NamedQuery(name = "Usuario.findByCodiUsua", query = "SELECT u FROM Usuario u WHERE u.codiUsua = :codiUsua"),
+    @NamedQuery(name = "Usuario.findByAcceUsua", query = "SELECT u FROM Usuario u WHERE u.acceUsua = :acceUsua"),
+    @NamedQuery(name = "Usuario.findByEstaUsua", query = "SELECT u FROM Usuario u WHERE u.estaUsua = :estaUsua")})
+public class Usuario implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,28 +45,26 @@ public class Usuarios implements Serializable {
     private Integer codiUsua;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 150)
     @Column(name = "acce_usua")
     private String acceUsua;
-    @Size(max = 100)
-    @Column(name = "cont_usua")
-    private String contUsua;
     @Basic(optional = false)
     @NotNull
     @Column(name = "esta_usua")
     private int estaUsua;
-    @JoinColumn(name = "codi_tipo", referencedColumnName = "codi_tipo")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private TiposUsuarios codiTipo;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiUsua", fetch = FetchType.LAZY)
+    private List<UsuarioRol> usuarioRolList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiUsua", fetch = FetchType.LAZY)
+    private List<Notificacion> notificacionList;
 
-    public Usuarios() {
+    public Usuario() {
     }
 
-    public Usuarios(Integer codiUsua) {
+    public Usuario(Integer codiUsua) {
         this.codiUsua = codiUsua;
     }
 
-    public Usuarios(Integer codiUsua, String acceUsua, int estaUsua) {
+    public Usuario(Integer codiUsua, String acceUsua, int estaUsua) {
         this.codiUsua = codiUsua;
         this.acceUsua = acceUsua;
         this.estaUsua = estaUsua;
@@ -87,14 +86,6 @@ public class Usuarios implements Serializable {
         this.acceUsua = acceUsua;
     }
 
-    public String getContUsua() {
-        return contUsua;
-    }
-
-    public void setContUsua(String contUsua) {
-        this.contUsua = contUsua;
-    }
-
     public int getEstaUsua() {
         return estaUsua;
     }
@@ -103,12 +94,22 @@ public class Usuarios implements Serializable {
         this.estaUsua = estaUsua;
     }
 
-    public TiposUsuarios getCodiTipo() {
-        return codiTipo;
+    @XmlTransient
+    public List<UsuarioRol> getUsuarioRolList() {
+        return usuarioRolList;
     }
 
-    public void setCodiTipo(TiposUsuarios codiTipo) {
-        this.codiTipo = codiTipo;
+    public void setUsuarioRolList(List<UsuarioRol> usuarioRolList) {
+        this.usuarioRolList = usuarioRolList;
+    }
+
+    @XmlTransient
+    public List<Notificacion> getNotificacionList() {
+        return notificacionList;
+    }
+
+    public void setNotificacionList(List<Notificacion> notificacionList) {
+        this.notificacionList = notificacionList;
     }
 
     @Override
@@ -121,10 +122,10 @@ public class Usuarios implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Usuarios)) {
+        if (!(object instanceof Usuario)) {
             return false;
         }
-        Usuarios other = (Usuarios) object;
+        Usuario other = (Usuario) object;
         if ((this.codiUsua == null && other.codiUsua != null) || (this.codiUsua != null && !this.codiUsua.equals(other.codiUsua))) {
             return false;
         }
@@ -133,7 +134,7 @@ public class Usuarios implements Serializable {
 
     @Override
     public String toString() {
-        return "com.sv.udb.modelo.Usuarios[ codiUsua=" + codiUsua + " ]";
+        return "com.sv.udb.modelo.Usuario[ codiUsua=" + codiUsua + " ]";
     }
     
 }

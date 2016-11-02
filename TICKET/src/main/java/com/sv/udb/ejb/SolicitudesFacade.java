@@ -33,7 +33,8 @@ public class SolicitudesFacade extends AbstractFacade<Solicitudes> implements So
     @Override
     public List<Solicitudes> findTodo() {
         LoginBean login = new LoginBean();
-        Query q = getEntityManager().createQuery("SELECT u FROM Solicitudes u WHERE u.codiUsua ="+login.codiUsua, Solicitudes.class);
+        System.out.print("\n"+login.getObjeUsua().getCodiUsua());
+        Query q = getEntityManager().createQuery("SELECT u FROM Solicitudes u WHERE u.codiUsua ="+login.getObjeUsua().getCodiUsua(), Solicitudes.class);
         List resu = q.getResultList();
         return resu;
     }

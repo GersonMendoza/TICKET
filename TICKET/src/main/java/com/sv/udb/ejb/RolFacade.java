@@ -5,17 +5,18 @@
  */
 package com.sv.udb.ejb;
 
-import com.sv.udb.modelo.TiposUsuarios;
+import com.sv.udb.modelo.Rol;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author gersonfrancisco
+ * @author Adonay
  */
 @Stateless
-public class TiposUsuariosFacade extends AbstractFacade<TiposUsuarios> implements TiposUsuariosFacadeLocal {
+public class RolFacade extends AbstractFacade<Rol> implements RolFacadeLocal {
+
     @PersistenceContext(unitName = "PILETPU")
     private EntityManager em;
 
@@ -24,8 +25,8 @@ public class TiposUsuariosFacade extends AbstractFacade<TiposUsuarios> implement
         return em;
     }
 
-    public TiposUsuariosFacade() {
-        super(TiposUsuarios.class);
+    public RolFacade() {
+        super(Rol.class);
     }
     
 }

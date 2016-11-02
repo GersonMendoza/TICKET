@@ -5,6 +5,7 @@
  */
 package com.sv.udb.utils;
 
+import com.sv.udb.controlador.GlobalAppBean;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -14,7 +15,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import com.sv.udb.controlador.LoginBean;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +27,15 @@ import javax.inject.Inject;
 public class FilterManager implements Filter {
     @Inject
     private LoginBean logiBean; //Bean de session
-    String prefix; //Prefijo de la aplicación
+    
+    @Inject
+    private GlobalAppBean globalAppBean; //Bean de Aplicación
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         System.out.println("************************************************");
         System.out.println("***** Iniciando Despegue De la Aplicación ******");
         System.out.println("************************************************");
-        this.prefix = filterConfig.getServletContext().getInitParameter("prefix");  //poo ---> web.xml
     }
 
     @Override
@@ -43,15 +44,17 @@ public class FilterManager implements Filter {
         String page = httpServRequ.getRequestURI(); //Página actual
         HttpServletResponse httpServResp = (HttpServletResponse) response;
         //Nombre del Contexto
-        String nombCtxt = String.format("%s/%s/", httpServRequ.getContextPath(), this.prefix);
+        String nombCtxt = String.format("%s%s/", httpServRequ.getContextPath(), httpServRequ.getServletPath());
         List<String> initPage = new ArrayList<>(); //Páginas iniciales
         initPage.add(httpServRequ.getContextPath() + "/");
         initPage.add(nombCtxt + "login.xhtml");
-        List<String> ignoPageFilt = new ArrayList<>(); //Páginas ignoradas por el filtro
+        List<String> ignoPageFilt = new ArrayList<>(); //Páginas ignoradas por el filtro sin login
         ignoPageFilt.addAll(initPage);
         ignoPageFilt.add(nombCtxt + "otra.xhtml");
+        List<String> ignoPageFiltLogi = new ArrayList<>(); //Páginas ignoradas por el filtro con login
+        ignoPageFiltLogi.add(nombCtxt + "index.xhtml");
+        ignoPageFiltLogi.add(nombCtxt + "error.xhtml");
         this.logiBean = this.logiBean != null ? this.logiBean : new LoginBean();
-        //System.err.println("Usted está navegando a: " + page);
         try
         {
              // Si esta en pagina inicial y está logeado
@@ -65,9 +68,17 @@ public class FilterManager implements Filter {
             }
             else
             {
-                if(logiBean.isLoge()) //Si está logeado, deja pasar
+                if(logiBean.isLoge()) //Si está logeado
                 {
-                    chain.doFilter(request, response);
+                    if(globalAppBean.getEstaPermByPage(logiBean.getObjeUsua().getAcceUsua(), page)
+                            || ignoPageFiltLogi.contains(page)) // Tiene permiso para esta página? o está en las ignoradas por el filtro, deja pasar
+                    {
+                        chain.doFilter(request, response);
+                    }
+                    else //Sino tiene permiso, se va a la página de error
+                    {
+                        httpServResp.sendRedirect(nombCtxt + "error.xhtml");
+                    }
                 }
                 else // Sino enviarlo al login
                 {

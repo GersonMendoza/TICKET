@@ -5,13 +5,11 @@
  */
 package com.sv.udb.utils;
 
-import java.io.Serializable;
-
 /**
  *
  * @author Mauricio
  */
-public class Notificacion implements Serializable{
+public class Notificacion {
     private String desc; //Descripción
     private boolean leid; //Leido
 

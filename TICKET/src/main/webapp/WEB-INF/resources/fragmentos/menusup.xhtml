@@ -32,20 +32,20 @@ and open the template in the editor.
                             <li class="dropdown notifications-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-bell-o"></i>
-                                    <span class="label label-warning">#{loginBean.listNoti.size()}</span>
+                                    <span class="label label-warning">#{notificacionBean.listNoti.size()}</span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li class="header">Ud. tiene #{loginBean.listNoti.size()} notificaciones</li>
+                                    <li class="header">Ud. tiene #{notificacionBean.listNoti.size()} notificaciones</li>
                                     <li>
                                         <ul class="menu">
-                                            <ui:repeat var="noti" varStatus="status" value="#{loginBean.listNoti}">
+                                            <ui:repeat var="noti" varStatus="status" value="#{notificacionBean.listNoti}">
                                                 <li>
                                                     <a href="#">
-                                                        <h:panelGroup rendered="#{noti.leid}">
-                                                            <i class="fa fa-folder-open-o text-aqua"/> #{noti.desc}
+                                                        <h:panelGroup rendered="#{noti.estaNoti}">
+                                                            <i class="fa fa-folder-open-o text-aqua"/> #{noti.mensNoti}
                                                         </h:panelGroup>
-                                                        <h:panelGroup rendered="#{!noti.leid}">
-                                                            <i class="fa fa-folder text-aqua"/> #{noti.desc}
+                                                        <h:panelGroup rendered="#{!noti.estaNoti}">
+                                                            <i class="fa fa-folder text-aqua"/> #{noti.mensNoti}
                                                         </h:panelGroup>
                                                     </a>
                                                 </li>
@@ -58,15 +58,15 @@ and open the template in the editor.
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <p:graphicImage value="#{globalAppBean.getImage(loginBean.imagPerf)}" class="user-image" alt="Usuario"/>
-                                    <span class="hidden-xs">#{loginBean.objeUsua.acceUsua} #{loginBean.objeUsua.acceUsua}</span>
+                                    <span class="hidden-xs"></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
                                         <p:graphicImage value="#{globalAppBean.getImage(loginBean.imagPerf)}" class="img-circle" alt="Usuario"/>
                                         <p>
-                                            #{loginBean.objeUsua.acceUsua}
-                                            <small>Usuario #{loginBean.objeUsua.acceUsua} </small>
+                                            
+                                            <small>Usuario</small>
                                         </p>
                                     </li>
                                     <!-- Menu Footer-->

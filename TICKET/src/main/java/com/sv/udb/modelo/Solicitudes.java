@@ -7,7 +7,9 @@ package com.sv.udb.modelo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,12 +21,14 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -43,6 +47,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Solicitudes.findByPrioSoli", query = "SELECT s FROM Solicitudes s WHERE s.prioSoli = :prioSoli"),
     @NamedQuery(name = "Solicitudes.findByEstaSoli", query = "SELECT s FROM Solicitudes s WHERE s.estaSoli = :estaSoli")})
 public class Solicitudes implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Lob
+    @Size(min = 1, max = 65535)
+    @Column(name = "desc_soli")
+    private String descSoli;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -65,16 +75,18 @@ public class Solicitudes implements Serializable {
     private String prioSoli;
     @Column(name = "esta_soli")
     private Integer estaSoli;
-    @Lob
-    @Size(max = 65535)
-    @Column(name = "desc_soli")
-    private String descSoli;
-    @JoinColumn(name = "codi_depa", referencedColumnName = "codi_depa")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Departamentos codiDepa;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiSoli", fetch = FetchType.LAZY)
+    private List<ResolucionSolicitudes> resolucionSolicitudesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiSoli", fetch = FetchType.LAZY)
+    private List<ProcesoSolicitudes> procesoSolicitudesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiSoli", fetch = FetchType.LAZY)
+    private List<EquiposSolicitudes> equiposSolicitudesList;
     @JoinColumn(name = "codi_mant", referencedColumnName = "codi_mant")
     @ManyToOne(fetch = FetchType.LAZY)
     private Mantenimientos codiMant;
+    @JoinColumn(name = "codi_depa", referencedColumnName = "codi_depa")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Departamentos codiDepa;
     @JoinColumn(name = "codi_ubic", referencedColumnName = "codi_ubic")
     @ManyToOne(fetch = FetchType.LAZY)
     private Ubicaciones codiUbic;
@@ -147,20 +159,31 @@ public class Solicitudes implements Serializable {
         this.estaSoli = estaSoli;
     }
 
-    public String getDescSoli() {
-        return descSoli;
+    @XmlTransient
+    public List<ResolucionSolicitudes> getResolucionSolicitudesList() {
+        return resolucionSolicitudesList;
     }
 
-    public void setDescSoli(String descSoli) {
-        this.descSoli = descSoli;
+    public void setResolucionSolicitudesList(List<ResolucionSolicitudes> resolucionSolicitudesList) {
+        this.resolucionSolicitudesList = resolucionSolicitudesList;
     }
 
-    public Departamentos getCodiDepa() {
-        return codiDepa;
+    @XmlTransient
+    public List<ProcesoSolicitudes> getProcesoSolicitudesList() {
+        return procesoSolicitudesList;
     }
 
-    public void setCodiDepa(Departamentos codiDepa) {
-        this.codiDepa = codiDepa;
+    public void setProcesoSolicitudesList(List<ProcesoSolicitudes> procesoSolicitudesList) {
+        this.procesoSolicitudesList = procesoSolicitudesList;
+    }
+
+    @XmlTransient
+    public List<EquiposSolicitudes> getEquiposSolicitudesList() {
+        return equiposSolicitudesList;
+    }
+
+    public void setEquiposSolicitudesList(List<EquiposSolicitudes> equiposSolicitudesList) {
+        this.equiposSolicitudesList = equiposSolicitudesList;
     }
 
     public Mantenimientos getCodiMant() {
@@ -169,6 +192,14 @@ public class Solicitudes implements Serializable {
 
     public void setCodiMant(Mantenimientos codiMant) {
         this.codiMant = codiMant;
+    }
+
+    public Departamentos getCodiDepa() {
+        return codiDepa;
+    }
+
+    public void setCodiDepa(Departamentos codiDepa) {
+        this.codiDepa = codiDepa;
     }
 
     public Ubicaciones getCodiUbic() {
@@ -202,6 +233,14 @@ public class Solicitudes implements Serializable {
     @Override
     public String toString() {
         return "com.sv.udb.modelo.Solicitudes[ codiSoli=" + codiSoli + " ]";
+    }
+
+    public String getDescSoli() {
+        return descSoli;
+    }
+
+    public void setDescSoli(String descSoli) {
+        this.descSoli = descSoli;
     }
     
 }

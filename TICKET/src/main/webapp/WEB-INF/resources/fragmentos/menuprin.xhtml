@@ -19,33 +19,79 @@ and open the template in the editor.
                         <p:graphicImage value="#{globalAppBean.getImage(loginBean.imagPerf)}" class="img-circle" alt="Usuario"/>
                     </div>
                     <div class="pull-left info">
-                        <p>#{loginBean.objeUsua.acceUsua} #{loginBean.objeUsua.acceUsua}</p>
+                        <p>#{loginBean.objeUsua.acceUsua}</p>
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
                     <li class="treeview #{actiIndex}">
-                        <h:link outcome="index">
+                        <h:link outcome="/index">
                             <i class="fa fa-home"></i> <span>Principal</span>
                         </h:link>
                     </li>
-                    <li class="treeview #{actiMenuTicket}">
-                        <a href="#">
-                            <i class="fa fa-desktop"></i> <span>Sistema de Ticket</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        
-                        <ul class="treeview-menu">
-                            <li class="#{actiPrincipal}"><h:link outcome="index"><i class="fa fa-file"></i>Principal</h:link></li>
-                            <li class="#{actiDepartamentos}"><h:link outcome="departamentos"><i class="fa fa-users"></i> Departamentos </h:link></li>
-                            <li class="#{actiNuevSoli}"><h:link outcome="nuevaSolicitud"><i class="fa fa-file-text-o"></i> Solicitudes </h:link></li>
-                            <li class="#{actiTipoMant}"><h:link outcome="tipoMantenimientos"><i class="fa fa-pencil"></i> Tipos Mantenimientos </h:link></li>
-                            <li class="#{actiAsigSoli}"><h:link outcome="asignarSolicitud"><i class="fa fa-pencil"></i> Asignar solicitud </h:link></li>
-                        </ul>
-                    </li>
+                    <ui:fragment  rendered="#{globalAppBean.getEstaPermByName('/Modulo_usuarios')}">
+                        <li class="treeview #{actiMenu1}">
+                            <a href="#">
+                                <i class="fa fa-dashboard"></i> <span>Módulo de Usuarios</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="#{actiRole}">
+                                    <h:link outcome="/Modulo_usuarios/roles" rendered="#{globalAppBean.getEstaPermByName('/Modulo_usuarios/roles.xhtml')}">
+                                        <i class="fa fa-user"></i> Roles
+                                    </h:link>
+                                </li>
+                            </ul>
+                            <ul class="treeview-menu">
+                                <li class="#{actiUsuaRole}">
+                                    <h:link outcome="/Modulo_usuarios/usuariorol" rendered="#{globalAppBean.getEstaPermByName('/Modulo_usuarios/usuariorol.xhtml')}">
+                                        <i class="fa fa-user"></i> Asignar roles a usuario
+                                    </h:link>
+                                </li>
+                            </ul>
+                        </li>
+                    </ui:fragment>
+                    <ui:fragment  rendered="#{globalAppBean.getEstaPermByName('/Modulo_ticket')}">
+                        <li class="treeview #{actiMenuTicket}">
+                            <a href="#">
+                                <i class="fa fa-dashboard"></i> <span>Módulo de Ticket</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="#{actiDepartamentos}">
+                                    <h:link outcome="/Modulo_ticket/departamentos" rendered="#{globalAppBean.getEstaPermByName('/Modulo_ticket/departamentos.xhtml')}">
+                                        <i class="fa fa-user"></i> Departamentos
+                                    </h:link>
+                                </li>
+                            </ul>
+                            <ul class="treeview-menu">
+                                <li class="#{actiTipoMant}">
+                                    <h:link outcome="/Modulo_ticket/tipoMantenimientos" rendered="#{globalAppBean.getEstaPermByName('/Modulo_ticket/tipoMantenimientos.xhtml')}">
+                                        <i class="fa fa-user"></i> Tipos de mantenimientos
+                                    </h:link>
+                                </li>
+                            </ul>
+                            <ul class="treeview-menu">
+                                <li class="#{actiAsigSoli}">
+                                    <h:link outcome="/Modulo_ticket/asignarSolicitud" rendered="#{globalAppBean.getEstaPermByName('/Modulo_ticket/asignarSolicitud.xhtml')}">
+                                        <i class="fa fa-user"></i> Asignar solicitud
+                                    </h:link>
+                                </li>
+                            </ul>
+                            <ul class="treeview-menu">
+                                <li class="#{actiNuevSoli}">
+                                    <h:link outcome="/Modulo_ticket/nuevaSolicitud" rendered="#{globalAppBean.getEstaPermByName('/Modulo_ticket/nuevaSolicitud.xhtml')}">
+                                        <i class="fa fa-user"></i> Solicitudes
+                                    </h:link>
+                                </li>
+                            </ul>
+                        </li>
+                    </ui:fragment>
                 </ul>
             </section>
             <!-- /.sidebar -->

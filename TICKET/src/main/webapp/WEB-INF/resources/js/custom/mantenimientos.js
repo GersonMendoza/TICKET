@@ -3,7 +3,7 @@ $(document).ready(function() {
         $(this).bootstrapTable('destroy');
         $(this).bootstrapTable().
         unbind('check.bs.table').on('check.bs.table', function (e, row) {
-            consTicket([{name : 'codiPara', value : row.id.trim()}]);
+            cons([{name : 'codiObjePara', value : row.id.trim()}]);
         });
         return false;
     };
@@ -22,25 +22,26 @@ $(document).ready(function() {
             e.stopPropagation();
         });
     };
-    $('#ModaFormTicket').on('show.bs.modal', function() {
-        INIT_OBJE_MODA_TICKET();
+    $('#ModaFormRegi').on('show.bs.modal', function() {
+        INIT_OBJE_MODA();
     });
-    $('#ModaFormTicket').on('hide.bs.modal', function() {
-        $("#TablTicket").bootstrapTable('uncheckAll');
+    $('#ModaFormRegi').on('hide.bs.modal', function() {
+        $("#TablRegi").bootstrapTable('uncheckAll');
     });
 
     
-    INIT_OBJE_TICKET();
+    INIT_OBJE();
 });
 
-function INIT_OBJE_TICKET()
+function INIT_OBJE()
 {
-    $("#TablTicket").initBootTable();
-    INIT_OBJE_MODA_TICKET();
+    $("#TablRegi").initBootTable();
+    INIT_OBJE_MODA();
 }
 
-function INIT_OBJE_MODA_TICKET()
+function INIT_OBJE_MODA()
 {
-    $("#FormTicket\\:btonElim").confirmation({container: '#FormTicket'});
-    $("#FormTicket\\:ubic").selectpicker();
+    $("#FormRegi\\:btonElim").confirmation({container: '#FormRegi'});
+    $("#FormRegi\\:fechNaci").initDatePick();
+    $("#FormRegi\\:gene").selectpicker();
 }

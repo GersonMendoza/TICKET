@@ -135,7 +135,7 @@ public class SolicitudesBean implements Serializable{
         try
         {
             LoginBean login = new LoginBean();
-            this.objeSoli.setCodiUsua(login.codiUsua);
+            this.objeSoli.setCodiUsua(login.getObjeUsua().getCodiUsua());
             this.objeSoli.setEstaSoli(1);
             this.objeSoli.setFechHoraSoli(new Date());
             FCDESoli.create(this.objeSoli);
