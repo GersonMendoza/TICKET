@@ -29,6 +29,8 @@ public interface UsuarioFacadeLocal {
     boolean findPermByAcceAndDire(Object acce, Object path);
 
     List<Usuario> findAll();
+    
+    List<Usuario> findTecn();
 
     List<Usuario> findRange(int[] range);
 

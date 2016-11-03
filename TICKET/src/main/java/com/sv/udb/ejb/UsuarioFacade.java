@@ -54,4 +54,10 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
         return ((String)q.getSingleResult()).equals("true");
     }
     
+    @Override
+    public List<Usuario> findTecn() {
+        Query q = getEntityManager().createQuery("SELECT u FROM Usuario u INNER JOIN UsuarioRol ur ON ur.codiUsua.codiUsua = u.codiUsua WHERE ur.codiRole.codiRole = 10", Usuario.class);
+        List resu = q.getResultList();
+        return resu;
+    }
 }
