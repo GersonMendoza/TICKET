@@ -25,6 +25,8 @@ public interface MantenimientosFacadeLocal {
     Mantenimientos find(Object id);
 
     List<Mantenimientos> findAll();
+    
+    List<Mantenimientos> findTodo();
 
     List<Mantenimientos> findRange(int[] range);
 
