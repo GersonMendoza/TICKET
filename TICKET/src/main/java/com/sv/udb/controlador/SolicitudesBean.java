@@ -141,6 +141,7 @@ public class SolicitudesBean implements Serializable{
             FCDESoli.create(this.objeSoli);
             this.listSoli.add(this.objeSoli);
             this.guardar = false;
+            this.limpForm();
             //this.limpForm(); //Omito para mantener los datos en la modal
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
             log.info("Se han guardado correctamento los datos");

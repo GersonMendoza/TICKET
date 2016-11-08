@@ -8,6 +8,8 @@ package com.sv.udb.controlador;
 import com.sv.udb.ejb.EquiposFacadeLocal;
 import com.sv.udb.modelo.Equipos;
 import java.io.Serializable;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -24,6 +26,12 @@ public class EquiposBean implements Serializable{
     private EquiposFacadeLocal FCDEEqui;
     private Equipos objeEqui;
 
+    private List<Equipos> listEqui;
+
+    public List<Equipos> getListEqui() {
+        return listEqui;
+    }
+    
     public Equipos getObjeEqui() {
         return objeEqui;
     }
@@ -37,6 +45,28 @@ public class EquiposBean implements Serializable{
      */
     public EquiposBean() {
     }
+    @PostConstruct
+    public void init()
+    {
+        this.consTodo();
+    }
+    
+    public void consTodo()
+    {
+        try
+        {
+            this.listEqui = FCDEEqui.findAll();
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        finally
+        {
+            
+        }
+    }
+    
     
     public Equipos consEqui(int codi){
         try{

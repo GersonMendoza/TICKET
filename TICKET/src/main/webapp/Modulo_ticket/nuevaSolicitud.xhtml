@@ -88,6 +88,15 @@ and open the template in the editor.
                                                     <h:message for="desc1" errorClass="field-error" />
                                                     <h:inputText id="desc1" value="#{solicitudesBean.objeSoli.descSoli}" class="form-control" />
                                                 </div>
+                                                <div class="form-group input-group-xs">
+                                                    <h:outputLabel for="equisoli" value="Equipos: "/>
+                                                    <h:message for="equisoli" errorClass="field-error" />
+                                                    <h:selectOneMenu id="equisoli" value="#{solicitudesBean.objeSoli.codiEqui}" class="form-control" pt:data-live-search="true">
+                                                        <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                                        <f:selectItems value="#{equiposBean.listEqui}" var="lst2" itemLabel="#{lst2.codiEqui}#{' - '}#{lst2.descEqui}" itemValue="#{lst2}"/>
+                                                        <f:converter converterId="PooConv"/>
+                                                    </h:selectOneMenu>
+                                                </div>
                                             </fieldset>
                                             <div class="input-group-btn right" style="padding-top: 5px;">
                                             <div class="btn-group">

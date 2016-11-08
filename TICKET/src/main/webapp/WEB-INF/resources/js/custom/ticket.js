@@ -45,4 +45,5 @@ function INIT_OBJE_MODA_TICKET()
     $("#FormTicket1\\:depasoli").selectpicker();
     $("#FormTicket\\:btonElim").confirmation({container: '#FormTicket'});
     $("#FormTicket\\:ubic").selectpicker();
+    $("#FormTicket1\\:equisoli").selectpicker();
 }
