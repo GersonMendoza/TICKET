@@ -41,6 +41,8 @@ function INIT_OBJE_TICKET()
 
 function INIT_OBJE_MODA_TICKET()
 {
+    $("#FormTicket\\:depa").selectpicker();
+    $("#FormTicket1\\:depasoli").selectpicker();
     $("#FormTicket\\:btonElim").confirmation({container: '#FormTicket'});
     $("#FormTicket\\:ubic").selectpicker();
 }

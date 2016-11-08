@@ -37,6 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByAcceUsua", query = "SELECT u FROM Usuario u WHERE u.acceUsua = :acceUsua"),
     @NamedQuery(name = "Usuario.findByEstaUsua", query = "SELECT u FROM Usuario u WHERE u.estaUsua = :estaUsua")})
 public class Usuario implements Serializable {
+    @OneToMany(mappedBy = "codiUsua", fetch = FetchType.LAZY)
+    private List<Bitacora> bitacoraList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -135,6 +137,15 @@ public class Usuario implements Serializable {
     @Override
     public String toString() {
         return "com.sv.udb.modelo.Usuario[ codiUsua=" + codiUsua + " ]";
+    }
+
+    @XmlTransient
+    public List<Bitacora> getBitacoraList() {
+        return bitacoraList;
+    }
+
+    public void setBitacoraList(List<Bitacora> bitacoraList) {
+        this.bitacoraList = bitacoraList;
     }
     
 }

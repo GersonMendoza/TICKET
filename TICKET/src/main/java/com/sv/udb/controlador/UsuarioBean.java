@@ -8,6 +8,7 @@ package com.sv.udb.controlador;
 import com.sv.udb.ejb.UsuarioFacadeLocal;
 import com.sv.udb.modelo.Usuario;
 import com.sv.udb.utils.LOG4J;
+import com.sv.udb.utils.UsuariosPojo;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.ManagedBean;
@@ -15,6 +16,12 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -91,5 +98,37 @@ public class UsuarioBean implements Serializable{
         {
             
         }
+    }
+    
+    public List<Usuario> consTecn(){
+        try
+        {
+            this.listUsua = FCDEUsuario.findTecn();
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return this.listUsua;
+    }
+    
+    public String consNomb(String usua)
+    {
+        UsuariosPojo resp;
+        Client client = ClientBuilder.newClient();
+        String url = String.format("http://www.opensv.tk:8080/WebService/MiServicio/consUsua/%s", usua);
+        WebTarget resource = client.target(url);
+        Invocation.Builder request = resource.request();
+        request.accept(MediaType.APPLICATION_JSON);
+        Response response = request.get();
+        if (response.getStatusInfo().getFamily() == Response.Status.Family.SUCCESSFUL)
+        {
+            resp = response.readEntity(UsuariosPojo.class); //La respuesta de captura en un pojo que esta en el paquete utils
+        }
+        else
+        {
+            resp = null;
+        }
+        return resp.getNomb();
     }
 }

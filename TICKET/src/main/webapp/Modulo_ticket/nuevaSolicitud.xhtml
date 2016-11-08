@@ -21,135 +21,75 @@ and open the template in the editor.
         <ui:param name="actiNuevSoli" value="active"/>
         <!-- Scripts personalizados -->
         <ui:define name="CustomScripts">
-        <!--Plugins Selector de Fecha-->
-        <h:outputStylesheet library="css" name="datepicker3.css"/>
-        <h:outputScript library="js" name="bootstrap-datepicker.js"/>
-        <h:outputScript library="js" name="bootstrap-datepicker.es.js"/>
-        <!--Plugins Select-->
-        <h:outputStylesheet library="css" name="bootstrap-select.css"/>
-        <h:outputScript library="js" name="bootstrap-select.js"/>
-        <!--Plugins custom-->
+            <!--Plugins Selector de Fecha-->
+            <h:outputStylesheet library="css" name="datepicker3.css"/>
+            <h:outputScript library="js" name="bootstrap-datepicker.js"/>
+            <h:outputScript library="js" name="bootstrap-datepicker.es.js"/>
+            <!--Plugins Select-->
+            <h:outputStylesheet library="css" name="bootstrap-select.css"/>
+            <h:outputScript library="js" name="bootstrap-select.js"/>
+            <!--Plugins custom-->
             <h:outputScript library="js" name="custom/ticket.js"/>
         </ui:define>
         <!-- Elementos propios del boby -->
         <ui:define name="body">
-        <style>
-            .field-error
-            {
-                color: #a94442; 
-                display: inline;
-                font-size: 10px;
-            }
-            .field-error:first-letter
-            {
-                text-transform: capitalize;
-                color: #003399;
-            }
-            .form-group
-            {
-                margin-bottom: 5px !important;
-            }
-            .bootstrap-select > .btn {
-                padding-top: 2px;
-                padding-bottom: 2px;
-            }
-        </style>
+            <style>
+                .field-error
+                {
+                    color: #a94442; 
+                    display: inline;
+                    font-size: 10px;
+                }
+                .field-error:first-letter
+                {
+                    text-transform: capitalize;
+                    color: #003399;
+                }
+                .form-group
+                {
+                    margin-bottom: 5px !important;
+                }
+                .bootstrap-select > .btn {
+                    padding-top: 2px;
+                    padding-bottom: 2px;
+                }
+            </style>
             <div class="row">
-                <div class="col-md-12 col-xs-12">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Tabla de Datos</div>
-                        <div class="panel-body">
-                            <h:panelGroup id="ContTicket">
-                                <div id="toolTablTicket">
-                                    <h:form>
-                                        <!--Form exclusivo para los remotos-->
-                                        <p:remoteCommand name="consTicket" actionListener="#{solicitudesBean.cons()}" update=":FormTicket" 
-                                                         oncomplete="$('#ModaFormTicket').modal('show');" global="true"/>
-                                        <p:remoteCommand name="elimTicket" actionListener="#{solicitudesBean.elim()}" update=":FormTicket :ContTicket" 
-                                                         oncomplete="INIT_OBJE_TICKET();" global="true"/>
-                                        <h:commandLink id="btonNuev" class="btn btn-success">
-                                            <p:ajax listener="#{solicitudesBean.limpForm()}" update=":FormTicket" global="true" 
-                                                    oncomplete="$('#ModaFormTicket').modal('show');"/>
-                                            <i class="fa fa-plus"/> Solicitud por Ubicación
-                                        </h:commandLink>
-                                        #{''}
-                                        <h:commandLink id="btonSoli" class="btn btn-success">
-                                            <p:ajax listener="#{solicitudesBean.limpForm()}" update=":FormTicket" global="true" 
-                                                    oncomplete="$('#ModaFormTicket').modal('show');"/>
-                                            <i class="fa fa-plus"/> Solicitud por Equipos
-                                        </h:commandLink>
-                                    </h:form>
-                                </div>
-                                <h:dataTable pt:data-id="TablTicket" id="TablTicket" value="#{solicitudesBean.listSoli}"
-                                             var="fila" class="boottable" pt:data-toolbar="#toolTablTicket"
-                                             styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
-                                             pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
-                                             pt:data-search="true" pt:data-pagination="true" pt:data-page-list="[5, 10, 20, 50]"
-                                             pt:data-click-to-select="true"  pt:data-select-item-name="radio"
-                                             pt:data-single-select="true">                                
-                                    <h:column pt:data-field="state" pt:data-checkbox="true">
-                                    </h:column>
-                                    <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id">
-                                        <f:facet name="header">Código</f:facet>
-                                        <h:outputText value="#{fila.codiSoli}"/>
-                                    </h:column>
-                                    <h:column pt:data-sortable="true" pt:data-field="depa">
-                                        <f:facet name="header">Departamento</f:facet>
-                                        <h:outputText value="#{fila.codiDepa.nombDepa}"/>   
-                                    </h:column>
-                                    <h:column pt:data-sortable="true">
-                                        <f:facet name="header">Fecha Hora Solicitud.</f:facet>
-                                        <h:outputText value="#{fila.fechHoraSoli}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy H:mm:ss" timeZone="GMT-6"/>
-                                        </h:outputText>                            
-                                    </h:column>
-                                </h:dataTable>
-                            </h:panelGroup>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <!-- Modal -->
-                <div id="ModaFormTicket" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <h:form id="FormTicket" class="form-horizontal">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"/></button>
-                                    <h4 class="modal-title">Gestión de Solicitudes</h4>
-                                </div>
-                                <div class="modal-body" style="padding-top: 2px;">
-                                    <fieldset class="col-md-12">
-                                        <h:inputHidden id="codi" value="#{solicitudesBean.objeSoli.codiSoli}" />
-                                        <div class="form-group input-group-xs">
-                                            <h:outputLabel  for="ubic" value="Ubicaciones: "/>
-                                            <h:message for="ubic" errorClass="field-error" />
-                                            <h:selectOneMenu id="ubic" value="#{solicitudesBean.objeSoli.codiUbic}" class="form-control" pt:data-live-search="true">
-                                                <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                                <f:selectItems value="#{ubicacionesBean.listUbic}" var="lst3" itemLabel="#{lst3.nombUbic}" itemValue="#{lst3}"/>
-                                                <f:converter converterId="PooConv"/>
-                                            </h:selectOneMenu>
-                                        </div>
-                                        <div class="form-group input-group-xs">
-                                            <h:outputLabel  for="desc" value="Descripcion: "/> 
-                                            <h:message for="desc" errorClass="field-error" />
-                                            <h:inputText id="desc" value="#{solicitudesBean.objeSoli.descSoli}" class="form-control" />
-                                        </div>
-                                        <div class="form-group input-group-xs">
-                                            <h:outputLabel  for="depa" value="Departamentos: "/>
-                                            <h:message for="depa" errorClass="field-error" />
-                                            <h:selectOneMenu id="depa" value="#{solicitudesBean.objeSoli.codiDepa}" class="form-control">
-                                                <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
-                                                <f:selectItems value="#{departamentosBean.listDepa}" var="lst" itemLabel="#{lst.nombDepa}" itemValue="#{lst}"/>
-                                                <f:converter converterId="PooConv"/>
-                                            </h:selectOneMenu>
-                                        </div>
-                                    </fieldset>
-                                </div>
-                                <div class="modal-footer">
-                                        <div class="input-group-btn right" style="padding-top: 5px;">
+                <div id="exTab2" class="container">	
+                    <div class="col-md-12">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a  href="#1" data-toggle="tab">Mis solicitudes</a>
+                            </li>
+                            <li><a href="#2" data-toggle="tab">Ubicación</a>
+                            </li>
+                            <li><a href="#3" data-toggle="tab">Equipos</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content ">
+                            <div class="tab-pane active" id="1">
+                                <div id="ModaFormTicket1" class="panel panel-default">
+                                    <div class="panel-heading">Solicitud por equipos</div>
+                                    <div class="panel-body">
+                                        <h:form id="FormTicket1" class="form-horizontal">
+                                            <fieldset class="col-md-12">
+                                                <h:inputHidden id="codisoli" value="#{solicitudesBean.objeSoli.codiSoli}" />
+                                                <div class="form-group input-group-xs">
+                                                    <h:outputLabel for="depasoli" value="Departamentos: "/>
+                                                    <h:message for="depasoli" errorClass="field-error" />
+                                                    <h:selectOneMenu id="depasoli" value="#{solicitudesBean.objeSoli.codiDepa}" class="form-control" pt:data-live-search="true">
+                                                        <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                                        <f:selectItems value="#{departamentosBean.listDepa}" var="lst1" itemLabel="#{lst1.nombDepa}" itemValue="#{lst1}"/>
+                                                        <f:converter converterId="PooConv"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                                <div class="form-group input-group-xs">
+                                                    <h:outputLabel  for="desc1" value="Descripcion: "/> 
+                                                    <h:message for="desc1" errorClass="field-error" />
+                                                    <h:inputText id="desc1" value="#{solicitudesBean.objeSoli.descSoli}" class="form-control" />
+                                                </div>
+                                            </fieldset>
+                                            <div class="input-group-btn right" style="padding-top: 5px;">
                                             <div class="btn-group">
                                                 <h:commandLink id="btonCanc" class="btn btn-default" pt:data-dismiss="modal">
                                                     <p:ajax listener="#{solicitudesBean.limpForm()}" process="@form" update="@form" global="true"/>
@@ -183,8 +123,133 @@ and open the template in the editor.
                                                 </h:outputLink>
                                             </div>
                                         </div>
+                                        </h:form>
+                                    </div>
                                 </div>
-                            </h:form>
+                            </div>
+
+                            <div class="tab-pane" id="2"><div id="ModaFormTicket" class="panel panel-default">
+                                    <div class="panel-heading">Solicitud por ubicación</div>
+                                    <div class="panel-body">
+                                        <h:form id="FormTicket" class="form-horizontal">
+                                            <fieldset class="col-md-12">
+                                                <h:inputHidden id="codi" value="#{solicitudesBean.objeSoli.codiSoli}" />
+                                                <div class="form-group input-group-xs">
+                                                    <h:outputLabel  for="ubic" value="Ubicaciones: "/>
+                                                    <h:message for="ubic" errorClass="field-error" />
+                                                    <h:selectOneMenu id="ubic" value="#{solicitudesBean.objeSoli.codiUbic}" class="form-control" pt:data-live-search="true">
+                                                        <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                                        <f:selectItems value="#{ubicacionesBean.listUbic}" var="lst3" itemLabel="#{lst3.nombUbic}" itemValue="#{lst3}"/>
+                                                        <f:converter converterId="PooConv"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                                <div class="form-group input-group-xs">
+                                                    <h:outputLabel  for="desc" value="Descripcion: "/> 
+                                                    <h:message for="desc" errorClass="field-error" />
+                                                    <h:inputText id="desc" value="#{solicitudesBean.objeSoli.descSoli}" class="form-control" />
+                                                </div>
+                                                <div class="form-group input-group-xs">
+                                                    <h:outputLabel for="depa" value="Departamentos: "/>
+                                                    <h:message for="depa" errorClass="field-error" />
+                                                    <h:selectOneMenu id="depa" value="#{solicitudesBean.objeSoli.codiDepa}" class="form-control" pt:data-live-search="true">
+                                                        <f:selectItem pt:data-hidden="true" itemLabel="Seleccione..."/>
+                                                        <f:selectItems value="#{departamentosBean.listDepa}" var="lst" itemLabel="#{lst.nombDepa}" itemValue="#{lst}"/>
+                                                        <f:converter converterId="PooConv"/>
+                                                    </h:selectOneMenu>
+                                                </div>
+                                            </fieldset>
+                                            <div class="input-group-btn right" style="padding-top: 5px;">
+                                            <div class="btn-group">
+                                                <h:commandLink id="btonCanc" class="btn btn-default" pt:data-dismiss="modal">
+                                                    <p:ajax listener="#{solicitudesBean.limpForm()}" process="@form" update="@form" global="true"/>
+                                                    <i class="fa fa-mail-forward"/> Cerrar
+                                                </h:commandLink>
+                                                <h:commandLink id="btonGuar" class="btn btn-success" rendered="#{solicitudesBean.guardar}">
+                                                    <p:ajax listener="#{solicitudesBean.guar()}" process="@form" update="@form :ContTicket" oncomplete="INIT_OBJE_TICKET();" />
+                                                    <i class="fa fa-plus"/> Guardar
+                                                </h:commandLink>
+                                                <h:commandLink id="btonNuev" class="btn btn-success" rendered="#{!solicitudesBean.guardar}">
+                                                    <p:ajax listener="#{solicitudesBean.limpForm()}" process="@form" update="@form" oncomplete="INIT_OBJE_MODA_TICKET();" />
+                                                    <i class="fa fa-plus"/> Nuevo
+                                                </h:commandLink>
+                                                <h:commandLink id="btonModi" class="btn btn-primary" rendered="#{!solicitudesBean.guardar}">
+                                                    <p:ajax listener="#{solicitudesBean.modi()}" process="@form" update="@form :ContTicket" oncomplete="INIT_OBJE_TICKET();" />
+                                                    <i class="fa fa-edit"/> Modificar
+                                                </h:commandLink>
+                                                <!--
+                                                    # Para corregir el error que redirecciona hice una serie de pasos
+                                                    1. Actualizar el bootstrap-confirmation, yo usé este: http://bootstrap-confirmation.js.org/
+                                                    2. Quitar la referencia: bootstrap-confirmation.min.js del fragmento head.xhtml
+                                                    3. Modifiqué el custom alum.js(en este ejemplo) quitando la función y dejando todo en una sola línea
+                                                    4. Y por último y lo mas importante que creo era lo único necesario al elemento h:outputLink le agregué el value="#"
+                                                -->
+                                                <h:outputLink id="btonElim" class="btn btn-danger" rendered="#{!solicitudesBean.guardar}" value="#" pt:data-placement="left"
+                                                              pt:data-toggle="confirmation" pt:data-btn-ok-label="Sí" pt:data-btn-ok-icon="fa fa-times"
+                                                              pt:data-btn-ok-class="btn-danger btn-xs" pt:data-btn-cancel-label="No" pt:data-btn-cancel-icon="fa fa-mail-forward"
+                                                              pt:data-btn-cancel-class="btn-default btn-xs" pt:data-title="¿Esta seguro que desea eliminar?"
+                                                              pt:data-on-confirm="elimTicket"><!--data-on-confirm = nombre del comando remoto de eliminar (sin paréntesis)-->
+                                                    <i class="fa fa-times"/> Eliminar
+                                                </h:outputLink>
+                                            </div>
+                                        </div>
+                                        </h:form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="3">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">Tabla de Datos</div>
+                                    <div class="panel-body">
+                                        <h:panelGroup id="ContTicket">
+                                            <div id="toolTablTicket">
+                                                <h:form>
+                                                    <!--Form exclusivo para los remotos-->
+                                                    <p:remoteCommand name="consTicket" actionListener="#{solicitudesBean.cons()}" update=":FormTicket" 
+                                                                     oncomplete="$('#ModaFormTicket').modal('show');" global="true"/>
+                                                    <p:remoteCommand name="elimTicket" actionListener="#{solicitudesBean.elim()}" update=":FormTicket :ContTicket" 
+                                                                     oncomplete="INIT_OBJE_TICKET();" global="true"/>
+                                                </h:form>
+                                            </div>
+                                            <h:dataTable pt:data-id="TablTicket" id="TablTicket" value="#{solicitudesBean.listSoli}"
+                                                         var="fila" class="boottable" pt:data-toolbar="#toolTablTicket"
+                                                         styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
+                                                         pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
+                                                         pt:data-search="true" pt:data-pagination="true" pt:data-page-list="[5, 10, 20, 50]"
+                                                         pt:data-click-to-select="true"  pt:data-select-item-name="radio"
+                                                         pt:data-single-select="true">                                
+                                                <h:column pt:data-field="state" pt:data-checkbox="true">
+                                                </h:column>
+                                                <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id">
+                                                    <f:facet name="header">Código</f:facet>
+                                                    <h:outputText value="#{fila.codiSoli}"/>
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="equi">
+                                                    <f:facet name="header">Equipo</f:facet>
+                                                    <h:outputText value="#{fila.codiEqui.descEqui}"/>   
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="ubic">
+                                                    <f:facet name="header">Ubicación</f:facet>
+                                                    <h:outputText value="#{fila.codiUbic.nombUbic}"/>   
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="desc">
+                                                    <f:facet name="header">Descripción</f:facet>
+                                                    <h:outputText value="#{fila.descSoli}"/>   
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="depa">
+                                                    <f:facet name="header">Departamento</f:facet>
+                                                    <h:outputText value="#{fila.codiDepa.nombDepa}"/>   
+                                                </h:column>
+                                                <h:column pt:data-sortable="true">
+                                                    <f:facet name="header">Fecha Hora Solicitud.</f:facet>
+                                                    <h:outputText value="#{fila.fechHoraSoli}">
+                                                        <f:convertDateTime pattern="dd/MM/yyyy H:mm:ss" timeZone="GMT-6"/>
+                                                    </h:outputText>                            
+                                                </h:column>
+                                            </h:dataTable>
+                                        </h:panelGroup>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

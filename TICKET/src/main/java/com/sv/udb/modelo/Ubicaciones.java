@@ -63,11 +63,11 @@ public class Ubicaciones implements Serializable {
     @Column(name = "esta_ubic")
     private boolean estaUbic;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiUbic", fetch = FetchType.LAZY)
-    private List<UbicacionesMantenimiento> ubicacionesMantenimientoList;
-    @OneToMany(mappedBy = "codiUbic", fetch = FetchType.LAZY)
-    private List<Solicitudes> solicitudesList;
+    private List<Mantenimientos> mantenimientosList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiUbic", fetch = FetchType.LAZY)
     private List<Equipos> equiposList;
+    @OneToMany(mappedBy = "codiUbic", fetch = FetchType.LAZY)
+    private List<Solicitudes> solicitudesList;
 
     public Ubicaciones() {
     }
@@ -125,21 +125,12 @@ public class Ubicaciones implements Serializable {
     }
 
     @XmlTransient
-    public List<UbicacionesMantenimiento> getUbicacionesMantenimientoList() {
-        return ubicacionesMantenimientoList;
+    public List<Mantenimientos> getMantenimientosList() {
+        return mantenimientosList;
     }
 
-    public void setUbicacionesMantenimientoList(List<UbicacionesMantenimiento> ubicacionesMantenimientoList) {
-        this.ubicacionesMantenimientoList = ubicacionesMantenimientoList;
-    }
-
-    @XmlTransient
-    public List<Solicitudes> getSolicitudesList() {
-        return solicitudesList;
-    }
-
-    public void setSolicitudesList(List<Solicitudes> solicitudesList) {
-        this.solicitudesList = solicitudesList;
+    public void setMantenimientosList(List<Mantenimientos> mantenimientosList) {
+        this.mantenimientosList = mantenimientosList;
     }
 
     @XmlTransient
@@ -149,6 +140,15 @@ public class Ubicaciones implements Serializable {
 
     public void setEquiposList(List<Equipos> equiposList) {
         this.equiposList = equiposList;
+    }
+
+    @XmlTransient
+    public List<Solicitudes> getSolicitudesList() {
+        return solicitudesList;
+    }
+
+    public void setSolicitudesList(List<Solicitudes> solicitudesList) {
+        this.solicitudesList = solicitudesList;
     }
 
     @Override

@@ -196,7 +196,7 @@ and open the template in the editor.
                                             </h:dataTable>
                                         </h:panelGroup>
                                         <center><h4 class="title">Técnicos disponibles</h4></center>
-                                        <h:dataTable pt:data-id="TablTecn" id="TablTecn" value="#{usuariosBean.consTecn()}"
+                                        <h:dataTable pt:data-id="TablTecn" id="TablTecn" value="#{usuarioBean.consTecn()}"
                                                      var="fila3" class="boottable" pt:data-toolbar="#toolTablTecn"
                                                      styleClass="col-md-12 table-hover table-bordered table-condensed table-striped table-responsive"
                                                      pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false">
@@ -207,6 +207,10 @@ and open the template in the editor.
                                             <h:column pt:data-sortable="true" pt:data-field="usua">
                                                 <f:facet name="header">Usuario</f:facet>
                                                 <h:outputText value="#{fila3.acceUsua}"/>   
+                                            </h:column>
+                                            <h:column pt:data-sortable="true" pt:data-field="nomb">
+                                                <f:facet name="header">Nombre</f:facet>
+                                                <h:outputText value="#{usuarioBean.consNomb(fila3.acceUsua)}"/>   
                                             </h:column>
                                             <h:column>
                                                 <h:commandLink id="btonAsig" class="btn btn-success" pt:data-dismiss="modal">

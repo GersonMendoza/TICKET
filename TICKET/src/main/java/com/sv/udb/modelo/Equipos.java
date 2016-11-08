@@ -8,7 +8,6 @@ package com.sv.udb.modelo;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -67,11 +66,11 @@ public class Equipos implements Serializable {
     @Size(max = 45)
     @Column(name = "fech_gara_equi")
     private String fechGaraEqui;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiEqui", fetch = FetchType.LAZY)
-    private List<EquiposSolicitudes> equiposSolicitudesList;
     @JoinColumn(name = "codi_ubic", referencedColumnName = "codi_ubic")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Ubicaciones codiUbic;
+    @OneToMany(mappedBy = "codiEqui", fetch = FetchType.LAZY)
+    private List<Solicitudes> solicitudesList;
 
     public Equipos() {
     }
@@ -136,21 +135,21 @@ public class Equipos implements Serializable {
         this.fechGaraEqui = fechGaraEqui;
     }
 
-    @XmlTransient
-    public List<EquiposSolicitudes> getEquiposSolicitudesList() {
-        return equiposSolicitudesList;
-    }
-
-    public void setEquiposSolicitudesList(List<EquiposSolicitudes> equiposSolicitudesList) {
-        this.equiposSolicitudesList = equiposSolicitudesList;
-    }
-
     public Ubicaciones getCodiUbic() {
         return codiUbic;
     }
 
     public void setCodiUbic(Ubicaciones codiUbic) {
         this.codiUbic = codiUbic;
+    }
+
+    @XmlTransient
+    public List<Solicitudes> getSolicitudesList() {
+        return solicitudesList;
+    }
+
+    public void setSolicitudesList(List<Solicitudes> solicitudesList) {
+        this.solicitudesList = solicitudesList;
     }
 
     @Override

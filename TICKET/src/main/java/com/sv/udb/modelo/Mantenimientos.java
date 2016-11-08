@@ -8,7 +8,6 @@ package com.sv.udb.modelo;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -36,7 +35,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Mantenimientos.findAll", query = "SELECT m FROM Mantenimientos m"),
     @NamedQuery(name = "Mantenimientos.findByCodiMant", query = "SELECT m FROM Mantenimientos m WHERE m.codiMant = :codiMant"),
     @NamedQuery(name = "Mantenimientos.findByContDiasMant", query = "SELECT m FROM Mantenimientos m WHERE m.contDiasMant = :contDiasMant"),
-    @NamedQuery(name = "Mantenimientos.findByCodiUbi", query = "SELECT m FROM Mantenimientos m WHERE m.codiUbi = :codiUbi"),
     @NamedQuery(name = "Mantenimientos.findByEstaMantPrev", query = "SELECT m FROM Mantenimientos m WHERE m.estaMantPrev = :estaMantPrev")})
 public class Mantenimientos implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -51,19 +49,16 @@ public class Mantenimientos implements Serializable {
     private int contDiasMant;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "codi_ubi")
-    private int codiUbi;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "esta_mant_prev")
     private boolean estaMantPrev;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiMant", fetch = FetchType.LAZY)
-    private List<UbicacionesMantenimiento> ubicacionesMantenimientoList;
-    @OneToMany(mappedBy = "codiMant", fetch = FetchType.LAZY)
-    private List<Solicitudes> solicitudesList;
+    @JoinColumn(name = "codi_ubic", referencedColumnName = "codi_ubic")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Ubicaciones codiUbic;
     @JoinColumn(name = "codi_tipo_mant", referencedColumnName = "codi_tipo_mant")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private TipoMantenimientos codiTipoMant;
+    @OneToMany(mappedBy = "codiMant", fetch = FetchType.LAZY)
+    private List<Solicitudes> solicitudesList;
 
     public Mantenimientos() {
     }
@@ -72,10 +67,9 @@ public class Mantenimientos implements Serializable {
         this.codiMant = codiMant;
     }
 
-    public Mantenimientos(Integer codiMant, int contDiasMant, int codiUbi, boolean estaMantPrev) {
+    public Mantenimientos(Integer codiMant, int contDiasMant, boolean estaMantPrev) {
         this.codiMant = codiMant;
         this.contDiasMant = contDiasMant;
-        this.codiUbi = codiUbi;
         this.estaMantPrev = estaMantPrev;
     }
 
@@ -95,14 +89,6 @@ public class Mantenimientos implements Serializable {
         this.contDiasMant = contDiasMant;
     }
 
-    public int getCodiUbi() {
-        return codiUbi;
-    }
-
-    public void setCodiUbi(int codiUbi) {
-        this.codiUbi = codiUbi;
-    }
-
     public boolean getEstaMantPrev() {
         return estaMantPrev;
     }
@@ -111,13 +97,20 @@ public class Mantenimientos implements Serializable {
         this.estaMantPrev = estaMantPrev;
     }
 
-    @XmlTransient
-    public List<UbicacionesMantenimiento> getUbicacionesMantenimientoList() {
-        return ubicacionesMantenimientoList;
+    public Ubicaciones getCodiUbic() {
+        return codiUbic;
     }
 
-    public void setUbicacionesMantenimientoList(List<UbicacionesMantenimiento> ubicacionesMantenimientoList) {
-        this.ubicacionesMantenimientoList = ubicacionesMantenimientoList;
+    public void setCodiUbic(Ubicaciones codiUbic) {
+        this.codiUbic = codiUbic;
+    }
+
+    public TipoMantenimientos getCodiTipoMant() {
+        return codiTipoMant;
+    }
+
+    public void setCodiTipoMant(TipoMantenimientos codiTipoMant) {
+        this.codiTipoMant = codiTipoMant;
     }
 
     @XmlTransient
@@ -127,14 +120,6 @@ public class Mantenimientos implements Serializable {
 
     public void setSolicitudesList(List<Solicitudes> solicitudesList) {
         this.solicitudesList = solicitudesList;
-    }
-
-    public TipoMantenimientos getCodiTipoMant() {
-        return codiTipoMant;
-    }
-
-    public void setCodiTipoMant(TipoMantenimientos codiTipoMant) {
-        this.codiTipoMant = codiTipoMant;
     }
 
     @Override
