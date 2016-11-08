@@ -84,6 +84,13 @@ and open the template in the editor.
                                 </li>
                             </ul>
                             <ul class="treeview-menu">
+                                <li class="#{actiProcSoli}">
+                                    <h:link outcome="/Modulo_ticket/procesoSolicitud" rendered="#{globalAppBean.getEstaPermByName('/Modulo_ticket/procesoSolicitud.xhtml')}">
+                                        <i class="fa fa-user"></i> Proceso solicitudes
+                                    </h:link>
+                                </li>
+                            </ul>
+                            <ul class="treeview-menu">
                                 <li class="#{actiNuevSoli}">
                                     <h:link outcome="/Modulo_ticket/nuevaSolicitud" rendered="#{globalAppBean.getEstaPermByName('/Modulo_ticket/nuevaSolicitud.xhtml')}">
                                         <i class="fa fa-user"></i> Solicitudes
