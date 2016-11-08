@@ -28,13 +28,5 @@ public class UbicacionesFacade extends AbstractFacade<Ubicaciones> implements Ub
 
     public UbicacionesFacade() {
         super(Ubicaciones.class);
-    }
-    
-    @Override
-    public List<Ubicaciones> findUbicMantSoli(int codi) {
-        Query q = getEntityManager().createQuery("SELECT u FROM Ubicaciones u INNER JOIN UbicacionesMantenimiento um ON um.codiUbic.codiUbic = u.codiUbic WHERE um.codiMant.codiMant = :codiMant", Ubicaciones.class);
-        q.setParameter("codiMant", codi);
-        List resu = q.getResultList();
-        return resu;
-    }
+    }    
 }

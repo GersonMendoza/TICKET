@@ -27,8 +27,6 @@ public interface TipoMantenimientosFacadeLocal {
     List<TipoMantenimientos> findTodo();
 
     List<TipoMantenimientos> findAll();
-    
-    String findTipoMantSoli(int codi);
 
     List<TipoMantenimientos> findRange(int[] range);
 

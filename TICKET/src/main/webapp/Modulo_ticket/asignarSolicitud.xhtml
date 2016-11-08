@@ -84,7 +84,7 @@ and open the template in the editor.
                                     </h:column>
                                     <h:column pt:data-sortable="true" pt:data-field="usua">
                                         <f:facet name="header">Usuario</f:facet>
-                                        <h:outputText value="#{usuariosBean.cons(fila.codiUsua)}"/>   
+                                        <h:outputText value="#{usuarioBean.cons(fila.codiUsua)}"/>   
                                     </h:column>
                                     <h:column pt:data-sortable="true" pt:data-field="depa">
                                         <f:facet name="header">Departamento</f:facet>
@@ -100,9 +100,12 @@ and open the template in the editor.
                                         <f:facet name="header">Tiempo de resolución</f:facet>
                                         <h:outputText value="#{fila.tiemResoSoli}"/>   
                                     </h:column>
-                                    <h:column pt:data-sortable="true" pt:data-field="cant">
-                                        <f:facet name="header">Cantidad de equipos</f:facet>
-                                        <h:outputText value="#{equiposSolicitudesBean.cantEqui(fila.codiSoli)}"/>   
+                                    <h:column pt:data-sortable="true" pt:data-field="equi">
+                                        <f:facet name="header">Equipo</f:facet> 
+                                        <h:panelGroup class="label label-danger" rendered="#{fila.codiEqui ne null}">
+                                            <i/>Sí</h:panelGroup>
+                                        <h:panelGroup class="label label-success" rendered="#{fila.codiEqui eq null}">
+                                            <i/>No</h:panelGroup>
                                     </h:column>
                                     <h:column pt:data-sortable="true" pt:data-field="ubic">
                                         <f:facet name="header">Ubicación</f:facet> 
@@ -147,9 +150,9 @@ and open the template in the editor.
                                 <div class="modal-body" style="padding-top: 2px;">
                                     <fieldset class="col-md-12">
                                         <h:inputHidden id="codi" value="#{solicitudesBean.objeSoli.codiSoli}" />
-                                        <h:panelGroup rendered="#{equiposSolicitudesBean.cantEqui(solicitudesBean.objeSoli.codiSoli) ne 0}">
+                                        <h:panelGroup rendered="#{solicitudesBean.objeSoli.codiEqui ne null}">
                                             <center><h4 class="title">Detalle de equipos</h4></center>
-                                            <h:dataTable pt:data-id="TablEqui" id="TablEqui" value="#{equiposSolicitudesBean.equi(solicitudesBean.objeSoli.codiSoli)}"
+                                            <h:dataTable pt:data-id="TablEqui" id="TablEqui" value="#{equiposBean.consEqui(solicitudesBean.objeSoli.codiEqui.codiEqui)}"
                                                          var="fila2" class="boottable" pt:data-toolbar="#toolTablEqui"
                                                          styleClass="col-md-12 table-hover table-bordered table-condensed table-striped table-responsive"
                                                          pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false">
@@ -171,27 +174,27 @@ and open the template in the editor.
                                                 </h:column>
                                                 <h:column pt:data-sortable="true" pt:data-field="desc">
                                                     <f:facet name="header">Descripción del problema</f:facet>
-                                                    <h:outputText value="#{equiposSolicitudesBean.desc(fila2.codiEqui, solicitudesBean.objeSoli.codiSoli)}"/>   
+                                                    <h:outputText value="#{solicitudesBean.objeSoli.descSoli}"/>   
                                                 </h:column>
                                             </h:dataTable>
                                         </h:panelGroup>
-                                        <h:panelGroup  rendered="#{equiposSolicitudesBean.cantEqui(solicitudesBean.objeSoli.codiSoli) eq 0}">
+                                        <h:panelGroup  rendered="#{solicitudesBean.objeSoli.codiEqui eq null}">
                                             <center><h4 class="title">Detalle de mantenimiento</h4></center>
-                                            <h:dataTable pt:data-id="TablUbic" id="TablUbic" value="#{ubicacionesBean.ubicMantSoli(solicitudesBean.objeSoli.codiMant.codiMant)}"
-                                                         var="fila3" class="boottable" pt:data-toolbar="#toolTablUbic"
+                                            <h:dataTable pt:data-id="TablMant" id="TablMant" value="#{solicitudesBean.objeSoli.codiMant}"
+                                                         var="fila3" class="boottable" pt:data-toolbar="#toolTablMant"
                                                          styleClass="col-md-12 table-hover table-bordered table-condensed table-striped table-responsive"
                                                          pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false">
                                                 <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id">
                                                     <f:facet name="header">Código</f:facet>
-                                                    <h:outputText value="#{fila3.codiUbic}"/>
+                                                    <h:outputText value="#{fila3.codiMant}"/>
                                                 </h:column>
                                                 <h:column pt:data-sortable="true" pt:data-field="nomb">
                                                     <f:facet name="header">Ubicación</f:facet>
-                                                    <h:outputText value="#{fila3.nombUbic}"/>   
+                                                    <h:outputText value="#{fila3.codiUbic.nombUbic}"/>   
                                                 </h:column>
                                                 <h:column pt:data-sortable="true" pt:data-field="tipo">
                                                     <f:facet name="header">Tipo</f:facet>
-                                                    <h:outputText value="#{tipoMantenimientosBean.consTipoMantSoli(solicitudesBean.objeSoli.codiMant.codiMant)}"/>   
+                                                    <h:outputText value="#{fila3.codiTipoMant.nombTipoMant}"/>   
                                                 </h:column>
                                             </h:dataTable>
                                         </h:panelGroup>

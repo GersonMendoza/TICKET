@@ -99,19 +99,4 @@ public class UbicacionesBean {
             
         }
     }
-    
-    public List<Ubicaciones> ubicMantSoli(int codi){
-        log.debug("Se esta intentando consultar ubicaciones");
-        try
-        {
-            this.listUbic = FCDEUbic.findUbicMantSoli(codi);
-            log.info("La consulta se hizo correctamente");
-        }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
-            log.error("Ocurrio un error al momento de consultar ubicaciones");
-        }
-        return this.listUbic;
-    }
 }

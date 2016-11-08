@@ -79,6 +79,18 @@ public class UsuarioBean implements Serializable{
         this.listUsua = FCDEUsuario.findAll();
         //log = new LOG4J();
         //log.debug("Se inicializa el modelo de Usuarios");
+    }    
+    
+    public String cons(int codi){
+        try
+        {
+            this.objeUsua = FCDEUsuario.find(codi);
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+        return this.objeUsua.getAcceUsua();
     }
     
     /**
