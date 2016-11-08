@@ -28,6 +28,7 @@ and open the template in the editor.
             <!--Plugins Select-->
             <h:outputStylesheet library="css" name="bootstrap-select.css"/>
             <h:outputScript library="js" name="bootstrap-select.js"/>
+            <h:outputStylesheet library="css" name="switch.css"/>
             <!--Plugins custom-->
             <h:outputScript library="js" name="custom/ticket.js"/>
         </ui:define>
@@ -68,7 +69,15 @@ and open the template in the editor.
                                         <p:remoteCommand name="elimTicket" actionListener="#{solicitudesBean.elim()}" update=":FormTicket :ContTicket" 
                                                          oncomplete="INIT_OBJE_TICKET();" global="true"/>                                        
                                     </h:form>
-                                </div>                               
+                                </div>
+                                <p:outputPanel >
+                                    <h:form>
+                                        <h:commandLink id="btonestado" class="btn btn-success">
+                                                    <p:ajax listener="#{solicitudesBean.cambEsta()}" process="@form" update="@form :ContTicket" oncomplete="INIT_OBJE_TICKET();" />
+                                                    ${solicitudesBean.estado}
+                                        </h:commandLink>
+                                    </h:form>
+                                </p:outputPanel>
                                 <h:dataTable pt:data-id="TablTicket" id="TablTicket" value="#{solicitudesBean.consVaci()}"
                                              var="fila" class="boottable" pt:data-toolbar="#toolTablTicket"
                                              styleClass="table-hover table-bordered table-condensed table-striped table-responsive"

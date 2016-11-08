@@ -20,15 +20,18 @@ import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 
 /**
- * Esta clase se encuentran los metodos para el manejo de los datos (CRUD) del objeto objeSoli
+ * Esta clase se encuentran los metodos para el manejo de los datos (CRUD) del
+ * objeto objeSoli
+ *
  * @author Oscar
  * @version 1.2
  */
 @Named(value = "solicitudesBean")
 @ViewScoped
-public class SolicitudesBean implements Serializable{
+public class SolicitudesBean implements Serializable {
+
     @EJB
-    private SolicitudesFacadeLocal FCDESoli;    
+    private SolicitudesFacadeLocal FCDESoli;
     private Solicitudes objeSoli;
     private List<Solicitudes> listSoli;
     private List<Solicitudes> listSoliEnca;
@@ -36,12 +39,15 @@ public class SolicitudesBean implements Serializable{
     private List<Solicitudes> listSoliVaci;
     static int codiSoli;
     private boolean guardar;
+    private String estado = "Sin Asignación";
+    private boolean estaB = true;
     private Logs<SolicitudesBean> lgs = new Logs<SolicitudesBean>(SolicitudesBean.class) {
     };
     private Logger log = lgs.getLog();
 
     /**
-     * Función para obtener  el objeto objeSoli
+     * Función para obtener el objeto objeSoli
+     *
      * @return Solicitudes objeSoli
      */
     public Solicitudes getObjeSoli() {
@@ -50,6 +56,7 @@ public class SolicitudesBean implements Serializable{
 
     /**
      * Función para definir el objeto objeSoli
+     *
      * @param objeSoli
      */
     public void setObjeSoli(Solicitudes objeSoli) {
@@ -57,7 +64,9 @@ public class SolicitudesBean implements Serializable{
     }
 
     /**
-     * Función que retorna el valor de la variable guardar para saber si se está guardando o no actualmente
+     * Función que retorna el valor de la variable guardar para saber si se está
+     * guardando o no actualmente
+     *
      * @return Boolean guardar
      */
     public boolean isGuardar() {
@@ -66,6 +75,7 @@ public class SolicitudesBean implements Serializable{
 
     /**
      * Función que retorna la lista de objetos de Solicitudes
+     *
      * @return List listSoli
      */
     public List<Solicitudes> getListSoli() {
@@ -74,6 +84,7 @@ public class SolicitudesBean implements Serializable{
 
     /**
      * Función que retorna la lista de objetos de Solicitudes por Encargado
+     *
      * @return List listSoliEnca
      */
     public List<Solicitudes> getListSoliEnca() {
@@ -82,6 +93,7 @@ public class SolicitudesBean implements Serializable{
 
     /**
      * Función que retorna la lista de objetos de Solicitudes por Técnico
+     *
      * @return List listSoliTecn
      */
     public List<Solicitudes> getListSoliTecn() {
@@ -90,50 +102,55 @@ public class SolicitudesBean implements Serializable{
 
     /**
      * Función que retorna la lista de objetos de Solicitudes sin asignar
+     *
      * @return List listSoliVaci
      */
     public List<Solicitudes> getListSoliVaci() {
         return listSoliVaci;
     }
-        
+
+    /**
+     * Función que retorna el estado de las muestras
+     *
+     * @return List listSoliVaci
+     */
+    public String getEstado() {
+        return estado;
+    }
+
     /**
      * Creates a new instance of SolicitudesBean
      */
-    
     public SolicitudesBean() {
     }
-    
+
     /**
      * Función que se ejecuta después de construir la clase
      */
     @PostConstruct
-    public void init()
-    {
+    public void init() {
         this.limpForm();
         this.consTodo();
         this.consEncargado();
         this.consTecnico();
         log.debug("Se ha inicializado el bean");
     }
-    
+
     /**
      * Función para limpiar el formulario
      */
-    public void limpForm()
-    {
+    public void limpForm() {
         this.objeSoli = new Solicitudes();
-        this.guardar = true;        
+        this.guardar = true;
     }
-    
+
     /**
      * Función para guardar
      */
-    public void guar()
-    {
+    public void guar() {
         log.debug("Se intenta guardar en el bean");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-        try
-        {
+        try {
             LoginBean login = new LoginBean();
             this.objeSoli.setCodiUsua(login.getObjeUsua().getCodiUsua());
             this.objeSoli.setEstaSoli(1);
@@ -141,207 +158,184 @@ public class SolicitudesBean implements Serializable{
             FCDESoli.create(this.objeSoli);
             this.listSoli.add(this.objeSoli);
             this.guardar = false;
-            this.limpForm();
             //this.limpForm(); //Omito para mantener los datos en la modal
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos guardados')");
             log.info("Se han guardado correctamento los datos");
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al guardar ')");
             log.error("Ocurrio un error al momento de guardar");
-        }
-        finally
-        {
-            
+        } finally {
+
         }
     }
-    
+
     /**
      * Función para modificar un registro
      */
-    public void modi()
-    {
+    public void modi() {
         log.debug("Se intenda modificar en el bean");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-        try
-        {
+        try {
             this.listSoli.remove(this.objeSoli); //Limpia el objeto viejo
             FCDESoli.edit(this.objeSoli);
             this.listSoli.add(this.objeSoli); //Agrega el objeto modificado
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
             log.info("Los datos de han modificado correctamente en el bean");
+        } catch (Exception ex) {
+            log.error("ocurrio un error al momento de modificar");
+            ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
+        } finally {
+
         }
-        catch(Exception ex)
-        {
+    }
+
+    public void cambEsta() {
+        log.debug("Se intenta cambiar el estado de los resultados");
+        RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
+        try {
+            if (this.estado.equals("Sin Asignación")) {
+                this.estado = "Asignados";
+                this.estaB = false;
+            } else if (this.estado.equals("Asignados")) {
+                this.estado = "Sin Asignación";
+                this.estaB = true;
+            }
+        } catch (Exception ex) {
             log.error("ocurrio un error al momento de modificar");
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
         }
-        finally
-        {
-            
-        }
     }
-    
-    public void asig(int codiSoli, int codiUsua)
-    {
+
+    public void asig(int codiSoli, int codiUsua) {
         log.debug("Se intenda asignar en el bean");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-        try
-        {
+        try {
             this.listSoli.remove(this.objeSoli); //Limpia el objeto viejo
             FCDESoli.asig(codiSoli, codiUsua);//Agrega el objeto modificado
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Solicitud asignada')");
             log.info("Los datos de han modificado correctamente en el bean");
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             log.error("ocurrio un error al momento de modificar");
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
-        }
-        finally
-        {
-            
+        } finally {
+
         }
     }
-    
+
     /**
      * Función para dar de baja un registro
      */
-    public void elim()
-    {
+    public void elim() {
         log.debug("Se esta intentado eliminar");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-        try
-        {
+        try {
             this.listSoli.remove(this.objeSoli); //Limpia el objeto viejo
             FCDESoli.remove(this.objeSoli);
             this.limpForm();
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Eliminados')");
             log.info("Los datos se han eliminado correctamente");
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             log.error("Ocurrio un error al momento de eliminar");
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al eliminar')");
-        }
-        finally
-        {
-            
+        } finally {
+
         }
     }
-    
+
     /**
      * Función para consultar todos los registros de la tabla
      */
-    public void consTodo()
-    {
+    public void consTodo() {
         log.debug("Se esta intentando consultar todo");
-        try
-        {
+        try {
             this.listSoli = FCDESoli.findTodo();
             log.info("La consulta se hizo correctamente");
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
             log.error("Ocurrio un error al momento de consultar todo");
-        }
-        finally
-        {
-            
+        } finally {
+
         }
     }
-    
+
     /**
      * Función para consultar las solicitudes asignadas a los Encargados
      */
-    public void consEncargado()
-    {
+    public void consEncargado() {
         log.debug("Se intenta consultar Encargado");
-        try
-        {
+        try {
             this.listSoliEnca = FCDESoli.findEncargado();
             log.info("La consulta se hizo correctamente");
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
             log.error("Ocurrio un error al momento de consultar");
-        }
-        finally
-        {
-            
+        } finally {
+
         }
     }
-    
+
     /**
      * Función para consultar las solicitudes asignadas a los Técnicos
      */
-    public void consTecnico()
-    {
+    public void consTecnico() {
         log.debug("Se intenta consultar Técnico");
-        try
-        {
+        try {
             this.listSoliTecn = FCDESoli.findTecnico();
             log.info("La consulta se hizo correctamente");
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
             log.error("Ocurrio un error al momento de consultar");
-        }
-        finally
-        {
-            
+        } finally {
+
         }
     }
-    
+
     /**
      * Función para consultar las solicitudes sin asignar
+     *
      * @return List listSoliVaci
      */
-    public List<Solicitudes> consVaci()
-    {
-        log.debug("Se intenta consultar solicitudes sin asignar");
-        try
-        {
-            this.listSoliVaci = FCDESoli.findVaci();
-            log.info("La consulta se hizo correctamente");
-        }
-        catch(Exception ex)
-        {
-            ex.printStackTrace();
-            log.error("Ocurrio un error al momento de consultar");
+    public List<Solicitudes> consVaci() {
+        if (estaB) {
+            log.debug("Se intenta consultar solicitudes sin asignar");
+            try {
+                this.listSoliVaci = FCDESoli.findVaci();
+                log.info("La consulta se hizo correctamente");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                log.error("Ocurrio un error al momento de consultar");
+            }
+        } else {
+            try {
+                this.listSoliVaci = FCDESoli.findAllAsig();
+                log.info("La consulta se hizo correctamente");
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                log.error("Ocurrio un error al momento de consultar");
+            }
         }
         return listSoliVaci;
     }
-    
-    public List<Solicitudes> consAsig()
-    {
+
+    public List<Solicitudes> consAsig() {
         log.debug("Se intenta consultar solicitudes sin asignar");
-        try
-        {
+        try {
             this.listSoliVaci = FCDESoli.findAsig();
             log.info("La consulta se hizo correctamente");
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
             log.error("Ocurrio un error al momento de consultar");
         }
         return listSoliVaci;
     }
-    
+
     /**
      * Función para re-asignar la solicitud a un Encargado
      */
-    public void modiAsigEnca()
-    {
+    public void modiAsigEnca() {
         log.debug("Se intenda modificar las asignaciones encargado");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
-        try
-        {
+        try {
             this.objeSoli.setEstaSoli(2);
             this.listSoli.remove(this.objeSoli); //Limpia el objeto viejo
             FCDESoli.edit(this.objeSoli);
@@ -349,43 +343,33 @@ public class SolicitudesBean implements Serializable{
             this.limpForm();
             ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Datos Modificados')");
             log.info("Los datos se han modificado correctamente en el bean");
-        }
-        catch(Exception ex)
-        {
-             log.error("ocurrio un error al momento de modificar");
+        } catch (Exception ex) {
+            log.error("ocurrio un error al momento de modificar");
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al modificar ')");
-        }
-        finally
-        {
-            
+        } finally {
+
         }
     }
-    
+
     /**
      * Función para consultar un registro en específico
      */
-    public void cons()
-    {
+    public void cons() {
         log.debug("Se intenta consultar");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         int codi = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("codiPara"));
-        try
-        {
+        try {
             this.objeSoli = FCDESoli.find(codi);
             codiSoli = objeSoli.getCodiSoli();
             this.guardar = false;
-            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a " + 
-                    String.format("%s", this.objeSoli.getCodiSoli()) + "')");
+            ctx.execute("setMessage('MESS_SUCC', 'Atención', 'Consultado a "
+                    + String.format("%s", this.objeSoli.getCodiSoli()) + "')");
             log.info("La consulta se hizo correctamente");
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             ctx.execute("setMessage('MESS_ERRO', 'Atención', 'Error al consultar')");
             log.error("Ocurrio un error al momento de consultar");
-        }
-        finally
-        {
-            
+        } finally {
+
         }
     }
 }

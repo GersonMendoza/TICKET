@@ -32,6 +32,8 @@ public interface SolicitudesFacadeLocal {
 
     List<Solicitudes> findVaci();
     
+    List<Solicitudes> findAllAsig();
+    
     List<Solicitudes> findAsig();
 
     List<Solicitudes> findAll();

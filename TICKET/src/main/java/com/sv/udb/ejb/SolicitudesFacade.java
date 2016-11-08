@@ -61,6 +61,13 @@ public class SolicitudesFacade extends AbstractFacade<Solicitudes> implements So
     }
     
     @Override
+    public List<Solicitudes> findAllAsig() {
+        Query q = getEntityManager().createQuery("SELECT u FROM Solicitudes u WHERE u.estaSoli = 2", Solicitudes.class);        
+        List resu = q.getResultList();
+        return resu;
+    }
+    
+    @Override
     public List<Solicitudes> findAsig() {
         Query q = getEntityManager().createQuery("SELECT u FROM Solicitudes u WHERE u.codiEnca = :codiEnca AND u.estaSoli = 2", Solicitudes.class);
         LoginBean login = new LoginBean();
