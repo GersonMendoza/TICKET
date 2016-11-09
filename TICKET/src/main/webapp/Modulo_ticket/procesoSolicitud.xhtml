@@ -216,7 +216,7 @@ and open the template in the editor.
                                     <div class="input-group-btn right" style="padding-top: 5px;">
                                         <div class="btn-group">
                                             <h:commandLink id="btonNuev" class="btn btn-success">
-                                                <p:ajax listener="#{procesoSolicitudesBean.guar()}" process="@form" update="@form :ContTicket" oncomplete="INIT_OBJE_TICKET();" />
+                                                <p:ajax listener="#{procesoSolicitudesBean.guar(solicitudesBean.objeSoli.codiSoli)}" process="@form" update="@form :ContTicket" oncomplete="INIT_OBJE_TICKET();" />
                                                 <i class="fa fa-plus"/> Nuevo proceso
                                             </h:commandLink>
                                             <h:commandLink id="btonCanc" class="btn btn-default" pt:data-dismiss="modal">
