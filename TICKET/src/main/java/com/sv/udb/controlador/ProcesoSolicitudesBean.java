@@ -99,14 +99,14 @@ public class ProcesoSolicitudesBean implements Serializable{
     /**
      * Función para guardar
      */
-    public void guar()
+    public void guar(int a)
     {
         log.debug("Se intenta guardar en el bean");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
         try
             {
             Solicitudes soli = new Solicitudes();
-            soli.setCodiSoli(SolicitudesBean.codiSoli);
+            soli.setCodiSoli(a);
             this.objeProcSoli.setCodiSoli(soli);
             this.objeProcSoli.setEstaProcSoli(true);
             this.objeProcSoli.setFechProcSoli(new Date());

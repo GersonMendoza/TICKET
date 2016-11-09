@@ -18,6 +18,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class ProcesoSolicitudesFacade extends AbstractFacade<ProcesoSolicitudes> implements ProcesoSolicitudesFacadeLocal {
+
     @PersistenceContext(unitName = "PILETPU")
     private EntityManager em;
 
@@ -29,12 +30,20 @@ public class ProcesoSolicitudesFacade extends AbstractFacade<ProcesoSolicitudes>
     public ProcesoSolicitudesFacade() {
         super(ProcesoSolicitudes.class);
     }
+
     @Override
     public List<ProcesoSolicitudes> findTodo() {
-    Query q = getEntityManager().createQuery("SELECT u FROM ProcesoSolicitudes u WHERE u.estaProcSoli ="+true, ProcesoSolicitudes.class);
+        Query q = getEntityManager().createQuery("SELECT u FROM ProcesoSolicitudes u WHERE u.estaProcSoli =" + true, ProcesoSolicitudes.class);
         List resu = q.getResultList();
         return resu;
     }
-    
-    
+
+    @Override
+    public List<ProcesoSolicitudes> findUnique(int a) {
+        Query q = getEntityManager().createQuery("SELECT u FROM ProcesoSolicitudes u WHERE u.codiProcSoli = :codi and u.estaProcSoli =" + true, ProcesoSolicitudes.class);
+        q.setParameter("codi", a);
+        List resu = q.getResultList();
+        return resu;
+    }
+
 }
