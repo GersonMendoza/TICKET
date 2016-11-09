@@ -40,6 +40,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "EvaluacionResoluciones.findByFechEvalReso", query = "SELECT e FROM EvaluacionResoluciones e WHERE e.fechEvalReso = :fechEvalReso"),
     @NamedQuery(name = "EvaluacionResoluciones.findByEstaEvalReso", query = "SELECT e FROM EvaluacionResoluciones e WHERE e.estaEvalReso = :estaEvalReso")})
 public class EvaluacionResoluciones implements Serializable {
+
+    @Column(name = "punt_eval_reso")
+    private Integer puntEvalReso;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -153,6 +156,14 @@ public class EvaluacionResoluciones implements Serializable {
     @Override
     public String toString() {
         return "com.sv.udb.modelo.EvaluacionResoluciones[ codiEvalReso=" + codiEvalReso + " ]";
+    }
+
+    public Integer getPuntEvalReso() {
+        return puntEvalReso;
+    }
+
+    public void setPuntEvalReso(Integer puntEvalReso) {
+        this.puntEvalReso = puntEvalReso;
     }
     
 }

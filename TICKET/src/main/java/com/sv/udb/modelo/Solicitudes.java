@@ -7,7 +7,9 @@ package com.sv.udb.modelo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -19,12 +21,14 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -43,6 +47,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Solicitudes.findByPrioSoli", query = "SELECT s FROM Solicitudes s WHERE s.prioSoli = :prioSoli"),
     @NamedQuery(name = "Solicitudes.findByEstaSoli", query = "SELECT s FROM Solicitudes s WHERE s.estaSoli = :estaSoli")})
 public class Solicitudes implements Serializable {
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiSoli", fetch = FetchType.LAZY)
+    private List<ResolucionSolicitudes> resolucionSolicitudesList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codiSoli", fetch = FetchType.LAZY)
+    private List<ProcesoSolicitudes> procesoSolicitudesList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -216,6 +225,24 @@ public class Solicitudes implements Serializable {
     @Override
     public String toString() {
         return "com.sv.udb.modelo.Solicitudes[ codiSoli=" + codiSoli + " ]";
+    }
+
+    @XmlTransient
+    public List<ResolucionSolicitudes> getResolucionSolicitudesList() {
+        return resolucionSolicitudesList;
+    }
+
+    public void setResolucionSolicitudesList(List<ResolucionSolicitudes> resolucionSolicitudesList) {
+        this.resolucionSolicitudesList = resolucionSolicitudesList;
+    }
+
+    @XmlTransient
+    public List<ProcesoSolicitudes> getProcesoSolicitudesList() {
+        return procesoSolicitudesList;
+    }
+
+    public void setProcesoSolicitudesList(List<ProcesoSolicitudes> procesoSolicitudesList) {
+        this.procesoSolicitudesList = procesoSolicitudesList;
     }
     
 }

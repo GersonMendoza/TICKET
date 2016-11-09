@@ -70,6 +70,13 @@ and open the template in the editor.
                                 </li>
                             </ul>
                             <ul class="treeview-menu">
+                                <li class="#{actiMantenimientos}">
+                                    <h:link outcome="/Modulo_ticket/mantenimientos" rendered="#{globalAppBean.getEstaPermByName('/Modulo_ticket/mantenimientos.xhtml')}">
+                                        <i class="fa fa-user"></i> Mantenimientos
+                                    </h:link>
+                                </li>
+                            </ul>
+                            <ul class="treeview-menu">
                                 <li class="#{actiTipoMant}">
                                     <h:link outcome="/Modulo_ticket/tipoMantenimientos" rendered="#{globalAppBean.getEstaPermByName('/Modulo_ticket/tipoMantenimientos.xhtml')}">
                                         <i class="fa fa-user"></i> Tipos de mantenimientos
