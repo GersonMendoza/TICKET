@@ -25,6 +25,8 @@ public interface ProcesoSolicitudesFacadeLocal {
     ProcesoSolicitudes find(Object id);
 
     List<ProcesoSolicitudes> findAll();
+    
+    List<ProcesoSolicitudes> findUnique(int a);
 
     List<ProcesoSolicitudes> findRange(int[] range);
 

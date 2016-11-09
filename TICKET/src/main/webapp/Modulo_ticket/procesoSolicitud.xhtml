@@ -198,8 +198,25 @@ and open the template in the editor.
                                                     <h:outputText value="#{fila3.codiTipoMant.nombTipoMant}"/>   
                                                 </h:column>
                                             </h:dataTable>
-                                        </h:panelGroup>                                        
+                                        </h:panelGroup>       
+                                        <h:panelGroup  >
+                                            <center><h4 class="title">Detalle de mantenimiento</h4></center>
+                                            <h:dataTable pt:data-id="TablProc" id="TablProc" value="#{procesoSolicitudesBean.listProcSoli}"
+                                                         var="fila4" class="boottable" pt:data-toolbar="#toolTablMant"
+                                                         styleClass="col-md-12 table-hover table-bordered table-condensed table-striped table-responsive"
+                                                         pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false">
+                                                <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id">
+                                                    <f:facet name="header">Código</f:facet>
+                                                    <h:outputText value="#{fila4.codiProcSoli}"/>
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="desc">
+                                                    <f:facet name="header">Descripción</f:facet>
+                                                    <h:outputText value="#{fila4.descProcSoli}"/>   
+                                                </h:column>
+                                            </h:dataTable>
+                                        </h:panelGroup>    
                                     </fieldset>
+                                    
                                     <h:panelGroup>
                                             <fieldset class="col-md-12">
                                                 <h:inputHidden id="codiproce" value="#{procesoSolicitudesBean.objeProcSoli.codiProcSoli}" />
