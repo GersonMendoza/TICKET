@@ -145,11 +145,12 @@ and open the template in the editor.
                             <h:form id="FormTicket" class="form-horizontal">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"/></button>
-                                    <h4 class="modal-title">Asignar Solicitud</h4>
+                                    <h4 class="modal-title">Procesos de  Solicitud</h4>
                                 </div>
                                 <div class="modal-body" style="padding-top: 2px;">
                                     <fieldset class="col-md-12">
                                         <h:inputHidden id="codi" value="#{solicitudesBean.objeSoli.codiSoli}" />
+                                        
                                         <h:panelGroup rendered="#{solicitudesBean.objeSoli.codiEqui ne null}">
                                             <center><h4 class="title">Detalle de equipos</h4></center>
                                             <h:dataTable pt:data-id="TablEqui" id="TablEqui" value="#{equiposBean.consEqui(solicitudesBean.objeSoli.codiEqui.codiEqui)}"
@@ -199,11 +200,23 @@ and open the template in the editor.
                                             </h:dataTable>
                                         </h:panelGroup>                                        
                                     </fieldset>
+                                    <h:panelGroup>
+                                            <fieldset class="col-md-12">
+                                                <h:inputHidden id="codiproce" value="#{procesoSolicitudesBean.objeProcSoli.codiProcSoli}" />
+                                                <div class="form-group input-group-xs">
+                                                    <h:outputLabel  for="descpro" value="Descripción del Proceso "/> 
+                                                    <h:message for="descpro" errorClass="field-error" />
+                                                    <h:inputText id="descpro" value="#{procesoSolicitudesBean.objeProcSoli.descProcSoli}" class="form-control" />
+                                                </div>
+                                                <h:inputHidden id="codiprocesoli" value="#{solicitudesBean.objeSoli.codiSoli}" />
+                                            </fieldset>
+                                    </h:panelGroup>
                                 </div>
                                 <div class="modal-footer">
                                     <div class="input-group-btn right" style="padding-top: 5px;">
                                         <div class="btn-group">
                                             <h:commandLink id="btonNuev" class="btn btn-success">
+                                                <p:ajax listener="#{procesoSolicitudesBean.guar()}" process="@form" update="@form :ContTicket" oncomplete="INIT_OBJE_TICKET();" />
                                                 <i class="fa fa-plus"/> Nuevo proceso
                                             </h:commandLink>
                                             <h:commandLink id="btonCanc" class="btn btn-default" pt:data-dismiss="modal">
