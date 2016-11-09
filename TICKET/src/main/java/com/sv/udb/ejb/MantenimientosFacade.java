@@ -6,9 +6,11 @@
 package com.sv.udb.ejb;
 
 import com.sv.udb.modelo.Mantenimientos;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -26,6 +28,13 @@ public class MantenimientosFacade extends AbstractFacade<Mantenimientos> impleme
 
     public MantenimientosFacade() {
         super(Mantenimientos.class);
+    }
+    
+    @Override
+    public List<Mantenimientos> findTodo() {
+        Query q = getEntityManager().createQuery("SELECT u FROM Mantenimientos u WHERE u.estaMantPrev ="+true, Mantenimientos.class);
+        List resu = q.getResultList();
+        return resu;
     }
     
 }
