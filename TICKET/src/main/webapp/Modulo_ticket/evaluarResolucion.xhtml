@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" 
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" 
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="../WEB-INF/resources/fragmentos/comun.xhtml">
+        <!-- Título de la página -->
+        <ui:param name="pageTitl" value="::: Página Solicitudes :::"/>
+        <ui:param name="pageNomb" value="Página Solicitudes"/>
+        <ui:param name="pageDesc" value="Mis solicitudes"/>
+        <!-- Activar el link del menú -->
+        <ui:param name="actiMenuTicket" value="active"/>
+        <ui:param name="actiEvalReso" value="active"/>
+        <!-- Scripts personalizados -->
+        <ui:define name="CustomScripts">
+            <!--Plugins Selector de Fecha-->
+            <h:outputStylesheet library="css" name="datepicker3.css"/>
+            <h:outputScript library="js" name="bootstrap-datepicker.js"/>
+            <h:outputScript library="js" name="bootstrap-datepicker.es.js"/>
+            <!--Plugins Select-->
+            <h:outputStylesheet library="css" name="bootstrap-select.css"/>
+            <h:outputScript library="js" name="bootstrap-select.js"/>
+            <!--Plugins custom-->
+            <h:outputScript library="js" name="custom/ticket.js"/>
+        </ui:define>
+        <!-- Elementos propios del boby -->
+        <ui:define name="body">
+            <style>
+                .field-error
+                {
+                    color: #a94442; 
+                    display: inline;
+                    font-size: 10px;
+                }
+                .field-error:first-letter
+                {
+                    text-transform: capitalize;
+                    color: #003399;
+                }
+                .form-group
+                {
+                    margin-bottom: 5px !important;
+                }
+                .bootstrap-select > .btn {
+                    padding-top: 2px;
+                    padding-bottom: 2px;
+                }
+            </style>
+            <div class="row">
+                <div class="col-md-12 col-xs-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Solicitudes sin evaluar</div>
+                        <div class="panel-body">
+                            <h:panelGroup id="ContTicket">
+                                <div id="toolTablTicket">
+                                    <h:form>
+                                        <!--Form exclusivo para los remotos-->
+                                        <p:remoteCommand name="consTicket" actionListener="#{solicitudesBean.cons()}" update=":FormTicket" 
+                                                         oncomplete="$('#ModaFormTicket').modal('show');" global="true"/>
+                                        <p:remoteCommand name="elimTicket" actionListener="#{solicitudesBean.elim()}" update=":FormTicket :ContTicket" 
+                                                         oncomplete="INIT_OBJE_TICKET();" global="true"/>                                        
+                                    </h:form>
+                                </div>                               
+                                <h:dataTable pt:data-id="TablTicket" id="TablTicket" value="#{solicitudesBean.consAsigFina()}"
+                                             var="fila" class="boottable" pt:data-toolbar="#toolTablTicket"
+                                             styleClass="table-hover table-bordered table-condensed table-striped table-responsive"
+                                             pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false" 
+                                             pt:data-search="true" pt:data-pagination="true" pt:data-page-list="[5, 10, 20, 50]"
+                                             pt:data-click-to-select="true"  pt:data-select-item-name="radio"
+                                             pt:data-single-select="true">                                
+                                    <h:column pt:data-field="state" pt:data-checkbox="true">
+                                    </h:column>
+                                    <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id">
+                                        <f:facet name="header">Código</f:facet>
+                                        <h:outputText value="#{fila.codiSoli}"/>
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="depa">
+                                        <f:facet name="header">Departamento</f:facet>
+                                        <h:outputText value="#{fila.codiDepa.nombDepa}"/>   
+                                    </h:column>
+                                    <h:column pt:data-sortable="true">
+                                        <f:facet name="header">Fecha/Hora Solicitud</f:facet>
+                                        <h:outputText value="#{fila.fechHoraSoli}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy H:mm:ss" timeZone="GMT-6"/>
+                                        </h:outputText>                            
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="tiem">
+                                        <f:facet name="header">Tiempo de resolución</f:facet>
+                                        <h:outputText value="#{fila.tiemResoSoli}"/>   
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="equi">
+                                        <f:facet name="header">Equipo</f:facet> 
+                                        <h:panelGroup class="label label-danger" rendered="#{fila.codiEqui ne null}">
+                                            <i/>Sí</h:panelGroup>
+                                        <h:panelGroup class="label label-success" rendered="#{fila.codiEqui eq null}">
+                                            <i/>No</h:panelGroup>
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="ubic">
+                                        <f:facet name="header">Ubicación</f:facet> 
+                                        <h:panelGroup rendered="#{fila.codiUbic eq null}">
+                                            <i/><center>---</center></h:panelGroup>
+                                        <h:panelGroup rendered="#{fila.codiUbic ne null}">
+                                            <i/>#{fila.codiUbic.nombUbic}</h:panelGroup>
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="mant">
+                                        <f:facet name="header">Mantenimiento</f:facet> 
+                                        <h:panelGroup rendered="#{fila.codiMant eq null}">
+                                            <i/><center>---</center></h:panelGroup>
+                                        <h:panelGroup  rendered="#{fila.codiMant ne null}">
+                                            <i/>#{fila.codiMant.codiTipoMant.nombTipoMant}</h:panelGroup>
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="prio">
+                                        <f:facet name="header">Prioridad</f:facet> 
+                                        <h:panelGroup class="label label-danger" rendered="#{fila.prioSoli eq 'Alta'}">
+                                            <i/>Alta</h:panelGroup>
+                                        <h:panelGroup class="label label-warning" rendered="#{fila.prioSoli eq 'Media'}">
+                                            <i/>Media</h:panelGroup>
+                                        <h:panelGroup class="label label-success" rendered="#{fila.prioSoli eq 'Baja'}">
+                                            <i/>Baja</h:panelGroup>
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGroup>
+                        </div>
+                        <br/>
+                        <div class="panel-heading">Mis últimas evaluaciones</div>
+                        <div class="panel-body">
+                            <h:panelGroup id="ContEval">                               
+                                <h:dataTable pt:data-id="TablEval" id="TablEval" value="#{evaluacionResolucionesBean.cons()}"
+                                             var="fila5" class="boottable" pt:data-toolbar="#toolTablEval"
+                                             styleClass="col-md-12 table-hover table-bordered table-condensed table-striped table-responsive"
+                                             pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false">
+                                    <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id">
+                                        <f:facet name="header">Código</f:facet>
+                                        <h:outputText value="#{fila5.codiEvalReso}"/>
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="opin">
+                                        <f:facet name="header">Opinión</f:facet>
+                                        <h:outputText value="#{fila5.opinEvalReso}"/>   
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="obse">
+                                        <f:facet name="header">Observación</f:facet>
+                                        <h:outputText value="#{fila5.obseEvalReso}"/>   
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="punt">
+                                        <f:facet name="header">Puntaje</f:facet>
+                                        <p:rating value="#{fila5.puntEvalReso}" disabled="true"/>   
+                                    </h:column>
+                                    <h:column pt:data-sortable="true">
+                                        <f:facet name="header">Fecha/Hora evaluación</f:facet>
+                                        <h:outputText value="#{fila5.fechEvalReso}">
+                                            <f:convertDateTime pattern="dd/MM/yyyy H:mm:ss" timeZone="GMT-6"/>
+                                        </h:outputText>                            
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="desc">
+                                        <f:facet name="header">Desc. Resolución</f:facet>
+                                        <h:outputText value="#{fila5.codiResoSoli.descResoSoli}"/>   
+                                    </h:column>
+                                    <h:column pt:data-sortable="true" pt:data-field="enca">
+                                        <f:facet name="header">Encargado</f:facet>
+                                        <h:outputText value="#{usuarioBean.consNomb(usuarioBean.consAcce(fila5.codiResoSoli.codiSoli.codiEnca))}"/>   
+                                    </h:column>
+                                </h:dataTable>
+                            </h:panelGroup>
+                        </div>                       
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Modal -->
+                <div id="ModaFormTicket" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <h:form id="FormTicket" class="form-horizontal">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><i class="fa fa-times"/></button>
+                                    <h4 class="modal-title">Evaluar Resolución</h4>
+                                </div>
+                                <div class="modal-body" style="padding-top: 2px;">
+                                    <fieldset class="col-md-12">
+                                        <h:inputHidden id="codi" value="#{evaluacionResolucionesBean.objeEvalReso.codiEvalReso}" />
+                                        <h:panelGroup rendered="#{solicitudesBean.objeSoli.codiEqui ne null}">
+                                            <center><h4 class="title">Detalle de equipos</h4></center>
+                                            <h:dataTable pt:data-id="TablEqui" id="TablEqui" value="#{equiposBean.consEqui(solicitudesBean.objeSoli.codiEqui.codiEqui)}"
+                                                         var="fila2" class="boottable" pt:data-toolbar="#toolTablEqui"
+                                                         styleClass="col-md-12 table-hover table-bordered table-condensed table-striped table-responsive"
+                                                         pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false">
+                                                <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id">
+                                                    <f:facet name="header">Código</f:facet>
+                                                    <h:outputText value="#{fila2.codiEqui}"/>
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="marc">
+                                                    <f:facet name="header">Marca</f:facet>
+                                                    <h:outputText value="#{fila2.marEqui}"/>   
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="mode">
+                                                    <f:facet name="header">Modelo</f:facet>
+                                                    <h:outputText value="#{fila2.modeEqui}"/>   
+                                                </h:column>                                                
+                                                <h:column pt:data-sortable="true" pt:data-field="seri">
+                                                    <f:facet name="header">N° Serie</f:facet>
+                                                    <h:outputText value="#{fila2.seriEqui}"/>   
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="desc">
+                                                    <f:facet name="header">Descripción del problema</f:facet>
+                                                    <h:outputText value="#{solicitudesBean.objeSoli.descSoli}"/>   
+                                                </h:column>
+                                            </h:dataTable>
+                                        </h:panelGroup>
+                                        <h:panelGroup  rendered="#{solicitudesBean.objeSoli.codiEqui eq null}">
+                                            <center><h4 class="title">Detalle de mantenimiento</h4></center>
+                                            <h:dataTable pt:data-id="TablMant" id="TablMant" value="#{solicitudesBean.objeSoli.codiMant}"
+                                                         var="fila3" class="boottable" pt:data-toolbar="#toolTablMant"
+                                                         styleClass="col-md-12 table-hover table-bordered table-condensed table-striped table-responsive"
+                                                         pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false">
+                                                <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id">
+                                                    <f:facet name="header">Código</f:facet>
+                                                    <h:outputText value="#{fila3.codiMant}"/>
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="nomb">
+                                                    <f:facet name="header">Ubicación</f:facet>
+                                                    <h:outputText value="#{fila3.codiUbic.nombUbic}"/>   
+                                                </h:column>
+                                                <h:column pt:data-sortable="true" pt:data-field="tipo">
+                                                    <f:facet name="header">Tipo</f:facet>
+                                                    <h:outputText value="#{fila3.codiTipoMant.nombTipoMant}"/>   
+                                                </h:column>
+                                            </h:dataTable>
+                                        </h:panelGroup>
+                                        <center><h4 class="title">Detalle de resolución</h4></center>
+                                        <h:dataTable pt:data-id="TablReso" id="TablReso" value="#{resolucionSolicitudBean.consReso(solicitudesBean.objeSoli.codiSoli)}"
+                                                     var="fila4" class="boottable" pt:data-toolbar="#toolTablReso"
+                                                     styleClass="col-md-12 table-hover table-bordered table-condensed table-striped table-responsive"
+                                                     pt:data-show-refresh="false" pt:data-show-toggle="false" pt:data-show-columns="false">
+                                            <h:column pt:data-align="right" pt:data-sortable="true" pt:data-field="id">
+                                                <f:facet name="header">Código</f:facet>
+                                                <h:outputText value="#{fila4.codiResoSoli}"/>
+                                            </h:column>
+                                            <h:column pt:data-sortable="true" pt:data-field="desc">
+                                                <f:facet name="header">Descripción</f:facet>
+                                                <h:outputText value="#{fila4.descResoSoli}"/>   
+                                            </h:column>
+                                            <h:column pt:data-sortable="true">
+                                                <f:facet name="header">Fecha Resolución</f:facet>
+                                                <h:outputText value="#{fila4.fechResoSoli}">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy H:mm:ss" timeZone="GMT-6"/>
+                                                </h:outputText>                            
+                                            </h:column>
+                                            <h:column pt:data-sortable="true" pt:data-field="tipo">
+                                                <f:facet name="header">Tipo de trabajo</f:facet>
+                                                <h:outputText value="#{fila4.tipoTrabSoli}"/>   
+                                            </h:column>
+                                        </h:dataTable>
+                                        <div class="form-group input-group-xs">
+                                            <h:outputLabel  for="opin" value="Opinión: "/> 
+                                            <h:message for="opin" errorClass="field-error" />
+                                            <h:inputText id="opin" value="#{evaluacionResolucionesBean.objeEvalReso.opinEvalReso}" class="form-control" />
+                                        </div>
+                                        <div class="form-group input-group-xs">
+                                            <h:outputLabel  for="obse" value="Observación: "/> 
+                                            <h:message for="obse" errorClass="field-error" />
+                                            <h:inputTextarea id="obse" value="#{evaluacionResolucionesBean.objeEvalReso.obseEvalReso}" class="form-control" />
+                                        </div>
+                                        <div class="form-group input-group-xs">
+                                            <h:outputLabel  for="punt" value="Puntuación: "/> 
+                                            <h:message for="punt" errorClass="field-error" />
+                                            <p:rating id="punt" value="#{evaluacionResolucionesBean.objeEvalReso.puntEvalReso}" class="form-control" />
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="input-group-btn right" style="padding-top: 5px;">
+                                        <div class="btn-group">
+                                            <h:commandLink id="btonGuar" class="btn btn-success" pt:data-dismiss="modal">
+                                                <p:ajax listener="#{evaluacionResolucionesBean.guar(resolucionSolicitudBean.consReso(solicitudesBean.objeSoli.codiSoli))}" process="@form" update="@form :TablTicket :TablEval" global="true"/>
+                                                <i class="fa fa-plus"/> Enviar evaluación
+                                            </h:commandLink>
+                                            <h:commandLink id="btonCanc" class="btn btn-default" pt:data-dismiss="modal">
+                                                <p:ajax listener="#{evaluacionResolucionesBean.limpForm()}" process="@form" update="@form" global="true"/>
+                                                <i class="fa fa-mail-forward"/> Cancelar
+                                            </h:commandLink>                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </h:form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ui:define>
+    </ui:composition>
+</html>

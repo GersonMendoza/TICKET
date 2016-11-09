@@ -25,7 +25,7 @@ public interface SolicitudesFacadeLocal {
     Solicitudes find(Object id);
     
     List<Solicitudes> findTodo();
-    
+        
     List<Solicitudes> findEncargado();
     
     List<Solicitudes> findTecnico();
@@ -33,6 +33,8 @@ public interface SolicitudesFacadeLocal {
     List<Solicitudes> findVaci();
     
     List<Solicitudes> findAsig();
+    
+    List<Solicitudes> findAsigFina();
 
     List<Solicitudes> findAll();
 

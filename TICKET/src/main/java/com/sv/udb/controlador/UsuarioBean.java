@@ -141,6 +141,16 @@ public class UsuarioBean implements Serializable{
         {
             resp = null;
         }
-        return resp.getNomb();
+        return resp.getNomb() + " " + resp.getApel();
+    }
+    
+    public String consAcce(int codi){
+        try{
+            this.objeUsua = FCDEUsuario.find(codi);
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return this.objeUsua.getAcceUsua();
     }
 }

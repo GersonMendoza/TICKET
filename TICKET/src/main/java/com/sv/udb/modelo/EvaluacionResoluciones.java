@@ -55,6 +55,8 @@ public class EvaluacionResoluciones implements Serializable {
     @Size(max = 65535)
     @Column(name = "obse_eval_reso")
     private String obseEvalReso;
+    @Column(name = "punt_eval_reso")
+    private Integer puntEvalReso;
     @Basic(optional = false)
     @NotNull
     @Column(name = "fech_eval_reso")
@@ -104,6 +106,14 @@ public class EvaluacionResoluciones implements Serializable {
 
     public void setObseEvalReso(String obseEvalReso) {
         this.obseEvalReso = obseEvalReso;
+    }
+
+    public Integer getPuntEvalReso() {
+        return puntEvalReso;
+    }
+
+    public void setPuntEvalReso(Integer puntEvalReso) {
+        this.puntEvalReso = puntEvalReso;
     }
 
     public Date getFechEvalReso() {

@@ -333,6 +333,22 @@ public class SolicitudesBean implements Serializable{
         return listSoliVaci;
     }
     
+    public List<Solicitudes> consAsigFina()
+    {
+        log.debug("Se intenta consultar solicitudes sin asignar");
+        try
+        {
+            this.listSoliVaci = FCDESoli.findAsigFina();
+            log.info("La consulta se hizo correctamente");
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+            log.error("Ocurrio un error al momento de consultar");
+        }
+        return listSoliVaci;
+    }
+    
     /**
      * Función para re-asignar la solicitud a un Encargado
      */

@@ -19,6 +19,7 @@ import javax.persistence.Query;
  */
 @Stateless
 public class SolicitudesFacade extends AbstractFacade<Solicitudes> implements SolicitudesFacadeLocal {
+
     @PersistenceContext(unitName = "PILETPU")
     private EntityManager em;
 
@@ -30,36 +31,37 @@ public class SolicitudesFacade extends AbstractFacade<Solicitudes> implements So
     public SolicitudesFacade() {
         super(Solicitudes.class);
     }
+
     @Override
     public List<Solicitudes> findTodo() {
         LoginBean login = new LoginBean();
-        System.out.print("\n"+login.getObjeUsua().getCodiUsua());
-        Query q = getEntityManager().createQuery("SELECT u FROM Solicitudes u WHERE u.codiUsua ="+login.getObjeUsua().getCodiUsua(), Solicitudes.class);
+        System.out.print("\n" + login.getObjeUsua().getCodiUsua());
+        Query q = getEntityManager().createQuery("SELECT u FROM Solicitudes u WHERE u.codiUsua =" + login.getObjeUsua().getCodiUsua(), Solicitudes.class);
         List resu = q.getResultList();
         return resu;
     }
-    
+
     @Override
     public List<Solicitudes> findEncargado() {
         Query q = getEntityManager().createQuery("SELECT u FROM Solicitudes u WHERE u.estaSoli = 1", Solicitudes.class);
         List resu = q.getResultList();
         return resu;
     }
-    
+
     @Override
     public List<Solicitudes> findTecnico() {
         Query q = getEntityManager().createQuery("SELECT u FROM Solicitudes u WHERE u.estaSoli = 2", Solicitudes.class);
         List resu = q.getResultList();
         return resu;
     }
-    
+
     @Override
     public List<Solicitudes> findVaci() {
         Query q = getEntityManager().createQuery("SELECT u FROM Solicitudes u WHERE u.codiEnca IS NULL", Solicitudes.class);
         List resu = q.getResultList();
         return resu;
     }
-    
+
     @Override
     public List<Solicitudes> findAsig() {
         Query q = getEntityManager().createQuery("SELECT u FROM Solicitudes u WHERE u.codiEnca = :codiEnca AND u.estaSoli = 2", Solicitudes.class);
@@ -68,7 +70,16 @@ public class SolicitudesFacade extends AbstractFacade<Solicitudes> implements So
         List resu = q.getResultList();
         return resu;
     }
-    
+
+    @Override
+    public List<Solicitudes> findAsigFina() {
+        Query q = getEntityManager().createQuery("SELECT u FROM Solicitudes u WHERE u.codiUsua = :codiUsua AND u.estaSoli = 3", Solicitudes.class);
+        LoginBean login = new LoginBean();
+        q.setParameter("codiUsua", login.getObjeUsua().getCodiUsua());
+        List resu = q.getResultList();
+        return resu;
+    }
+
     @Override
     public void asig(int codiSoli, int codiUsua) {
         Query q = getEntityManager().createQuery("UPDATE Solicitudes s SET s.codiEnca = :codiUsua, s.estaSoli = 2 WHERE s.codiSoli = :codiSoli", Solicitudes.class);
