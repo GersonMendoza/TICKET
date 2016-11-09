@@ -27,6 +27,8 @@ public interface EvaluacionResolucionesFacadeLocal {
     List<EvaluacionResoluciones> findAll();
     
     List<EvaluacionResoluciones> findTodo();
+    
+    List<EvaluacionResoluciones> findEvalUsua();
 
     List<EvaluacionResoluciones> findRange(int[] range);
 

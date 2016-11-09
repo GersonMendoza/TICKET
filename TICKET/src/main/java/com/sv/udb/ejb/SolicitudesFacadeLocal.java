@@ -37,6 +37,8 @@ public interface SolicitudesFacadeLocal {
     List<Solicitudes> findAsig();
 
     List<Solicitudes> findAll();
+    
+    List<Solicitudes> findAsigFina();
 
     List<Solicitudes> findRange(int[] range);
     

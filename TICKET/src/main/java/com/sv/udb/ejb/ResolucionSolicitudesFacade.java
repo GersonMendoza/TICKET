@@ -9,6 +9,7 @@ import com.sv.udb.modelo.ResolucionSolicitudes;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -28,4 +29,11 @@ public class ResolucionSolicitudesFacade extends AbstractFacade<ResolucionSolici
         super(ResolucionSolicitudes.class);
     }
     
+    @Override
+    public ResolucionSolicitudes findReso(int codi) {
+        Query q = getEntityManager().createQuery("SELECT u FROM ResolucionSolicitudes u WHERE u.codiSoli.codiSoli = :codiSoli", ResolucionSolicitudes.class);
+        q.setParameter("codiSoli", codi);
+        ResolucionSolicitudes resu = (ResolucionSolicitudes)q.getSingleResult();
+        return resu;
+    }
 }

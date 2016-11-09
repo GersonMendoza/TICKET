@@ -12,6 +12,7 @@ package com.sv.udb.utils;
 public class UsuariosPojo {
     //Nombre, foto, mail, tipo, esta
     String nomb;
+    String apel;
     String foto;
     String mail;
     String tipo;
@@ -25,6 +26,14 @@ public class UsuariosPojo {
         this.nomb = nomb;
     }
 
+    public String getApel() {
+        return apel;
+    }
+
+    public void setApel(String apel) {
+        this.apel = apel;
+    }
+    
     public String getFoto() {
         return foto;
     }

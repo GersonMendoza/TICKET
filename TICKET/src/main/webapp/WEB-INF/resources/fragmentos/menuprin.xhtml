@@ -84,6 +84,13 @@ and open the template in the editor.
                                 </li>
                             </ul>
                             <ul class="treeview-menu">
+                                <li class="#{actiNuevSoli}">
+                                    <h:link outcome="/Modulo_ticket/nuevaSolicitud" rendered="#{globalAppBean.getEstaPermByName('/Modulo_ticket/nuevaSolicitud.xhtml')}">
+                                        <i class="fa fa-user"></i> Solicitudes
+                                    </h:link>
+                                </li>
+                            </ul>
+                            <ul class="treeview-menu">
                                 <li class="#{actiAsigSoli}">
                                     <h:link outcome="/Modulo_ticket/asignarSolicitud" rendered="#{globalAppBean.getEstaPermByName('/Modulo_ticket/asignarSolicitud.xhtml')}">
                                         <i class="fa fa-user"></i> Asignar solicitud
@@ -98,9 +105,9 @@ and open the template in the editor.
                                 </li>
                             </ul>
                             <ul class="treeview-menu">
-                                <li class="#{actiNuevSoli}">
-                                    <h:link outcome="/Modulo_ticket/nuevaSolicitud" rendered="#{globalAppBean.getEstaPermByName('/Modulo_ticket/nuevaSolicitud.xhtml')}">
-                                        <i class="fa fa-user"></i> Solicitudes
+                                <li class="#{actiEvalReso}">
+                                    <h:link outcome="/Modulo_ticket/evaluarResolucion" rendered="#{globalAppBean.getEstaPermByName('/Modulo_ticket/evaluarResolucion.xhtml')}">
+                                        <i class="fa fa-user"></i> Evaluar resoluciones
                                     </h:link>
                                 </li>
                             </ul>

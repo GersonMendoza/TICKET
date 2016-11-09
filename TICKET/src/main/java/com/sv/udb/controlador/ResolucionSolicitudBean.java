@@ -231,4 +231,14 @@ public class ResolucionSolicitudBean implements Serializable{
             
         }
     }
+    
+    public ResolucionSolicitudes consReso(int codi){
+        try{
+            this.objeResoSoli = FCDEResoSoli.findReso(codi);
+        }
+        catch(Exception ex){
+            ex.printStackTrace();
+        }
+        return this.objeResoSoli;
+    }
 }

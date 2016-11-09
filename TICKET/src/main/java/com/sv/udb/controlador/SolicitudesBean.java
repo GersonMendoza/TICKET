@@ -189,6 +189,22 @@ public class SolicitudesBean implements Serializable {
         }
     }
 
+    public List<Solicitudes> consAsigFina()
+    {
+        log.debug("Se intenta consultar solicitudes sin asignar");
+        try
+        {
+            this.listSoliVaci = FCDESoli.findAsigFina();
+            log.info("La consulta se hizo correctamente");
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+            log.error("Ocurrio un error al momento de consultar");
+        }
+        return listSoliVaci;
+    }
+    
     public void cambEsta() {
         log.debug("Se intenta cambiar el estado de los resultados");
         RequestContext ctx = RequestContext.getCurrentInstance(); //Capturo el contexto de la página
